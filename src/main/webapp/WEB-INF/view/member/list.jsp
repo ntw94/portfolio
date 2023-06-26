@@ -1,15 +1,17 @@
 
-<%@ include file="../common/header.jsp"%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ include file="../common/_include.jsp"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <table>
+<body >
+    <table class="table table-bordered">
         <tr>
             <td>회원번호</td>
             <td>프로필 사진</td>
