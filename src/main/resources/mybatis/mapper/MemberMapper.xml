@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.forums.mapper.MemberMapper">
+
+    <select id="getListAll" resultType="project.forums.domain.Member">
+        select member_no,member_id,member_name,
+               member_phone,member_regiDate
+        from member
+        order by member_no
+    </select>
+
+    <select id="getListOne" resultType="project.forums.domain.Member">
+        select *
+        from member
+        where member_id = #{id}
+    </select>
+
+    <insert id="setInsert"  parameterType="project.forums.domain.Member">
+        insert into member (member_id,member_pwd,member_name,
+                            member_phone,member_regiDate)
+        values(#{memberId},#{memberPwd},#{memberName},#{memberPhone},now());
+    </insert>
+
+    <update id="setUpdate" parameterType="project.forums.domain.Member">
+        update member
+        set member_name = #{memberName},
+            member_phone = #{memberPhone}
+        where member_id =#{memberId} and member_no = #{memberNo}
+    </update>
+
+    <delete id="setDelete" parameterType="project.forums.domain.Member">
+        delete from member
+        where member_id = #{memberId} and member_no = #{memberNo}
+    </delete>
+
+    <insert id="saveProfileImage" parameterType="project.forums.domain.file.ImageProfile">
+        insert into image_profile (member_id,upload_file_name,store_file_name,regi_date)
+        values (#{memberId},#{uploadFileName},#{storeFileName},now())
+    </insert>
+
+    <select id="loadProfileImage" parameterType="String" resultType="project.forums.domain.file.ImageProfile">
+        select *
+        from image_profile
+        where member_id = #{memberId}
+    </select>
+
+    <update id="updateProfileImage" parameterType="project.forums.domain.file.ImageProfile">
+        update image_profile
+        set upload_file_name = #{uploadFileName},
+            store_file_name = #{storeFileName},
+            regi_date = now()
+        where member_id = #{memberId}
+    </update>
+
+</mapper>
