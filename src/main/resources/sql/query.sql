@@ -15,4 +15,6 @@ create table image_profile(
     upload_file_name varchar(100),
     store_file_name varchar(100),
     regi_date datetime
-)
+);
+
+select * from member;

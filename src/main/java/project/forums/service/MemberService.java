@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Component
 @RequiredArgsConstructor
 public class MemberService {
 

@@ -11,6 +11,7 @@
 <body>
 
 <form action="/members/add" method="post">
+    <h1>로그인</h1>
     <table>
         <tr>
             <td>아이디: <input type="text" name="memberId" ></td>
@@ -18,21 +19,6 @@
         <tr>
             <td>비밀번호: <input type="text" name="memberPwd" ></td>
         </tr>
-        <tr>
-            <td>비밀번호확인: <input type="text" name="memberPwdChk" ></td>
-        </tr>
-        <tr>
-            <td>이름: <input type="text" name="memberName" ></td>
-        </tr>
-        <tr>
-            <td>연락처: <input type="text" name="memberPhone" ></td>
-        </tr>
-        <tr>
-            <td>
-                <input type="submit" value ="제출">
-            </td>
-        </tr>
-
     </table>
 </form>
 

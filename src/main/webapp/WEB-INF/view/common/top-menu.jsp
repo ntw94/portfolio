@@ -25,7 +25,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">그림</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">로그인</a></li>
+                        <li><a class="dropdown-item" href="/login">로그인</a></li>
                         <li><a class="dropdown-item" href="#">회원가입</a></li>
                     </ul>
                 </li>
