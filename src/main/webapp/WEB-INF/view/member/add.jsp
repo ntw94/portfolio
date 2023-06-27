@@ -30,6 +30,7 @@
         <tr>
             <td>
                 <input type="submit" value ="제출">
+                <input type="button" onclick="location.href='/login';" value ="취소">
             </td>
         </tr>
 

@@ -3,12 +3,16 @@ package project.forums.config;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import project.forums.filter.CharsetFilter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import project.forums.config.filter.CharsetFilter;
+import project.forums.config.interceptor.LogInterceptor;
+import project.forums.config.interceptor.LoginCheckInterceptor;
 
 import javax.servlet.Filter;
 
 @Configuration
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer {
 
     //한글필터
     @Bean
@@ -19,4 +23,18 @@ public class WebConfig {
         filterFilterRegistrationBean.addUrlPatterns("/*");
         return filterFilterRegistrationBean;
     }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(1)
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/","/members/add","/members",
+                        "/login","/login/logout",
+                        "/members/images/*",
+                        "/css/**","/*.ico","/error"
+                );
+    }
+
 }

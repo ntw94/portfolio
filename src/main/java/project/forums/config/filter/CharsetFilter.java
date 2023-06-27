@@ -1,4 +1,4 @@
-package project.forums.filter;
+package project.forums.config.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

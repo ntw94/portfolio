@@ -23,11 +23,24 @@
 
             <ul class="navbar-nav d-flex">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">그림</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/login">로그인</a></li>
-                        <li><a class="dropdown-item" href="#">회원가입</a></li>
-                    </ul>
+                    <c:if test="${member eq null}">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">그림</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/login">로그인</a></li>
+                            <li><a class="dropdown-item" href="/members/add">회원가입</a></li>
+                        </ul>
+                    </c:if>
+                    <c:if test="${not empty member}">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">${member.memberName}</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/members/${member.memberId}/edit">프로필 정보</a></li>
+                            <li>
+                                <form action="/login/logout" method="post">
+                                    <input class="dropdown-item" type="submit"value="로그아웃">
+                                </form>
+                            </li>
+                        </ul>
+                    </c:if>
                 </li>
             </ul>
             <%-- 로그인 시 될지 안될지 설정 --%>

@@ -20,8 +20,8 @@ class LoginServiceTest {
     @Test
     public void loginTest() throws Exception{
         Map<String,Object> map = new HashMap<>();
-        map.put("memberId","234");
-        map.put("memberPwd","123");
+        map.put("memberId","asdf");
+        map.put("memberPwd","asdf");
 
         Member member = loginMapper.signIn(map);
 

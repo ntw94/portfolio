@@ -3,7 +3,7 @@
 
 <mapper namespace="project.forums.mapper.LoginMapper">
     <select id="signIn" parameterType="map" resultType="project.forums.domain.Member">
-        select member_no, member_id
+        select member_no, member_id,member_name,member_phone,member_regiDate
         from member
         where member_id=#{memberId} and member_pwd=#{memberPwd}
     </select>

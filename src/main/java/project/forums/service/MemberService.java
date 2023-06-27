@@ -1,7 +1,6 @@
 package project.forums.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import project.forums.controller.member.MemberForm;
 import project.forums.domain.file.FileStore;
@@ -101,4 +100,6 @@ public class MemberService {
 
         return fileStore.getFullPath(imageProfile.getStoreFileName());
     }
+
+
 }
