@@ -15,20 +15,24 @@
 <body>
 <div class="container">
     <jsp:include page="common/top-menu.jsp"/>
-    <div class="panel panel-default" style="padding:0px">
-        <div style=" height:400px;text-align:center" >
-            <h2>게시판 제목</h2>
-            <ul>
-                <li>게시물1</li>
-                <li>게시물1</li>
-                <li>게시물1</li>
-                <li>게시물1</li>
-                <li>게시물1</li>
-                <li>게시물1</li>
-                <li>게시물1</li>
-            </ul>
-        </div>
-    </div>
+
+    <table class="table table-bordered">
+        <c:forEach var="list" items="${board}">
+            <tr>
+                <td width="20%">
+                    <img style="width:200px;height:200px" src="/boards/images/${list.boardTitle}">
+                </td>
+                <td>
+                    <h2>${list.boardTitle}</h2> <br>
+                    <a href="/boards/${list.boardUri}">${list.boardUri}</a><br>
+                    ${list.boardDescription}<br>
+                    게시글<br>
+                    게시글<br>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+
 
 </div>
 

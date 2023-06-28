@@ -13,7 +13,7 @@
 <table border="1" width="500px">
     <tr>
         <td>회원번호</td>
-        <td>${member.memberNo}</td>
+        <td>${member.id}</td>
     </tr>
     <tr>
         <td>프로필 사진</td>

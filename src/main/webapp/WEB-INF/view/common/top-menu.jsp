@@ -6,7 +6,7 @@
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Logo</a>
+        <a class="navbar-brand" href="/">Logo</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -33,7 +33,8 @@
                     <c:if test="${not empty member}">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">${member.memberName}</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/members/${member.memberId}/edit">프로필 정보</a></li>
+                            <li><a class="dropdown-item" href="/boards/add">게시판 만들기</a></li>
+                            <li><a class="dropdown-item" href="/members/${member.memberId}">프로필 정보</a></li>
                             <li>
                                 <form action="/login/logout" method="post">
                                     <input class="dropdown-item" type="submit"value="로그아웃">
@@ -43,8 +44,6 @@
                     </c:if>
                 </li>
             </ul>
-            <%-- 로그인 시 될지 안될지 설정 --%>
-
         </div>
     </div>
 </nav>

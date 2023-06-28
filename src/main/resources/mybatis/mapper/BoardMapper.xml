@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.forums.domain.board.BoardMapper">
+
+    <select id="getListAll" resultType="project.forums.domain.board.Board">
+        select *
+        from board
+        order by id
+    </select>
+
+    <select id="getListOne" resultType="project.forums.domain.board.Board">
+        select *
+        from board
+        where board_uri = #{board_uri}
+    </select>
+
+    <insert id="setInsert"  parameterType="project.forums.domain.board.Board">
+        insert into board (board_title,board_uri,board_description,
+                            upload_file_name,store_file_name,member_id,board_create_date,board_update_date)
+        values(#{boardTitle},#{boardUri},#{boardDescription},
+               #{uploadFileName},#{storeFileName},
+               #{memberId},now(),now());
+    </insert>
+
+    <update id="setUpdate" parameterType="project.forums.domain.board.Board">
+        update board
+        set board_title = #{boardTitle},
+            board_description = #{boardDescription}
+        where board_title = #{boardTitle} and id = #{id}
+    </update>
+
+    <delete id="setDelete" parameterType="project.forums.domain.board.Board">
+        delete from board
+        where board_title = #{boardTitle} and id = #{id} and member_id=#{member_id}
+    </delete>
+
+    <insert id="saveProfileImage" parameterType="project.forums.domain.board.Board">
+        insert into image_profile (member_id,upload_file_name,store_file_name,regi_date)
+        values (#{memberId},#{uploadFileName},#{storeFileName},now())
+    </insert>
+
+    <select id="loadProfileImage" parameterType="String" resultType="project.forums.domain.board.Board">
+        select *
+        from image_profile
+        where member_id = #{memberId}
+    </select>
+
+    <update id="updateProfileImage" parameterType="project.forums.domain.board.Board">
+        update image_profile
+        set upload_file_name = #{uploadFileName},
+            store_file_name = #{storeFileName},
+            regi_date = now()
+        where member_id = #{memberId}
+    </update>
+
+</mapper>

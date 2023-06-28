@@ -22,7 +22,7 @@
         </tr>
         <c:forEach var="list" items="${list}">
             <tr>
-                <td>${list.memberNo}</td>
+                <td>${list.id}</td>
                 <td>
                     <img style="width:200px;height:200px" src="/members/images/${list.memberId}">
                 </td>

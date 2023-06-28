@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="project.forums.mapper.MemberMapper">
+<mapper namespace="project.forums.domain.member.MemberMapper">
 
-    <select id="getListAll" resultType="project.forums.domain.Member">
-        select member_no,member_id,member_name,
+    <select id="getListAll" resultType="project.forums.domain.member.Member">
+        select id,member_id,member_name,
                member_phone,member_regiDate
         from member
-        order by member_no
+        order by id
     </select>
 
-    <select id="getListOne" resultType="project.forums.domain.Member">
+    <select id="getListOne" resultType="project.forums.domain.member.Member">
         select *
         from member
         where member_id = #{id}
     </select>
 
-    <insert id="setInsert"  parameterType="project.forums.domain.Member">
+    <insert id="setInsert"  parameterType="project.forums.domain.member.Member">
         insert into member (member_id,member_pwd,member_name,
                             member_phone,member_regiDate)
         values(#{memberId},#{memberPwd},#{memberName},#{memberPhone},now());
     </insert>
 
-    <update id="setUpdate" parameterType="project.forums.domain.Member">
+    <update id="setUpdate" parameterType="project.forums.domain.member.Member">
         update member
         set member_name = #{memberName},
             member_phone = #{memberPhone}
-        where member_id =#{memberId} and member_no = #{memberNo}
+        where member_id =#{memberId} and id = #{id}
     </update>
 
-    <delete id="setDelete" parameterType="project.forums.domain.Member">
+    <delete id="setDelete" parameterType="project.forums.domain.member.Member">
         delete from member
-        where member_id = #{memberId} and member_no = #{memberNo}
+        where member_id = #{memberId} and id = #{id}
     </delete>
 
     <insert id="saveProfileImage" parameterType="project.forums.domain.file.ImageProfile">

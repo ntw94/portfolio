@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="project.forums.mapper.LoginMapper">
-    <select id="signIn" parameterType="map" resultType="project.forums.domain.Member">
-        select member_no, member_id,member_name,member_phone,member_regiDate
+<mapper namespace="project.forums.domain.login.LoginMapper">
+    <select id="signIn" parameterType="map" resultType="project.forums.domain.member.Member">
+        select id, member_id,member_name,member_phone,member_regiDate
         from member
         where member_id=#{memberId} and member_pwd=#{memberPwd}
     </select>
