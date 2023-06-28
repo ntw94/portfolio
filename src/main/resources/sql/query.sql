@@ -7,8 +7,7 @@ create table member (
     member_regiDate datetime
 );
 
-drop table member;
-drop table image_profile;
+
 
 create table image_profile(
     id int auto_increment primary key ,
@@ -17,8 +16,8 @@ create table image_profile(
     store_file_name varchar(100),
     regi_date datetime
 );
-select * from member;
-#
+
+#게시판
 create table board(
     id int auto_increment primary key,
     board_title varchar(50) not null unique,
@@ -31,10 +30,28 @@ create table board(
     board_update_date date
 );
 
+#게시글
+create table post(
+    id int auto_increment primary key,
+    post_title varchar(100) not null,
+    post_writer varchar(100) not null,
+    post_hit int default 0,
+    post_content text,
+    post_regiDate datetime
+)
+
+#조회
+select * from member;
+select * from board;
+select * from post;
+
 insert into board (board_title, board_uri,
                     board_description, upload_file_name,
                     store_file_name, member_id, board_create_date,board_update_date)
 VALUES ('테스트','test','테스트로 만들어보았읍니다.',null,null,'kim',now(),now());
 
-truncate table board;
-select * from board;
+
+#수정시 밑의 코드 돌려야됨
+drop table member;
+drop table image_profile;
+drop table board;

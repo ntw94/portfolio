@@ -21,7 +21,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final LoginService loginService;
-    
+
     @GetMapping("/add")
     public String boardCreateForm(HttpServletRequest request,Model model){
         sessionCheck(request,model);
@@ -31,15 +31,13 @@ public class BoardController {
     @PostMapping("/add")
     public String boardCreate(@ModelAttribute BoardSaveForm boardSaveForm, BindingResult bindingResult){
         
-        //유효성검증 넣기
         Board board = new Board();
         board.setBoardTitle(boardSaveForm.getBoardTitle());
         board.setBoardUri(boardSaveForm.getBoardUri());
         board.setBoardDescription(boardSaveForm.getBoardDescription());
         board.setMemberId(boardSaveForm.getMemberId());
         boardService.boardCreate(board);
-        
-        //나중에 만들자마자 접속하게 만들기
+
         return "redirect:/";
     }
     
@@ -49,7 +47,7 @@ public class BoardController {
         Board board = boardService.getBoardOne(boardUri);
         model.addAttribute("board",board);
 
-        return "board/main";//?
+        return "board/main";//
     }
 
     //세션체크
