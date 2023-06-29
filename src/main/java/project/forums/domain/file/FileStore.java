@@ -38,7 +38,6 @@ public class FileStore {
        if(multipartFile.isEmpty()){
            return null;
        }
-
        String originalFilename = multipartFile.getOriginalFilename();
        String storeFileName = createStoreFileName(originalFilename);
        multipartFile.transferTo(new File(getFullPath(storeFileName)));

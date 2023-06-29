@@ -2,6 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@include file="../common/_include.jsp" %>
+<style>
+    .ck-editor__editable { height: 400px; }
+    .ck-content { font-size: 13px; }
+</style>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -24,7 +28,9 @@
             <td>글 제목</td>
         </tr>
         <tr>
-            <td>글</td>
+            <td>
+                <input type="button" onclick="location.href='/boards/${boardUri}/write';" value="글 추가">
+            </td>
         </tr>
     </table>
 

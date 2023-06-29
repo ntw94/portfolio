@@ -35,23 +35,5 @@
         where board_title = #{boardTitle} and id = #{id} and member_id=#{member_id}
     </delete>
 
-    <insert id="saveProfileImage" parameterType="project.forums.domain.board.Board">
-        insert into image_profile (member_id,upload_file_name,store_file_name,regi_date)
-        values (#{memberId},#{uploadFileName},#{storeFileName},now())
-    </insert>
-
-    <select id="loadProfileImage" parameterType="String" resultType="project.forums.domain.board.Board">
-        select *
-        from image_profile
-        where member_id = #{memberId}
-    </select>
-
-    <update id="updateProfileImage" parameterType="project.forums.domain.board.Board">
-        update image_profile
-        set upload_file_name = #{uploadFileName},
-            store_file_name = #{storeFileName},
-            regi_date = now()
-        where member_id = #{memberId}
-    </update>
 
 </mapper>

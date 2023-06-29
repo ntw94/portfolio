@@ -11,7 +11,7 @@
 <body>
 
 <form action="/boards/add" method="post">
-    <input type="text" name="memberId" name= "memberId" value="${member.memberId}" readonly/>
+    <input type="hidden" name="memberId" name= "memberId" value="${member.memberId}" readonly/>
     <table>
         <tr>
             <td>게시판 이름:<input type="text" name="boardTitle" ></td>

@@ -22,6 +22,7 @@ public class BoardController {
     private final BoardService boardService;
     private final LoginService loginService;
 
+    //게시판 만들기
     @GetMapping("/add")
     public String boardCreateForm(HttpServletRequest request,Model model){
         sessionCheck(request,model);
@@ -46,9 +47,20 @@ public class BoardController {
         sessionCheck(request,model);
         Board board = boardService.getBoardOne(boardUri);
         model.addAttribute("board",board);
+        model.addAttribute("boardUri",boardUri);
 
         return "board/main";//
     }
+
+    //게시판 만들기
+    @GetMapping("/{boardUri}/write")
+    public String boardPostWrite(HttpServletRequest request, Model model, @PathVariable String boardUri){
+        sessionCheck(request,model);
+
+        return "post/write";
+    }
+
+
 
     //세션체크
     private void sessionCheck(HttpServletRequest request, Model model) {

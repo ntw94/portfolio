@@ -7,6 +7,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import project.forums.domain.member.Member;
 import project.forums.web.member.form.MemberListForm;
 import project.forums.web.member.form.MemberSaveForm;
