@@ -6,33 +6,32 @@
     <select id="getListAll" resultType="project.forums.domain.post.Post">
         select *
         from post
+        where board_uri=#{board_uri}
         order by id
     </select>
 
     <select id="getListOne" resultType="project.forums.domain.post.Post">
         select *
         from post
-        where board_uri = #{board_uri}
+        where board_uri = #{boardUri} and id = #{id}
     </select>
 
     <insert id="setInsert"  parameterType="project.forums.domain.post.Post">
-        insert into post (board_title,board_uri,board_description,
-                           upload_file_name,store_file_name,member_id,board_create_date,board_update_date)
-        values(#{boardTitle},#{boardUri},#{boardDescription},
-               #{uploadFileName},#{storeFileName},
-               #{memberId},now(),now());
+        insert into post (board_uri,post_title,post_writer,post_hit,post_content,post_regiDate)
+        values (#{boardUri},#{postTitle},#{postWriter},0,#{postContent},now())
     </insert>
 
     <update id="setUpdate" parameterType="project.forums.domain.post.Post">
         update post
-        set board_title = #{boardTitle},
-            board_description = #{boardDescription}
-        where board_title = #{boardTitle} and id = #{id}
+        set post_title = #{postTitle},
+            post_content = #{postContent},
+            post_regiDate = #{postRegiDate}
+        where board_uri = #{board_uri} and id = #{id} and post_writer=#{postWriter}
     </update>
 
     <delete id="setDelete" parameterType="project.forums.domain.post.Post">
         delete from post
-        where board_title = #{boardTitle} and id = #{id} and member_id=#{member_id}
+        where board_uri = #{boardUri} and id = #{id} and post_writer=#{postWriter}
     </delete>
 
 <!--    <insert id="saveProfileImage" parameterType="project.forums.domain.post.Post">-->

@@ -33,15 +33,17 @@ create table board(
 #게시글
 create table post(
     id int auto_increment primary key,
+    board_uri varchar(50) not null,
     post_title varchar(100) not null,
     post_writer varchar(100) not null,
     post_hit int default 0,
     post_content text,
     post_regiDate datetime
-)
+);
 
 #조회
 select * from member;
+select * from image_profile;
 select * from board;
 select * from post;
 

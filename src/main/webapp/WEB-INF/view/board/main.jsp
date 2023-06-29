@@ -25,8 +25,21 @@
 
     <table class="table table-bordered">
         <tr>
+            <td>글 번호</td>
             <td>글 제목</td>
+            <td>작성자</td>
+            <td>조회수</td>
+            <td>작성일</td>
         </tr>
+        <c:forEach var="list" items="${list}">
+        <tr>
+            <td>${list.id}</td>
+            <td><a href="/boards/${boardUri}/${list.id}">${list.postTitle}</a></td>
+            <td>${list.postWriter}</td>
+            <td>${list.postHit}</td>
+            <td>${list.postRegiDate}</td>
+        </tr>
+        </c:forEach>
         <tr>
             <td>
                 <input type="button" onclick="location.href='/boards/${boardUri}/write';" value="글 추가">

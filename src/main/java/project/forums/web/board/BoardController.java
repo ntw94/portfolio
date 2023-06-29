@@ -8,10 +8,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import project.forums.domain.board.Board;
 import project.forums.domain.member.Member;
+import project.forums.domain.post.Post;
 import project.forums.web.board.form.BoardSaveForm;
 import project.forums.web.login.LoginService;
+import project.forums.web.post.PostService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -20,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 public class BoardController {
 
     private final BoardService boardService;
+    private final PostService postService;
     private final LoginService loginService;
 
     //게시판 만들기
@@ -44,22 +48,18 @@ public class BoardController {
     
     @GetMapping("/{boardUri}")
     public String boardMain(HttpServletRequest request,Model model,@PathVariable String boardUri ){
+        //게시판 있는지 체크 없으면 404 페이지 출력
+
         sessionCheck(request,model);
         Board board = boardService.getBoardOne(boardUri);
         model.addAttribute("board",board);
         model.addAttribute("boardUri",boardUri);
 
+        List<Post> list = postService.getPosts(boardUri);
+        model.addAttribute("list",list);
+
         return "board/main";//
     }
-
-    //게시판 만들기
-    @GetMapping("/{boardUri}/write")
-    public String boardPostWrite(HttpServletRequest request, Model model, @PathVariable String boardUri){
-        sessionCheck(request,model);
-
-        return "post/write";
-    }
-
 
 
     //세션체크

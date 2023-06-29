@@ -11,21 +11,21 @@
 </head>
 <body>
 
-<form action="/" method="post">
+<form action="/boards/${boardUri}/write" method="post">
     <table>
         <tr>
             <td>제목 <input type="text" name="postTitle" ></td>
         </tr>
         <tr>
             <td>
-                작성자: <input type="text" name="memberId" id= "memberId" value="${member.memberId}" readonly/>
+                작성자: <input type="text" name="postWriter" id= "postWriter" value="${member.memberId}" readonly/>
             </td>
         </tr>
         <tr>
             <td>
-                <div style="height: 350px" id="editor">
+                <textarea style="height: 350px" name="postContent" id="editor">
 
-                </div>
+                </textarea>
 
             </td>
         </tr>
