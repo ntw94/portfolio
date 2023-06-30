@@ -11,6 +11,7 @@ import project.forums.domain.member.Member;
 import project.forums.domain.post.Post;
 import project.forums.web.login.LoginService;
 import project.forums.web.post.form.PostSaveForm;
+import project.forums.web.post.form.PostUpdateForm;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,6 +47,7 @@ public class PostController {
         return "redirect:/boards/{boardUri}";
     }
 
+    //글 상세보기
     @GetMapping("/{boardUri}/{postId}")
     public String postView(HttpServletRequest request, Model model, @PathVariable String boardUri,@PathVariable Integer postId){
         sessionCheck(request,model);
@@ -54,13 +56,38 @@ public class PostController {
         post.setId(postId);
         post.setBoardUri(boardUri);
 
-        log.info("viewPost= {}",post);
+        Post findPost = postService.getPostOne(post);
+        model.addAttribute("post",findPost);
+        log.info("viewPost= {}",findPost);
+
+        return "post/view";
+    }
+    //글 수정
+    @GetMapping("/{boardUri}/{postId}/edit")
+    public String postUpdateForm(
+            HttpServletRequest request,
+            Model model,
+            @PathVariable String boardUri,
+            @PathVariable Integer postId
+    ){
+        sessionCheck(request,model);
+
+        Post post = new Post();
+        post.setId(postId);
+        post.setBoardUri(boardUri);
 
         Post findPost = postService.getPostOne(post);
         model.addAttribute("post",findPost);
 
+        log.info("viewPost= {}",findPost);
 
-        return "post/view";
+        return "post/edit";
+    }
+    @PostMapping("/{boardUri}/{postId}/edit")
+    public String postUpdate(@ModelAttribute PostUpdateForm postUpdateForm, BindingResult bindingResult){
+
+
+        return "redirect:/boards/{boardUri}";
     }
 
     //세션체크

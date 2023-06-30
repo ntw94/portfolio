@@ -31,7 +31,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <input type="button" onclick="location.href='/boards/${member.memberId}/edit';" value="수정">
+            <input type="button" onclick="location.href='/boards/${boardUri}/${post.id}/edit';" value="수정">
             <input type="button" onclick="location.href='/boards/${member.memberId}/delete';" value="삭제">
             <input type="button" onclick="location.href='/boards';" value="목록">
         </td>

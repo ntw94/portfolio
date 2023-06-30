@@ -32,6 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/","/members/add","/members",
                         "/login","/login/logout",
                         "/members/images/*",
+                        "/boards/*",
                         "/css/**","/*.ico","/error"
                 );
     }

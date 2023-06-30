@@ -1,49 +1,55 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ include file="../common/header.jsp"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
 </head>
 <body>
 
-<form action="/members/${member.memberId}/edit" method="post" enctype="multipart/form-data">
+<form action="/boards/${boardUri}/${post.id}/edit" method="post">
     <table>
         <tr>
+            <td>제목 <input type="text" name="postTitle" value="${post.postTitle}" ></td>
+        </tr>
+        <tr>
             <td>
-                <c:if test="${empty profileImg}">
-                    <img src="/img/default_img.jpg" />
-                </c:if>
-                <c:if test="${not empty profileImg}">
-                    <img style="width:200px;height:200px" src="/members/images/${member.memberId}">
-                </c:if>
+                작성자: <input type="text" name="postWriter" id= "postWriter" value="${post.postWriter}" readonly/>
             </td>
         </tr>
         <tr>
             <td>
-                    첨부파일: <input type="file" name="attachFile">
+                <textarea style="height: 350px" name="postContent" id="editor">
+                    ${post.postContent}
+                </textarea>
+
             </td>
         </tr>
         <tr>
-            <td>아이디: <input type="text" name="memberId"  value="${member.memberId}" readonly></td>
-        </tr>
-        <tr>
-            <td>이름: <input type="text" name="memberName"  value="${member.memberName}" ></td>
-        </tr>
-        <tr>
-            <td>연락처: <input type="text" name="memberPhone"  value="${member.memberPhone}" ></td>
-        </tr>
-        <tr>
             <td>
-                <input type="submit" value ="제출">
+                <input type="submit" value ="수정">
+                <input type="button" onclick="location.href='/';" value ="취소">
             </td>
         </tr>
 
     </table>
 </form>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .then(editor => {
+            console.log('Editor was initialized');
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
 
 </body>
 </html>
