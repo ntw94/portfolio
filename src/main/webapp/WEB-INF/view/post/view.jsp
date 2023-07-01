@@ -32,7 +32,9 @@
     <tr>
         <td colspan="2">
             <input type="button" onclick="location.href='/boards/${boardUri}/${post.id}/edit';" value="수정">
-            <input type="button" onclick="location.href='/boards/${member.memberId}/delete';" value="삭제">
+            <form action="/boards/${boardUri}/${post.id}/delete" method="post">
+                <input type="submit" value="삭제">
+            </form>
             <input type="button" onclick="location.href='/boards';" value="목록">
         </td>
     </tr>

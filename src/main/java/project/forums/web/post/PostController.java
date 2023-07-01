@@ -52,11 +52,7 @@ public class PostController {
     public String postView(HttpServletRequest request, Model model, @PathVariable String boardUri,@PathVariable Integer postId){
         sessionCheck(request,model);
 
-        Post post = new Post();
-        post.setId(postId);
-        post.setBoardUri(boardUri);
-
-        Post findPost = postService.getPostOne(post);
+        Post findPost = postService.getPostOne(boardUri,postId);
         model.addAttribute("post",findPost);
         log.info("viewPost= {}",findPost);
 
@@ -72,11 +68,7 @@ public class PostController {
     ){
         sessionCheck(request,model);
 
-        Post post = new Post();
-        post.setId(postId);
-        post.setBoardUri(boardUri);
-
-        Post findPost = postService.getPostOne(post);
+        Post findPost = postService.getPostOne(boardUri,postId);
         model.addAttribute("post",findPost);
 
         log.info("viewPost= {}",findPost);
@@ -84,19 +76,47 @@ public class PostController {
         return "post/edit";
     }
     @PostMapping("/{boardUri}/{postId}/edit")
-    public String postUpdate(@ModelAttribute PostUpdateForm postUpdateForm, BindingResult bindingResult){
+    public String postUpdate(@ModelAttribute PostUpdateForm postUpdateForm,
+                             BindingResult bindingResult,
+                             @PathVariable String boardUri,
+                             @PathVariable Integer postId){
+
+        postService.postUpdate(postUpdateForm,boardUri,postId);
+
+
+        return "redirect:/boards/{boardUri}/{postId}";
+    }
+
+    @PostMapping("/{boardUri}/{postId}/delete")
+    public String postDelete(
+            HttpServletRequest request,
+                            @PathVariable String boardUri,
+                             @PathVariable Integer postId){
+        String loginId = sessionCheck(request);
+        postService.postDelete(loginId,boardUri,postId);
 
 
         return "redirect:/boards/{boardUri}";
     }
 
     //세션체크
-    private void sessionCheck(HttpServletRequest request, Model model) {
+    private int sessionCheck(HttpServletRequest request, Model model) {
         Member loginMember = loginService.sessionCheck(request);
         log.info("loginMem11ber = {}",loginMember);
 
         if(loginMember != null){
             model.addAttribute("member",loginMember);
+            return 1;
         }
+        return 0;
+    }
+    private String sessionCheck(HttpServletRequest request) {
+        Member loginMember = loginService.sessionCheck(request);
+        log.info("loginMem11ber = {}",loginMember);
+
+        if(loginMember != null){
+            return loginMember.getMemberId();
+        }
+        return null;
     }
 }

@@ -26,7 +26,7 @@
         set post_title = #{postTitle},
             post_content = #{postContent},
             post_regiDate = #{postRegiDate}
-        where board_uri = #{board_uri} and id = #{id} and post_writer=#{postWriter}
+        where board_uri = #{boardUri} and id = #{id} and post_writer=#{postWriter}
     </update>
 
     <delete id="setDelete" parameterType="project.forums.domain.post.Post">
