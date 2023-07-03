@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.forums.domain.board.BoardManagerMapper">
+
+    <select id="getListAll" resultType="project.forums.domain.board.BoardManager">
+        select *
+        from board_manager
+        where board_uri = #{boardUri}
+        order by id
+    </select>
+
+    <select id="getListOne" resultType="project.forums.domain.board.BoardManager">
+        select *
+        from board_manager
+        where board_uri = #{board_uri}
+    </select>
+
+    <insert id="setInsert"  parameterType="project.forums.domain.board.BoardManager">
+        insert into board_manager (member_id, board_uri,board_role,regiDate)
+        values(#{memberId},#{boardUri},#{boardRole},now());
+    </insert>
+
+    <update id="setUpdate" parameterType="project.forums.domain.board.BoardManager">
+        update board
+        set board_title = #{boardTitle},
+            board_description = #{boardDescription}
+        where board_title = #{boardTitle} and id = #{id}
+    </update>
+
+    <delete id="setDelete" parameterType="project.forums.domain.board.BoardManager">
+        delete from board
+        where board_title = #{boardTitle} and id = #{id} and member_id=#{member_id}
+    </delete>
+
+
+</mapper>

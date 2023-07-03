@@ -40,6 +40,13 @@ create table board_manager(
     regiDate datetime
 );
 
+#게시판 즐겨찾기
+create table board_bookmark(
+    id int auto_increment primary key,
+    member_id varchar(50) not null,
+    board_uri varchar(50) not null
+)
+
 #게시글
 create table post(
     id int auto_increment primary key,
@@ -60,8 +67,10 @@ create table comment(
     comment_regiDate datetime
 );
 
+
 #조회
 select * from member;
+select * from board_manager;
 select * from image_profile;
 select * from board;
 select * from post;

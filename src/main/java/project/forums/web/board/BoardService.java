@@ -3,8 +3,7 @@ package project.forums.web.board;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import project.forums.domain.board.Board;
-import project.forums.domain.board.BoardMapper;
+import project.forums.domain.board.*;
 import project.forums.web.board.form.BoardListForm;
 
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardMapper boardMapper;
+    private final BoardManagerMapper managerMapper;
 
     public List<Board> getBoardList(){
         return boardMapper.getListAll();
@@ -42,6 +42,15 @@ public class BoardService {
         return boardMapper.getListOne(uri);
     }
     public Integer boardCreate(Board board){
+
+
+        BoardManager boardManager = new BoardManager();
+        boardManager.setId(board.getId());
+        boardManager.setBoardRole(BoardRole.MANAGER);
+        boardManager.setBoardUri(board.getBoardUri());
+        boardManager.setMemberId(board.getMemberId());
+
+        managerMapper.setInsert(boardManager);
         return boardMapper.setInsert(board);
     }
 
