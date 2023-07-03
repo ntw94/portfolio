@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.forums.domain.comment.CommentMapper">
+
+    <select id="getListAll" resultType="project.forums.domain.comment.CommentMapper">
+        select *
+        from comment
+        where post_id = #{postId}
+        order by comment_regiDate desc
+    </select>
+
+    <select id="getListOne" resultType="project.forums.domain.comment.CommentMapper">
+        select *
+        from comment
+        where id = #{id}
+    </select>
+
+    <insert id="setInsert" parameterType="project.forums.domain.comment.CommentMapper">
+        insert into comment (post_id, comment_writer, comment_content, comment_regiDate)
+        values (#{postId}, #{commentWriter}, #{commentContent}, now())
+    </insert>
+
+    <update id="setUpdate" parameterType="project.forums.domain.comment.CommentMapper">
+        update comment
+        set comment_content = #{commentContent}
+        where post_id = #{postId}
+          and post_writer = #{postWriter}
+          and id = #{id}
+    </update>
+
+    <delete id="setDelete" parameterType="project.forums.domain.comment.CommentMapper">
+        delete
+        from comment
+        where post_id = #{postId}
+          and post_writer = #{postWriter}
+          and id = #{id}
+    </delete>
+
+</mapper>

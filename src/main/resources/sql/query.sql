@@ -1,3 +1,5 @@
+
+#회원
 create table member (
     id int auto_increment primary key ,
     member_id varchar(50) unique not null,
@@ -7,8 +9,7 @@ create table member (
     member_regiDate datetime
 );
 
-
-
+#회원이미지
 create table image_profile(
     id int auto_increment primary key ,
     member_id varchar(50) not null,
@@ -39,6 +40,15 @@ create table post(
     post_hit int default 0,
     post_content text,
     post_regiDate datetime
+);
+
+#댓글
+create table comment(
+    id int auto_increment primary key,
+    post_id int not null,
+    comment_writer varchar(50) not null,
+    comment_content text,
+    comment_regiDate datetime
 );
 
 #조회

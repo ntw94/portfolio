@@ -112,7 +112,7 @@ public class PostController {
     }
     private String sessionCheck(HttpServletRequest request) {
         Member loginMember = loginService.sessionCheck(request);
-        log.info("loginMem11ber = {}",loginMember);
+        log.info("loginMember = {}",loginMember);
 
         if(loginMember != null){
             return loginMember.getMemberId();
