@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 @Component
 public interface CommentMapper {
-    List<Comment> getListAll();
+    List<Comment> getListAll(Integer postId);
     Comment getListOne(int id); //?
     int setInsert(Comment comment);
     int setUpdate(Comment comment);

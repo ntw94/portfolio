@@ -38,7 +38,7 @@
             <form action="/boards/${boardUri}/${post.id}/delete" method="post">
                 <input type="submit" value="삭제">
             </form>
-            <input type="button" onclick="location.href='/boards';" value="목록">
+            <input type="button" onclick="location.href='/boards/${boardUri}';" value="목록">
         </td>
     </tr>
 </table>
@@ -61,14 +61,171 @@
                     </td>
                 </tr>
                 <td>
-                    <button type="button" class="btn-default btn-sm pull-right" onclick="commentInsert();">댓글 작성</button>
+                    <button type="button" class="btn-default btn-sm pull-right" onclick="commentWrite();">댓글 작성</button>
                 </td>
             </table>
         </div>
     </form>
 
+<hr>
+
+<div id="commentView"></div>
+
+<script type="text/javascript">
+    var pText;
+
+    $(document).ready(function(){
+        commentLoadList();
+    });
+
+    function commentLoadList(){
+        $.ajax({
+            url:"/comments/${post.id}",
+            type:"get",
+            dataType:"json",
+            success:commentMakeView,
+            error:function(){alert("error");}
+        });
+    }
+
+    function commentMakeView(data){
+        var listHtml="";
+
+        $.each(data,function(index,obj){
+            listHtml +="<table class='table' style='border: 1px solid #eeeeee'>";
+            listHtml +=	"<tr style='background-color:#eeeeee'>";
+            listHtml +=		"<td>";
+            listHtml +=			"작성자 &nbsp;"+obj.commentWriter;
+            listHtml +=			"<span class='pull-right'>"+obj.commentRegiDate+"</span>";
+            listHtml +=		"</td>";
+            listHtml +=	"</tr>";
+            listHtml +=	"<tr>";
+            listHtml +=		"<td style='height:60px'>";
+            listHtml +=			"<textarea id='noraltt"+obj.id+"' style='width:100%;background-color:white;resize:none;border:none'  rows='5' readonly  >"+obj.commentContent+"</textarea>";
+            listHtml +=			"<textarea id='updatett"+obj.id+"' style='width:100%;background-color:white;resize:none;border:none;display:none'  rows='5'   >"+obj.commentContent+"</textarea>";
+            listHtml +=		"</td>";
 
 
+            if(obj.commentWriter == '${member.memberId}'){
+                listHtml +=	"<tr>";
+                listHtml +=			"<td colspan=2 style='border-top:none'>";
+                listHtml +=				"<div id='normalForm"+obj.id+"'>";
+                listHtml +=					"<button id=''type='button' class='btn btn-sm pull-right' onclick='commentUpdateForm("+obj.id+")'>수정</button>";
+                listHtml +=					"<button type='button' class='btn btn-sm pull-right' onclick='commentDelete("+obj.id+")'>삭제</button>";
+                listHtml +=				"</div>";
+                listHtml +=				"<div id='updateForm"+obj.id+"' style='display:none'>";
+                listHtml +=					"<button id=''type='button' class='btn btn-sm pull-right' onclick='commentUpdate("+obj.id+");'>수정</button>";
+                listHtml +=					"<button type='button' class='btn btn-sm pull-right' onclick=resetUpdateForm("+obj.id+");>취소</button>";
+                listHtml +=				"</div>";
+                listHtml +=			"</td>";
+                listHtml +=	"</tr>";
+            }
+            listHtml +=	"</table>";
+        });
+
+        $("#commentView").html(listHtml);
+
+    }
+
+    function commentWrite(){
+        if(confirm("댓글 작성하시겠습니까?")){
+            const fData = $("#commentForm").serialize();
+            $.ajax({
+                url :"/comments/${post.id}/write",
+                type: "post",
+                data:fData,
+                success:commentLoadList,
+                error:function(){
+                    alert("댓글 작성 오류");
+                }
+            });
+            $("#commentContent").val("");
+        }
+    }
+
+    function commentDelete(id){
+        if(confirm("글 삭제하시겠습니까?")){
+            $.ajax({
+                url:"/comments/${postId}/delete",
+                type:"post",
+                data:{
+                    "id":id,
+                    "memberId":"${member.memberId}"
+                },
+                success:commentLoadList,
+                error:function(){alert("댓글 삭제 오류");}
+            });
+        }
+    }
+
+    function commentUpdateForm(id){
+        // 1. 댓글 다시 입력할 수 있는 상태로 만든다.
+        $("#noraltt"+id).css("display","none");
+        $("#updatett"+id).css("display","block");
+
+        $("#updateForm"+id).css("display","block"); // 버튼 활성화
+        $("#normalForm"+id).css("display","none");
+    }
+
+    function resetUpdateForm(id){
+        $("#noraltt"+id).css("display","block");
+        $("#updatett"+id).css("display","none");
+
+        $("#updateForm"+id).css("display","none"); // 버튼 활성화
+        $("#normalForm"+id).css("display","block");
+    }
+
+    function commentUpdate(id){
+        var uCommentContent = $("#updatett"+id).val();
+        var uMemberId = "${member.memberId}";
+
+        $.ajax({
+            url : "/comments/${postId}/edit",
+            type : "put",
+            contentType:'application/json;charset=utf-8',
+            data : JSON.stringify({
+                "id":id, // 댓글 고유번호
+                "memberId": uMemberId,
+                "commentContent":uCommentContent
+            }),
+            success:commentLoadList,
+            error:function(){alert("댓글 업데이트 실패");}
+        });
+    }
+
+    <%--function rateUp(data){--%>
+    <%--    if(data === ""){--%>
+    <%--        location.href="${contextPath}/memberLoginForm.do";--%>
+    <%--    }else{--%>
+    <%--        var color = $("#rateUpBtn").css("background-color");--%>
+
+
+    <%--        if(color.toString() ==="rgb(255, 255, 255)"){//좋아요 등록--%>
+    <%--            var fData=$("#recoUpForm").serialize();--%>
+    <%--            $.ajax({--%>
+    <%--                url :"board/reco/insert",--%>
+    <%--                type: "post",--%>
+    <%--                data:fData,--%>
+    <%--                success:function(){--%>
+    <%--                    $("#rateUpBtn").css("background-color","rgb(255, 255, 0)"); //노란색--%>
+    <%--                },--%>
+    <%--                error:function(){alert("");}--%>
+    <%--            });--%>
+    <%--        }else{ //좋아요 해제--%>
+    <%--            var fData=$("#recoDownForm").serialize();--%>
+    <%--            $.ajax({--%>
+    <%--                url :"board/reco/delete",--%>
+    <%--                type: "post",--%>
+    <%--                data:fData,--%>
+    <%--                success:function(){--%>
+    <%--                    $("#rateUpBtn").css("background-color","rgb(255, 255, 255)"); //하얀색--%>
+    <%--                },--%>
+    <%--                error:function(){alert("");}--%>
+    <%--            });--%>
+    <%--        }--%>
+    <%--    }--%>
+    <%--}--%>
+</script>
 
 </body>
 </html>

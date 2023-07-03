@@ -31,6 +31,15 @@ create table board(
     board_update_date date
 );
 
+#게시판 매니저
+create table board_manager(
+    id int auto_increment primary key,
+    member_id varchar(50) not null,
+    board_uri varchar(50) not null,
+    board_role varchar(50) not null,
+    regiDate datetime
+);
+
 #게시글
 create table post(
     id int auto_increment primary key,
@@ -56,12 +65,15 @@ select * from member;
 select * from image_profile;
 select * from board;
 select * from post;
+select * from comment;
 
 insert into board (board_title, board_uri,
                     board_description, upload_file_name,
                     store_file_name, member_id, board_create_date,board_update_date)
 VALUES ('테스트','test','테스트로 만들어보았읍니다.',null,null,'kim',now(),now());
 
+insert into comment(post_id, comment_writer, comment_content, comment_regiDate)
+values (1,'hong','잘봣습니다.',now());
 
 #수정시 밑의 코드 돌려야됨
 drop table member;
