@@ -46,7 +46,6 @@
     <form id="commentForm">
         <input type="hidden" name="memberId" value="${member.memberId}"/>
         <input type="hidden" name="postId" value="${post.id }"/>
-
         <div class="panel-body" >
             <table class="table" >
                 <tr>
@@ -67,6 +66,27 @@
         </div>
     </form>
 
+    <form id="commentReplyForm" style="display:none;">
+        <input type="hidden" name="memberId" value="${member.memberId}"/>
+        <input type="hidden" name="postId" value="${post.id }"/>
+        <div class="panel-body" >
+            <table class="table" >
+                <tr>
+                    <td >댓글작성&nbsp;&nbsp;${member.memberId }</td>
+                </tr>
+                <tr>
+                    <td width="100%" style="border-top:none;">
+                                                <textarea style=" resize:none;"rows="4"
+                                                          name="commentContent" class="form-control"
+                                                          placeholder="댓글을 입력해 주세요"></textarea>
+                    </td>
+                </tr>
+                <td>
+                    <button type="button" class="btn-default btn-sm pull-right" onclick="commentReplyWrite();">댓글 작성</button>
+                </td>
+            </table>
+        </div>
+    </form>
 <hr>
 
 <div id="commentView"></div>
@@ -90,7 +110,7 @@
 
     function commentMakeView(data){
         var listHtml="";
-
+        var level = 0;
         $.each(data,function(index,obj){
             listHtml +="<table class='table' style='border: 1px solid #eeeeee'>";
             listHtml +=	"<tr style='background-color:#eeeeee'>";
@@ -111,7 +131,8 @@
                 listHtml +=			"<td colspan=2 style='border-top:none'>";
                 listHtml +=				"<div id='normalForm"+obj.id+"'>";
                 listHtml +=					"<button id=''type='button' class='btn btn-sm pull-right' onclick='commentUpdateForm("+obj.id+")'>수정</button>";
-                listHtml +=					"<button type='button' class='btn btn-sm pull-right' onclick='commentDelete("+obj.id+")'>삭제</button>";
+                listHtml +=					"<button type='button' class='btn btn-sm pull-right' onclick='commentDelete("+obj.id+")'>삭제</button>"
+                listHtml +=					"<button type='button' class='btn btn-sm pull-right' onclick='commentReplyForm("+obj.id+","+level+")'>댓글쓰기</button>"
                 listHtml +=				"</div>";
                 listHtml +=				"<div id='updateForm"+obj.id+"' style='display:none'>";
                 listHtml +=					"<button id=''type='button' class='btn btn-sm pull-right' onclick='commentUpdate("+obj.id+");'>수정</button>";
@@ -120,8 +141,15 @@
                 listHtml +=			"</td>";
                 listHtml +=	"</tr>";
             }
-            listHtml +=	"</table>";
+
+            listHtml += "<tr>";
+            listHtml +=     "<td> <div id='comment-reply-box"+obj.id+"'>"+"</div></td>";
+            listHtml += "</tr>";
+            listHtml +="</table>";
+            level++;
         });
+
+
 
         $("#commentView").html(listHtml);
 
@@ -191,6 +219,20 @@
             success:commentLoadList,
             error:function(){alert("댓글 업데이트 실패");}
         });
+    }
+
+    function commentReplyForm(id,level){
+
+        if($("#commentReplyForm").css('display') == 'none') {
+            $("#commentReplyForm").css("display", "block");
+        }
+
+        if(level >= 3)
+            $("#commentReplyForm").css("width",'70%');
+        else
+            $("#commentReplyForm").css("width",(100-(level*10))+'%');
+
+        $("#commentReplyForm").appendTo("#comment-reply-box"+id);
     }
 
     <%--function rateUp(data){--%>

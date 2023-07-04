@@ -19,6 +19,8 @@ create table image_profile(
 );
 
 #게시판
+#
+# boardGroup,boardSequence,level,available\\\\
 create table board(
     id int auto_increment primary key,
     board_title varchar(50) not null unique,
@@ -27,9 +29,12 @@ create table board(
     upload_file_name varchar(100),
     store_file_name varchar(100),
     member_id varchar(50) not null,
+
     board_create_date date,
     board_update_date date
 );
+
+
 
 #게시판 매니저
 create table board_manager(
@@ -45,7 +50,7 @@ create table board_bookmark(
     id int auto_increment primary key,
     member_id varchar(50) not null,
     board_uri varchar(50) not null
-)
+);
 
 #게시글
 create table post(
@@ -64,8 +69,36 @@ create table comment(
     post_id int not null,
     comment_writer varchar(50) not null,
     comment_content text,
+    comment_parentNo int default 0,
+    comment_sequence int default 0,
+    comment_level int default 0,
+    comment_available int default 1,
     comment_regiDate datetime
 );
+
+#부모글이 쓸때 초기값
+insert into comment(post_id, comment_writer,
+                    comment_content,
+                    comment_regiDate) VALUES
+            (2,'asdf','노잼노잼',now());
+
+#대댓글을 쓸때
+insert into comment(post_id, comment_writer,
+                    comment_content, comment_parentNo,
+                    comment_sequence, comment_level,
+                    comment_regiDate) VALUES
+    (2,'철수','꿀잼꿀잼',1,1,1 ,now());
+#대댓글을 쓸때
+insert into comment(post_id, comment_writer,
+                    comment_content, comment_parentNo,
+                    comment_sequence, comment_level,
+                    comment_regiDate) VALUES
+    (2,'영희','잼꿀잼꿀',1,1,1 ,now());
+update comment
+set
+    comment_sequence = comment_sequence+1
+where comment_parentNo = 1 and comment_sequence >= 1;
+rollback ;
 
 
 #조회
@@ -88,3 +121,4 @@ values (1,'hong','잘봣습니다.',now());
 drop table member;
 drop table image_profile;
 drop table board;
+drop table comment;
