@@ -129,6 +129,7 @@
             listHtml +=		"<td>";
             listHtml +=			"작성자 &nbsp;"+obj.commentWriter;
             listHtml +=			"<span class='pull-right'>"+obj.commentRegiDate+"</span>";
+            listHtml +=			"<button type='button' class='btn btn-sm pull-right' onclick='commentReplyForm("+obj.id+","+obj.commentLevel+")'>댓글쓰기</button>"
             listHtml +=		"</td>";
             listHtml +=	"</tr>";
             listHtml +=	"<tr>";
@@ -143,7 +144,6 @@
                 listHtml +=				"<div id='normalForm"+obj.id+"'>";
                 listHtml +=					"<button id=''type='button' class='btn btn-sm pull-right' onclick='commentUpdateForm("+obj.id+")'>수정</button>";
                 listHtml +=					"<button type='button' class='btn btn-sm pull-right' onclick='commentDelete("+obj.id+")'>삭제</button>";
-                listHtml +=					"<button type='button' class='btn btn-sm pull-right' onclick='commentReplyForm("+obj.id+","+obj.commentLevel+")'>댓글쓰기</button>"
                 listHtml +=				"</div>";
                 listHtml +=				"<div id='updateForm"+obj.id+"' style='display:none'>";
                 listHtml +=					"<button id=''type='button' class='btn btn-sm pull-right' onclick='commentUpdate("+obj.id+");'>수정</button>";

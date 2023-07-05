@@ -1,8 +1,8 @@
-#수정시 밑의 코드 돌려야됨
 drop table member;
 drop table image_profile;
 drop table board;
 drop table comment;
+
 
 
 #회원
@@ -68,6 +68,7 @@ create table post(
     post_regiDate datetime
 );
 
+
 #댓글
 create table comment(
     id int auto_increment primary key,
@@ -81,31 +82,18 @@ create table comment(
     comment_regiDate datetime
 );
 
-#부모글이 쓸때 초기값
-insert into comment(post_id, comment_writer,
-                    comment_content,
-                    comment_regiDate) VALUES
-            (2,'asdf','노잼노잼',now());
 
-#대댓글을 쓸때
-insert into comment(post_id, comment_writer,
-                    comment_content, comment_parentNo,
-                    comment_sequence, comment_level,
-                    comment_regiDate) VALUES
-    (2,'철수','꿀잼꿀잼',1,1,1 ,now());
-#대댓글을 쓸때
-insert into comment(post_id, comment_writer,
-                    comment_content, comment_parentNo,
-                    comment_sequence, comment_level,
-                    comment_regiDate) VALUES
-    (2,'영희','잼꿀잼꿀',1,1,1 ,now());
-update comment
-set
-    comment_sequence = comment_sequence+1
-where comment_parentNo = 1 and comment_sequence >= 1;
-rollback ;
+insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
+       VALUES ('test','제목1','hong','gdgd',now());
+insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
+VALUES ('test','제목1','hong','gdgd',now());
+insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
+VALUES ('test','제목1','hong','gdgd',now());
+insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
+VALUES ('test','제목1','hong','gdgd',now());
 
 
+;
 #조회
 select * from member;
 select * from board_manager;
@@ -114,13 +102,5 @@ select * from board;
 select * from post;
 select * from comment order by comment_parentNo asc,comment_sequence asc,comment_level asc;
 
-
-insert into board (board_title, board_uri,
-                    board_description, upload_file_name,
-                    store_file_name, member_id, board_create_date,board_update_date)
-VALUES ('테스트','test','테스트로 만들어보았읍니다.',null,null,'kim',now(),now());
-
-insert into comment(post_id, comment_writer, comment_content, comment_regiDate)
-values (1,'hong','잘봣습니다.',now());
 
 

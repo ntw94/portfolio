@@ -47,15 +47,19 @@ public class BoardController {
     }
     
     @GetMapping("/{boardUri}")
-    public String boardMain(HttpServletRequest request,Model model,@PathVariable String boardUri ){
+    public String boardMain(HttpServletRequest request,
+                            Model model,
+                            @PathVariable String boardUri,
+                            @RequestParam(defaultValue = "1") Integer p){
         //게시판 있는지 체크 없으면 404 페이지 출력
 
+        log.info("page= {}",p);
         sessionCheck(request,model);
         Board board = boardService.getBoardOne(boardUri);
         model.addAttribute("board",board);
         model.addAttribute("boardUri",boardUri);
 
-        List<Post> list = postService.getPosts(boardUri);
+        List<Post> list = postService.getPosts(boardUri,p,10,model);
         model.addAttribute("list",list);
 
         return "board/main";//

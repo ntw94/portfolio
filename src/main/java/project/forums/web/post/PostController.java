@@ -102,7 +102,7 @@ public class PostController {
     //세션체크
     private int sessionCheck(HttpServletRequest request, Model model) {
         Member loginMember = loginService.sessionCheck(request);
-        log.info("loginMem11ber = {}",loginMember);
+        log.info("loginMember = {}",loginMember);
 
         if(loginMember != null){
             model.addAttribute("member",loginMember);

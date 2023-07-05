@@ -7,10 +7,10 @@
         select *
         from comment
         where post_id = #{postId}
-        order by comment_parentNo asc,
+        order by comment_regiDate desc,
+                 comment_parentNo asc,
                  comment_sequence asc,
-                 comment_level asc,
-                 comment_regiDate asc
+                 comment_level asc
     </select>
 
     <select id="getListOne" parameterType="int" resultType="project.forums.domain.comment.Comment">

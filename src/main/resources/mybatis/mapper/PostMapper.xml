@@ -3,11 +3,12 @@
 
 <mapper namespace="project.forums.domain.post.PostMapper">
 
-    <select id="getListAll" resultType="project.forums.domain.post.Post">
+    <select id="getListAll" parameterType="Map" resultType="project.forums.domain.post.Post">
         select *
         from post
-        where board_uri=#{board_uri}
+        where board_uri=#{boardUri}
         order by id
+        limit #{beginPage},#{perPageSize}
     </select>
 
     <select id="getListOne" resultType="project.forums.domain.post.Post">
@@ -33,6 +34,12 @@
         delete from post
         where board_uri = #{boardUri} and id = #{id} and post_writer=#{postWriter}
     </delete>
+
+    <select id="getTotalPosts" parameterType="String">
+        select count(*)
+        from post
+        where board_uri=#{boardUri}
+    </select>
 
 <!--    <insert id="saveProfileImage" parameterType="project.forums.domain.post.Post">-->
 <!--        insert into image_profile (member_id,upload_file_name,store_file_name,regi_date)-->
