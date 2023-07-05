@@ -13,6 +13,7 @@ public class PageHandler {
     private int endPage;
     private boolean showPrev;
     private boolean showNext;
+    private int pageIdx;
 
     public PageHandler(int page, int perPageSize, int totalRecord) {
         this.page = page;
@@ -20,13 +21,13 @@ public class PageHandler {
         this.totalRecord = totalRecord;
 
         totalPage = (int)(Math.ceil(totalRecord/(double)perPageSize)); // 토탈page수
-        beginPage = (page/naviSize) * 10 + 1;
-        endPage = beginPage + naviSize -1;
-        if(endPage > totalPage)
-            endPage = totalPage;
+        beginPage = ((page-1)/naviSize) * naviSize + 1;
+        endPage = Math.min(beginPage + naviSize -1, totalPage);
 
-        showPrev = (beginPage == 1) ? false : true;
-        showNext = (endPage >= totalPage) ? false : true;
+        showPrev = beginPage != 1;
+        showNext = endPage != totalPage;
+
+        pageIdx = totalRecord - ((page-1) * perPageSize);
     }
 
     public void print(){

@@ -31,9 +31,9 @@
             <td>조회수</td>
             <td>작성일</td>
         </tr>
-        <c:forEach var="list" items="${list}">
+        <c:forEach var="list" items="${list}" varStatus="i">
         <tr>
-            <td>${list.id}</td>
+            <td>${page.pageIdx - i.index}</td>
             <td><a href="/boards/${boardUri}/${list.id}">${list.postTitle}</a></td>
             <td>${list.postWriter}</td>
             <td>${list.postHit}</td>

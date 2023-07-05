@@ -22,6 +22,7 @@
             </ul>
 
             <ul class="navbar-nav d-flex">
+                <li><input type="text" name="search" class="form-control form-control-sm"></li>
                 <li class="nav-item dropdown">
                     <c:if test="${member eq null}">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">그림</a>

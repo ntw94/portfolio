@@ -84,7 +84,8 @@ create table comment(
 
 
 insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
-       VALUES ('test','제목1','hong','gdgd',now());
+VALUES ('test', '제목1', 'hong', 'gdgd', now());
+
 insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
 VALUES ('test','제목1','hong','gdgd',now());
 insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
@@ -100,6 +101,7 @@ select * from board_manager;
 select * from image_profile;
 select * from board;
 select * from post;
+select count(*) from post where board_uri = 'test';
 select * from comment order by comment_parentNo asc,comment_sequence asc,comment_level asc;
 
 
