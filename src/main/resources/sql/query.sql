@@ -1,3 +1,9 @@
+#수정시 밑의 코드 돌려야됨
+drop table member;
+drop table image_profile;
+drop table board;
+drop table comment;
+
 
 #회원
 create table member (
@@ -35,7 +41,6 @@ create table board(
 );
 
 
-
 #게시판 매니저
 create table board_manager(
     id int auto_increment primary key,
@@ -69,7 +74,7 @@ create table comment(
     post_id int not null,
     comment_writer varchar(50) not null,
     comment_content text,
-    comment_parentNo int default 0,
+    comment_parentNo int,
     comment_sequence int default 0,
     comment_level int default 0,
     comment_available int default 1,
@@ -107,7 +112,8 @@ select * from board_manager;
 select * from image_profile;
 select * from board;
 select * from post;
-select * from comment;
+select * from comment order by comment_parentNo asc,comment_sequence asc,comment_level asc;
+
 
 insert into board (board_title, board_uri,
                     board_description, upload_file_name,
@@ -117,8 +123,4 @@ VALUES ('테스트','test','테스트로 만들어보았읍니다.',null,null,'k
 insert into comment(post_id, comment_writer, comment_content, comment_regiDate)
 values (1,'hong','잘봣습니다.',now());
 
-#수정시 밑의 코드 돌려야됨
-drop table member;
-drop table image_profile;
-drop table board;
-drop table comment;
+

@@ -15,5 +15,6 @@ public interface CommentMapper {
     int setUpdate(Comment comment);
     int setDelete(Comment comment);
 
-
+    int setReplyInsert(Comment comment);
+    int setReplyProcess(Comment comment);
 }

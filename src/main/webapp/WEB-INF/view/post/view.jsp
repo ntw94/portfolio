@@ -46,6 +46,7 @@
     <form id="commentForm">
         <input type="hidden" name="memberId" value="${member.memberId}"/>
         <input type="hidden" name="postId" value="${post.id }"/>
+
         <div class="panel-body" >
             <table class="table" >
                 <tr>
@@ -66,27 +67,32 @@
         </div>
     </form>
 
-    <form id="commentReplyForm" style="display:none;">
-        <input type="hidden" name="memberId" value="${member.memberId}"/>
-        <input type="hidden" name="postId" value="${post.id }"/>
-        <div class="panel-body" >
-            <table class="table" >
-                <tr>
-                    <td >댓글작성&nbsp;&nbsp;${member.memberId }</td>
-                </tr>
-                <tr>
-                    <td width="100%" style="border-top:none;">
-                                                <textarea style=" resize:none;"rows="4"
-                                                          name="commentContent" class="form-control"
-                                                          placeholder="댓글을 입력해 주세요"></textarea>
+    <div id="commentReplyContainer">
+        <div id="commentReplyForm" style="display:none;">
+            <input type="hidden" id="commentReplyWriter" name="memberId" value="${member.memberId}"/>
+            <input type="hidden" id="commentReplyPostId" name="postId" value="${post.id }"/>
+            <input type="hidden" id="commentReplyParentId" value=""/>
+            <div class="panel-body" >
+                <table class="table" >
+                    <tr>
+                        <td >댓글작성&nbsp;&nbsp;${member.memberId }</td>
+                    </tr>
+                    <tr>
+                        <td width="100%" style="border-top:none;">
+                                                    <textarea style=" resize:none;"rows="4"
+                                                              id="commentReplyContent"
+                                                              name="commentReplyContent" class="form-control"
+                                                              placeholder="댓글을 입력해 주세요"></textarea>
+                        </td>
+                    </tr>
+                    <td>
+                        <button type="button" class="btn-default btn-sm pull-right" onclick="commentReplyWrite();">댓글 작성</button>
                     </td>
-                </tr>
-                <td>
-                    <button type="button" class="btn-default btn-sm pull-right" onclick="commentReplyWrite();">댓글 작성</button>
-                </td>
-            </table>
+                </table>
+            </div>
         </div>
-    </form>
+    </div>
+
 <hr>
 
 <div id="commentView"></div>
@@ -99,6 +105,8 @@
     });
 
     function commentLoadList(){
+        $("#commentReplyForm").appendTo("#commentReplyContainer");
+        $("#commentReplyForm").css("display","none");
         $.ajax({
             url:"/comments/${post.id}",
             type:"get",
@@ -110,9 +118,13 @@
 
     function commentMakeView(data){
         var listHtml="";
-        var level = 0;
+
+
         $.each(data,function(index,obj){
-            listHtml +="<table class='table' style='border: 1px solid #eeeeee'>";
+            var level = obj.commentLevel;
+            var space = (level > 4) ? 150 : level * 20 + 10;
+
+            listHtml +="<table class='table' style='border: 1px solid #eeeeee;margin-left:"+space+"px'>";
             listHtml +=	"<tr style='background-color:#eeeeee'>";
             listHtml +=		"<td>";
             listHtml +=			"작성자 &nbsp;"+obj.commentWriter;
@@ -125,14 +137,13 @@
             listHtml +=			"<textarea id='updatett"+obj.id+"' style='width:100%;background-color:white;resize:none;border:none;display:none'  rows='5'   >"+obj.commentContent+"</textarea>";
             listHtml +=		"</td>";
 
-
             if(obj.commentWriter == '${member.memberId}'){
                 listHtml +=	"<tr>";
                 listHtml +=			"<td colspan=2 style='border-top:none'>";
                 listHtml +=				"<div id='normalForm"+obj.id+"'>";
                 listHtml +=					"<button id=''type='button' class='btn btn-sm pull-right' onclick='commentUpdateForm("+obj.id+")'>수정</button>";
-                listHtml +=					"<button type='button' class='btn btn-sm pull-right' onclick='commentDelete("+obj.id+")'>삭제</button>"
-                listHtml +=					"<button type='button' class='btn btn-sm pull-right' onclick='commentReplyForm("+obj.id+","+level+")'>댓글쓰기</button>"
+                listHtml +=					"<button type='button' class='btn btn-sm pull-right' onclick='commentDelete("+obj.id+")'>삭제</button>";
+                listHtml +=					"<button type='button' class='btn btn-sm pull-right' onclick='commentReplyForm("+obj.id+","+obj.commentLevel+")'>댓글쓰기</button>"
                 listHtml +=				"</div>";
                 listHtml +=				"<div id='updateForm"+obj.id+"' style='display:none'>";
                 listHtml +=					"<button id=''type='button' class='btn btn-sm pull-right' onclick='commentUpdate("+obj.id+");'>수정</button>";
@@ -145,11 +156,8 @@
             listHtml += "<tr>";
             listHtml +=     "<td> <div id='comment-reply-box"+obj.id+"'>"+"</div></td>";
             listHtml += "</tr>";
-            listHtml +="</table>";
-            level++;
+            listHtml +=	"</table>";
         });
-
-
 
         $("#commentView").html(listHtml);
 
@@ -222,7 +230,6 @@
     }
 
     function commentReplyForm(id,level){
-
         if($("#commentReplyForm").css('display') == 'none') {
             $("#commentReplyForm").css("display", "block");
         }
@@ -232,8 +239,32 @@
         else
             $("#commentReplyForm").css("width",(100-(level*10))+'%');
 
+        $("#commentReplyContent").val("");
+        $("#commentReplyParentId").val(id);
         $("#commentReplyForm").appendTo("#comment-reply-box"+id);
     }
+    function commentReplyWrite(){
+
+        var commReplyContent = $("#commentReplyContent").val();
+        var commReplyWriter = $("#commentReplyWriter").val();
+        var commPostId = $("#commentReplyPostId").val();
+        var commReplyParentId = $("#commentReplyParentId").val();
+
+        $.ajax({
+            url : "/comments/${postId}/reply",
+            type : "post",
+            contentType:'application/json;charset=utf-8',
+            data : JSON.stringify({
+                "parentId":commReplyParentId, // 댓글 고유번호
+                "memberId": commReplyWriter,
+                "commentReplyContent":commReplyContent,
+                "postId":commPostId
+            }),
+            success:commentLoadList,
+            error:function(){alert("댓글 업데이트 실패");}
+        });
+    }
+
 
     <%--function rateUp(data){--%>
     <%--    if(data === ""){--%>

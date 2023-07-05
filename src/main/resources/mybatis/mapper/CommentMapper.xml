@@ -7,7 +7,10 @@
         select *
         from comment
         where post_id = #{postId}
-        order by comment_regiDate desc
+        order by comment_parentNo asc,
+                 comment_sequence asc,
+                 comment_level asc,
+                 comment_regiDate asc
     </select>
 
     <select id="getListOne" parameterType="int" resultType="project.forums.domain.comment.Comment">
@@ -16,9 +19,28 @@
         where id = #{id}
     </select>
 
+<!--    #여기서 다시 시작-->
     <insert id="setInsert" parameterType="project.forums.domain.comment.Comment">
-        insert into comment (post_id, comment_writer, comment_content, comment_regiDate)
-        values (#{postId}, #{commentWriter}, #{commentContent}, now())
+        <selectKey resultType="int" keyProperty="commentParentNo" order="BEFORE">
+            select IFNULL(max(comment_parentNo)+1,0) from comment
+        </selectKey>
+        insert into comment (post_id, comment_writer, comment_content,comment_parentNo,comment_regiDate)
+        values (#{postId}, #{commentWriter}, #{commentContent},#{commentParentNo}, now())
+    </insert>
+
+    <insert id="setReplyInsert" parameterType="project.forums.domain.comment.Comment">
+        insert into comment(post_id, comment_writer,
+                            comment_content, comment_parentNo,
+                            comment_sequence, comment_level,
+                            comment_regiDate)
+                    values (
+                            #{postId},#{commentWriter},
+                               #{commentContent}, #{commentParentNo},
+                            #{commentSequence}, #{commentLevel},
+                            now())
+        <selectKey resultType="int" keyProperty="id" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <update id="setUpdate" parameterType="project.forums.domain.comment.Comment">
@@ -33,5 +55,13 @@
         delete from comment
         where comment_writer = #{commentWriter} and id = #{id}
     </delete>
+
+    <update id="setReplyProcess" parameterType="project.forums.domain.comment.Comment">
+        update comment
+        set comment_sequence = comment_sequence+1
+        where comment_parentNo = #{commentParentNo} and
+              comment_sequence >= #{commentSequence} and
+              id != #{id}
+    </update>
 
 </mapper>

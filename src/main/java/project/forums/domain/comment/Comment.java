@@ -8,5 +8,9 @@ public class Comment {
     private int postId; // fk
     private String commentWriter;//작성자
     private String commentContent;//글 내용
+    private int commentParentNo;
+    private int commentSequence;
+    private int commentLevel;
+    private int commentAvailable;
     private String commentRegiDate;//등록시간
 }

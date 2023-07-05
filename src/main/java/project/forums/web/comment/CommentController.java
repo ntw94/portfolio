@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import project.forums.domain.comment.Comment;
+import project.forums.web.comment.form.CommentReplyForm;
 import project.forums.web.comment.form.CommentSaveForm;
 import project.forums.web.comment.form.CommentUpdateForm;
 
@@ -52,5 +53,14 @@ public class CommentController {
                                      @RequestBody CommentUpdateForm updateForm){
         log.info("commEditForm = {} ",updateForm);
         commentService.commentUpdate(updateForm);
+    }
+
+    @PostMapping("/{postId}/reply")
+    public void commentReply(
+            @PathVariable Integer postId,
+            @RequestBody CommentReplyForm commentReplyForm){
+
+        log.info("commitReplyForm = {}", commentReplyForm);
+        commentService.commentReply(commentReplyForm);
     }
 }
