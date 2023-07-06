@@ -2,6 +2,8 @@ drop table member;
 drop table image_profile;
 drop table board;
 drop table comment;
+drop table post;
+drop table post_category;
 
 
 
@@ -35,7 +37,6 @@ create table board(
     upload_file_name varchar(100),
     store_file_name varchar(100),
     member_id varchar(50) not null,
-
     board_create_date date,
     board_update_date date
 );
@@ -65,7 +66,15 @@ create table post(
     post_writer varchar(100) not null,
     post_hit int default 0,
     post_content text,
+    post_category varchar(50),
     post_regiDate datetime
+);
+
+create table post_category(
+    id int auto_increment primary key,
+    board_uri varchar(50) not null,
+    category_menu varchar(50),
+    category_regiDate datetime
 );
 
 
@@ -85,7 +94,6 @@ create table comment(
 
 insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
 VALUES ('test', '제목1', 'hong', 'gdgd', now());
-
 insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
 VALUES ('test','제목1','hong','gdgd',now());
 insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
@@ -93,8 +101,26 @@ VALUES ('test','제목1','hong','gdgd',now());
 insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
 VALUES ('test','제목1','hong','gdgd',now());
 
+insert into post_category (board_uri, category_menu, category_regiDate)
+VALUES ('test','메뉴1',now());
+insert into post_category (board_uri, category_menu, category_regiDate)
+VALUES ('test','메뉴2',now());
+insert into post_category (board_uri, category_menu, category_regiDate)
+VALUES ('test','메뉴3',now());
 
-;
+select * from post_category;
+select * from post;
+
+select *
+from post
+where board_uri = 'test' and
+      post_category in (select category_menu
+                           from post_category
+                           where category_menu = '메뉴1');
+
+select date_format(post_regiDate,'%h:%m')
+from post;
+
 #조회
 select * from member;
 select * from board_manager;

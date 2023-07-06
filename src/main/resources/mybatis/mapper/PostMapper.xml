@@ -5,9 +5,18 @@
 
     <select id="getListAll" parameterType="Map" resultType="project.forums.domain.post.Post">
         select *
-        from post
-        where board_uri=#{boardUri}
-        order by id
+        from post p
+        where 1 = 1
+        <if test="category != null">
+            and
+            post_category in (
+                             select pc.category_menu
+                             from post_category pc
+                             where pc.category_menu = #{category} and p.board_uri = pc.board_uri
+                             )
+        </if>
+            and board_uri=#{boardUri}
+        order by id desc
         limit #{beginPage},#{perPageSize}
     </select>
 
@@ -18,8 +27,10 @@
     </select>
 
     <insert id="setInsert"  parameterType="project.forums.domain.post.Post">
-        insert into post (board_uri,post_title,post_writer,post_hit,post_content,post_regiDate)
-        values (#{boardUri},#{postTitle},#{postWriter},0,#{postContent},now())
+        insert into post (board_uri,post_title,post_writer,
+                          post_hit,post_content,post_category,
+                          post_regiDate)
+        values (#{boardUri},#{postTitle},#{postWriter},0,#{postContent},#{postCategory},now())
     </insert>
 
     <update id="setUpdate" parameterType="project.forums.domain.post.Post">
@@ -38,26 +49,22 @@
     <select id="getTotalPosts" parameterType="String">
         select count(*)
         from post
-        where board_uri=#{boardUri}
+        where 1=1
+        <if test="category != null">
+            and
+            post_category in (
+                            select pc.category_menu
+                            from post_category pc
+                            where pc.category_menu = #{category}  and pc.board_uri = board_uri)
+        </if>
+            and board_uri=#{boardUri}
     </select>
 
-<!--    <insert id="saveProfileImage" parameterType="project.forums.domain.post.Post">-->
-<!--        insert into image_profile (member_id,upload_file_name,store_file_name,regi_date)-->
-<!--        values (#{memberId},#{uploadFileName},#{storeFileName},now())-->
-<!--    </insert>-->
-
-<!--    <select id="loadProfileImage" parameterType="String" resultType="project.forums.domain.post.Post">-->
-<!--        select *-->
-<!--        from image_profile-->
-<!--        where member_id = #{memberId}-->
-<!--    </select>-->
-
-<!--    <update id="updateProfileImage" parameterType="project.forums.domain.post.Post">-->
-<!--        update image_profile-->
-<!--        set upload_file_name = #{uploadFileName},-->
-<!--            store_file_name = #{storeFileName},-->
-<!--            regi_date = now()-->
-<!--        where member_id = #{memberId}-->
-<!--    </update>-->
+    <!-- 게시글 조회수 추가 -->
+    <update id="viewsUp" parameterType="project.forums.domain.post.Post">
+        update post
+        set post_hit = post_hit +1
+        where id = #{id}
+    </update>
 
 </mapper>

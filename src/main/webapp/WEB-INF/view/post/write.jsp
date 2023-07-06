@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../common/header.jsp"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -12,9 +13,19 @@
 <body>
 
 <form action="/boards/${boardUri}/write" method="post">
+
     <table>
         <tr>
-            <td>제목 <input type="text" name="postTitle" ></td>
+            <td>
+                제목 <input type="text" name="postTitle" >
+                말머리 선택:
+                <select name="postCategory">
+                        <option value="">일반</option>
+                    <c:forEach var="list" items="${cateList}">
+                        <option value="${list.categoryMenu}">${list.categoryMenu}</option>
+                    </c:forEach>
+                </select>
+            </td>
         </tr>
         <tr>
             <td>

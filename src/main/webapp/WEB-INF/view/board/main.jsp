@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -19,9 +20,17 @@
 <body>
 <div class="container">
     <jsp:include page="../common/top-menu.jsp"/>
+
+
     <h1>여기가 ${board.boardTitle} 게시판입니다.</h1>
     <h2>${board.boardDescription}</h2>
     <h3>만든이: ${board.memberId}</h3>
+
+    <a href="/boards/${boardUri}">전체</a> &nbsp;&nbsp;
+    <c:forEach var="cList" items="${cateList}">
+        <a href="/boards/${boardUri}?category=${cList.categoryMenu}"><span>${cList.categoryMenu}</span></a> &nbsp;&nbsp;
+    </c:forEach>
+
 
     <table class="table table-bordered">
         <tr>
@@ -34,7 +43,10 @@
         <c:forEach var="list" items="${list}" varStatus="i">
         <tr>
             <td>${page.pageIdx - i.index}</td>
-            <td><a href="/boards/${boardUri}/${list.id}">${list.postTitle}</a></td>
+            <td>
+                <c:if test="${!empty list.postCategory }">[${list.postCategory}] </c:if>
+                    <a href="/boards/${boardUri}/${list.id}">${list.postTitle}</a>
+            </td>
             <td>${list.postWriter}</td>
             <td>${list.postHit}</td>
             <td>${list.postRegiDate}</td>

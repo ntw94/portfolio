@@ -33,6 +33,14 @@
         <td>${post.postRegiDate}</td>
     </tr>
     <tr>
+        <td>조회수</td>
+        <td>${post.postHit}</td>
+    </tr>
+    <tr>
+        <td>추천수</td>
+    </tr>
+
+    <tr>
         <td colspan="2">
             <input type="button" onclick="location.href='/boards/${boardUri}/${post.id}/edit';" value="수정">
             <form action="/boards/${boardUri}/${post.id}/delete" method="post">

@@ -12,6 +12,7 @@ public class Post {
     private String postWriter;
     private String postContent;
     private int postHit;
+    private String postCategory;
     private LocalDateTime postRegiDate;
 
 }

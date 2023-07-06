@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import project.forums.domain.category.PostCategory;
+import project.forums.domain.category.PostCategoryMapper;
 import project.forums.domain.post.Post;
 import project.forums.domain.post.PostMapper;
 import project.forums.web.board.PageHandler;
@@ -20,9 +22,15 @@ import java.util.Map;
 public class PostService {
 
     private final PostMapper postMapper;
+    private final PostCategoryMapper postCategoryMapper;
 
-    public List<Post> getPosts(String boardUri, int page, int perPageSize, Model model){
-        int totalPost = postMapper.getTotalPosts(boardUri);
+    public List<Post> getPosts(String boardUri,
+                               String category,
+                               int page,
+                               int perPageSize,
+                               Model model){
+
+        int totalPost = postMapper.getTotalPosts(boardUri,category);
         PageHandler pageHandler = new PageHandler(page,perPageSize,totalPost);
 
         model.addAttribute("page",pageHandler);
@@ -31,8 +39,7 @@ public class PostService {
         map.put("boardUri",boardUri);
         map.put("perPageSize",perPageSize);
         map.put("beginPage",(page-1)*perPageSize);
-
-
+        map.put("category",category);
 
         return postMapper.getListAll(map);
     }
@@ -45,6 +52,7 @@ public class PostService {
     }
 
     public int postSave(Post post){
+
         return postMapper.setInsert(post);
     }
 
@@ -67,5 +75,14 @@ public class PostService {
         }
         return 0;
     }
+
+    public void postViewsUP(Post post){
+        postMapper.viewsUp(post);
+    }
+
+    public List<PostCategory> getPostCategories(String boardUri){
+        return postCategoryMapper.getListAll(boardUri);
+    }
+
 
 }

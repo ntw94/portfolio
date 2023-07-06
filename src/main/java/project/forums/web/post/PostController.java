@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import project.forums.domain.category.PostCategory;
 import project.forums.domain.member.Member;
 import project.forums.domain.post.Post;
 import project.forums.web.login.LoginService;
@@ -14,6 +15,7 @@ import project.forums.web.post.form.PostSaveForm;
 import project.forums.web.post.form.PostUpdateForm;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,6 +29,10 @@ public class PostController {
     @GetMapping("/{boardUri}/write")
     public String postWriteForm(HttpServletRequest request, Model model, @PathVariable String boardUri){
         sessionCheck(request,model);
+        //카테고리 리스트를 만들어야하나? 그렇네 만들어야지 조회가 되겟네
+
+        List<PostCategory> list = postService.getPostCategories(boardUri);
+        model.addAttribute("cateList",list);
 
         return "post/write";
     }
@@ -41,6 +47,7 @@ public class PostController {
         post.setPostTitle(postSaveForm.getPostTitle());
         post.setPostWriter(postSaveForm.getPostWriter());
         post.setPostContent(postSaveForm.getPostContent());
+        post.setPostCategory(postSaveForm.getPostCategory());
 
         postService.postSave(post);
 
@@ -55,6 +62,8 @@ public class PostController {
         Post findPost = postService.getPostOne(boardUri,postId);
         model.addAttribute("post",findPost);
         log.info("viewPost= {}",findPost);
+
+        postService.postViewsUP(findPost);
 
         return "post/view";
     }
@@ -92,9 +101,8 @@ public class PostController {
             HttpServletRequest request,
                             @PathVariable String boardUri,
                              @PathVariable Integer postId){
-        String loginId = sessionCheck(request);
+        String loginId = getSessionMemberId(request);
         postService.postDelete(loginId,boardUri,postId);
-
 
         return "redirect:/boards/{boardUri}";
     }
@@ -110,7 +118,7 @@ public class PostController {
         }
         return 0;
     }
-    private String sessionCheck(HttpServletRequest request) {
+    private String getSessionMemberId(HttpServletRequest request) {
         Member loginMember = loginService.sessionCheck(request);
         log.info("loginMember = {}",loginMember);
 

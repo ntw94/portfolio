@@ -16,5 +16,9 @@ public interface PostMapper {
     int setDelete(Post post);
     int setUpdate(Post post);
     //조회수 검색 등등 추가
-    int getTotalPosts(String boardUri);
+    int getTotalPosts(@Param("boardUri") String boardUri,
+                      @Param("category") String category);
+
+    //조회수 올리기
+    void viewsUp(Post post);
 }

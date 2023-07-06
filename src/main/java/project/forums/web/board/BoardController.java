@@ -7,11 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import project.forums.domain.board.Board;
+import project.forums.domain.category.PostCategory;
 import project.forums.domain.member.Member;
 import project.forums.domain.post.Post;
 import project.forums.web.board.form.BoardSaveForm;
 import project.forums.web.login.LoginService;
 import project.forums.web.post.PostService;
+import project.forums.web.post.form.PostListForm;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -50,17 +52,24 @@ public class BoardController {
     public String boardMain(HttpServletRequest request,
                             Model model,
                             @PathVariable String boardUri,
-                            @RequestParam(defaultValue = "1") Integer p){
+                            @RequestParam(defaultValue = "1") Integer p,
+                            @RequestParam(required = false) String category
+    ){
         //게시판 있는지 체크 없으면 404 페이지 출력
 
         log.info("page= {}",p);
+        log.info("category = {}",category);
+
         sessionCheck(request,model);
         Board board = boardService.getBoardOne(boardUri);
         model.addAttribute("board",board);
         model.addAttribute("boardUri",boardUri);
 
-        List<Post> list = postService.getPosts(boardUri,p,10,model);
+        List<Post> list = postService.getPosts(boardUri,category,p,10,model);
         model.addAttribute("list",list);
+
+        List<PostCategory> clist = postService.getPostCategories(boardUri);
+        model.addAttribute("cateList",clist);
 
         return "board/main";//
     }
