@@ -9,9 +9,14 @@ import project.forums.domain.category.PostCategoryMapper;
 import project.forums.domain.post.Post;
 import project.forums.domain.post.PostMapper;
 import project.forums.web.board.PageHandler;
+import project.forums.web.post.form.PostListForm;
 import project.forums.web.post.form.PostSaveForm;
 import project.forums.web.post.form.PostUpdateForm;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +29,11 @@ public class PostService {
     private final PostMapper postMapper;
     private final PostCategoryMapper postCategoryMapper;
 
-    public List<Post> getPosts(String boardUri,
-                               String category,
-                               int page,
-                               int perPageSize,
-                               Model model){
+    public List<PostListForm> getPosts(String boardUri,
+                                       String category,
+                                       int page,
+                                       int perPageSize,
+                                       Model model){
 
         int totalPost = postMapper.getTotalPosts(boardUri,category);
         PageHandler pageHandler = new PageHandler(page,perPageSize,totalPost);
@@ -41,7 +46,33 @@ public class PostService {
         map.put("beginPage",(page-1)*perPageSize);
         map.put("category",category);
 
-        return postMapper.getListAll(map);
+        List<Post> list = postMapper.getListAll(map);
+        List<PostListForm> listForm = new ArrayList<>();
+        LocalDateTime nowTime = LocalDateTime.now();
+        DateTimeFormatter newPattern;
+        for (Post post : list) {
+            PostListForm postListForm = new PostListForm();
+
+            postListForm.setId(post.getId());
+            postListForm.setBoardUri(post.getBoardUri());
+            postListForm.setPostTitle(post.getPostTitle());
+            postListForm.setPostWriter(post.getPostWriter());
+            postListForm.setPostContent(post.getPostContent());
+            postListForm.setPostHit(post.getPostHit());
+            postListForm.setPostCategory(post.getPostCategory());
+
+            if(ChronoUnit.DAYS.between(post.getPostRegiDate(),nowTime) == 0){
+                 newPattern = DateTimeFormatter.ofPattern("HH:mm");
+            }else{
+                 newPattern = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            }
+
+            postListForm.setPostRegiDate(post.getPostRegiDate().format(newPattern));
+
+            listForm.add(postListForm);
+        }
+
+        return listForm;
     }
     public Post getPostOne(String boardUri, Integer postId){
         Post post = new Post();

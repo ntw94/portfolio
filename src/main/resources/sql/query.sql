@@ -98,8 +98,10 @@ insert into post (board_uri, post_title, post_writer, post_content, post_regiDat
 VALUES ('test','제목1','hong','gdgd',now());
 insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
 VALUES ('test','제목1','hong','gdgd',now());
-insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
-VALUES ('test','제목1','hong','gdgd',now());
+insert into post (board_uri, post_title, post_writer, post_content, post_category,post_regiDate)
+VALUES ('test','제목1','hong','gdgd','메뉴1',now());
+insert into post (board_uri, post_title, post_writer, post_content, post_category,post_regiDate)
+VALUES ('test','제목1','hong','gdgd','메뉴2',now());
 
 insert into post_category (board_uri, category_menu, category_regiDate)
 VALUES ('test','메뉴1',now());

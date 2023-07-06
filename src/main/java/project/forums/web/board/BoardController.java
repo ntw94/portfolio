@@ -65,7 +65,7 @@ public class BoardController {
         model.addAttribute("board",board);
         model.addAttribute("boardUri",boardUri);
 
-        List<Post> list = postService.getPosts(boardUri,category,p,10,model);
+        List<PostListForm> list = postService.getPosts(boardUri,category,p,10,model);
         model.addAttribute("list",list);
 
         List<PostCategory> clist = postService.getPostCategories(boardUri);
