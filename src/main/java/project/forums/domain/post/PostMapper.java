@@ -21,4 +21,6 @@ public interface PostMapper {
 
     //조회수 올리기
     void viewsUp(Post post);
+    //공지글 가져오기
+    List<Post> getNoticePosts(String boardUri);
 }

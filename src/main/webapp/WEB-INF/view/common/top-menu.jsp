@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse " id="collapsibleNavbar">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">즐겨찾기</a>
+                    <a class="nav-link" href="/favor">즐겨찾기</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">검색</a>

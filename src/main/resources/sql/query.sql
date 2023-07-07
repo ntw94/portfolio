@@ -41,6 +41,17 @@ create table board(
     board_update_date date
 );
 
+create table board_favor(
+    id int auto_increment primary key,
+    member_id varchar(50) not null,
+    board_id int not null,
+    favor_regiDate datetime
+);
+
+insert into board_favor (member_id, board_id, favor_regiDate)
+value ('asdf','3',now());
+
+select * from board_favor;
 
 #게시판 매니저
 create table board_manager(
@@ -67,6 +78,15 @@ create table post(
     post_hit int default 0,
     post_content text,
     post_category varchar(50),
+    post_notice int default 1,
+    post_regiDate datetime
+);
+
+#공지 게시글
+create table post_notice(
+    id int auto_increment primary key,
+    board_uri varchar(50) not null,
+    post_id int,
     post_regiDate datetime
 );
 
@@ -91,6 +111,11 @@ create table comment(
     comment_regiDate datetime
 );
 
+select p.id id, p.board_uri board_uri, post_title, post_writer, post_content,post_notice,post_category,p.post_regiDate post_regiDate
+from post p,post_notice pn
+where p.id = pn.post_id and pn.board_uri = 'test'
+order by pn.post_regiDate desc;
+
 
 insert into post (board_uri, post_title, post_writer, post_content, post_regiDate)
 VALUES ('test', '제목1', 'hong', 'gdgd', now());
@@ -102,6 +127,8 @@ insert into post (board_uri, post_title, post_writer, post_content, post_categor
 VALUES ('test','제목1','hong','gdgd','메뉴1',now());
 insert into post (board_uri, post_title, post_writer, post_content, post_category,post_regiDate)
 VALUES ('test','제목1','hong','gdgd','메뉴2',now());
+insert into post (board_uri, post_title, post_writer, post_content,post_notice,post_category,post_regiDate)
+VALUES ('test','제목1','hong','gdgd',1,'공지',now());
 
 insert into post_category (board_uri, category_menu, category_regiDate)
 VALUES ('test','메뉴1',now());
@@ -109,16 +136,31 @@ insert into post_category (board_uri, category_menu, category_regiDate)
 VALUES ('test','메뉴2',now());
 insert into post_category (board_uri, category_menu, category_regiDate)
 VALUES ('test','메뉴3',now());
+insert into post_category (board_uri, category_menu, category_regiDate)
+VALUES ('test','공지',now());
 
-select * from post_category;
-select * from post;
+insert into post_notice (board_uri, post_id, post_regiDate)
+values ('test',9,now());
+
+insert into post_notice (board_uri, post_id, post_regiDate)
+values ('test',12,now());
+
+insert into post_notice (board_uri, post_id, post_regiDate)
+values ('test',22,now());
 
 select *
-from post
-where board_uri = 'test' and
-      post_category in (select category_menu
-                           from post_category
-                           where category_menu = '메뉴1');
+from board b, board_favor f
+where b.id = f.board_id and f.member_id='asdf';
+
+select * from post;
+
+select * from post
+where id in (select post_id
+             from post_notice
+             where post.board_uri = post_notice.board_uri);
+
+select * from post_category;
+
 
 select date_format(post_regiDate,'%h:%m')
 from post;
@@ -131,6 +173,7 @@ select * from board;
 select * from post;
 select count(*) from post where board_uri = 'test';
 select * from comment order by comment_parentNo asc,comment_sequence asc,comment_level asc;
+
 
 
 

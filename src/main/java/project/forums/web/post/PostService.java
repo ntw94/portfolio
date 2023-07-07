@@ -49,31 +49,14 @@ public class PostService {
         List<Post> list = postMapper.getListAll(map);
         List<PostListForm> listForm = new ArrayList<>();
         LocalDateTime nowTime = LocalDateTime.now();
-        DateTimeFormatter newPattern;
-        for (Post post : list) {
-            PostListForm postListForm = new PostListForm();
 
-            postListForm.setId(post.getId());
-            postListForm.setBoardUri(post.getBoardUri());
-            postListForm.setPostTitle(post.getPostTitle());
-            postListForm.setPostWriter(post.getPostWriter());
-            postListForm.setPostContent(post.getPostContent());
-            postListForm.setPostHit(post.getPostHit());
-            postListForm.setPostCategory(post.getPostCategory());
-
-            if(ChronoUnit.DAYS.between(post.getPostRegiDate(),nowTime) == 0){
-                 newPattern = DateTimeFormatter.ofPattern("HH:mm");
-            }else{
-                 newPattern = DateTimeFormatter.ofPattern("yyyy.MM.dd");
-            }
-
-            postListForm.setPostRegiDate(post.getPostRegiDate().format(newPattern));
-
-            listForm.add(postListForm);
-        }
+        convertListForm(list, listForm, nowTime);
 
         return listForm;
     }
+
+
+
     public Post getPostOne(String boardUri, Integer postId){
         Post post = new Post();
         post.setBoardUri(boardUri);
@@ -107,7 +90,8 @@ public class PostService {
         return 0;
     }
 
-    public void postViewsUP(Post post){
+    public void postViewsUP(String boardUri, Integer postId){
+        Post post = getPostOne(boardUri,postId);
         postMapper.viewsUp(post);
     }
 
@@ -115,5 +99,39 @@ public class PostService {
         return postCategoryMapper.getListAll(boardUri);
     }
 
+    public List<PostListForm> getNoticePosts(String boardUri){
+       List<Post> list =  postMapper.getNoticePosts(boardUri);
+       List<PostListForm> listForm = new ArrayList<>();
+       LocalDateTime nowTime = LocalDateTime.now();
 
+       convertListForm(list,listForm,nowTime);
+
+        log.info("{}",listForm);
+       return listForm;
+    }
+
+
+
+    private static void convertListForm(List<Post> list, List<PostListForm> listForm, LocalDateTime nowTime) {
+        DateTimeFormatter newPattern;
+        for (Post post : list) {
+            PostListForm postListForm = new PostListForm();
+            postListForm.setId(post.getId());
+            postListForm.setBoardUri(post.getBoardUri());
+            postListForm.setPostTitle(post.getPostTitle());
+            postListForm.setPostWriter(post.getPostWriter());
+            postListForm.setPostContent(post.getPostContent());
+            postListForm.setPostHit(post.getPostHit());
+            postListForm.setPostCategory(post.getPostCategory());
+
+            if(ChronoUnit.DAYS.between(post.getPostRegiDate(), nowTime) == 0){
+                newPattern = DateTimeFormatter.ofPattern("HH:mm");
+            }else{
+                newPattern = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            }
+            postListForm.setPostRegiDate(post.getPostRegiDate().format(newPattern));
+
+            listForm.add(postListForm);
+        }
+    }
 }

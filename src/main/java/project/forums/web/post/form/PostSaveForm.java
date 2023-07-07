@@ -8,4 +8,5 @@ public class PostSaveForm {
     private String postWriter;
     private String postContent;
     private String postCategory;
+    private String postNotice;
 }

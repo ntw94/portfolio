@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -30,7 +31,10 @@
     </tr>
     <tr>
         <td>등록일</td>
-        <td>${post.postRegiDate}</td>
+        <td>
+            <fmt:parseDate value="${post.postRegiDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
+            <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${parsedDateTime}" />
+            </td>
     </tr>
     <tr>
         <td>조회수</td>

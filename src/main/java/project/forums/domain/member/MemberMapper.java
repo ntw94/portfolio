@@ -2,6 +2,7 @@ package project.forums.domain.member;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
+import project.forums.domain.board.Board;
 import project.forums.domain.file.ImageProfile;
 import project.forums.domain.member.Member;
 
@@ -21,4 +22,5 @@ public interface MemberMapper {
      void saveProfileImage(ImageProfile imageProfile);
      ImageProfile loadProfileImage(String memberId);
      void updateProfileImage(ImageProfile imageProfile);
+     List<Board> getFavorBoards(String memberId);
 }

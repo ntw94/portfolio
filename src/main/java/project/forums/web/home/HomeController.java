@@ -5,12 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import project.forums.domain.board.Board;
 import project.forums.domain.member.Member;
 import project.forums.web.board.BoardService;
 import project.forums.web.board.form.BoardListForm;
 import project.forums.web.login.LoginService;
+import project.forums.web.member.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -19,6 +22,7 @@ public class HomeController {
 
     private final LoginService loginService;
     private final BoardService boardService;
+    private final MemberService memberService;
 
     @GetMapping("/")
     public String home(HttpServletRequest request,Model model){
@@ -27,6 +31,17 @@ public class HomeController {
         model.addAttribute("board",boardService.getBoardListForm());
 
         return "home";
+    }
+    @GetMapping("/favor")
+    public String favor(HttpServletRequest request, Model model){
+        sessionCheck(request, model);
+
+        Member loginMember = loginService.sessionCheck(request);
+
+//        List<Board> list = memberService.getFavorBoards(loginMember.getMemberId());
+//        model.addAttribute("list",list);
+
+        return "favor/favor";
     }
 
     private void sessionCheck(HttpServletRequest request, Model model) {

@@ -13,6 +13,6 @@ public class Post {
     private String postContent;
     private int postHit;
     private String postCategory;
+    private int noticeNo;
     private LocalDateTime postRegiDate;
-
 }

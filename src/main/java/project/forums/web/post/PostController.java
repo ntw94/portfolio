@@ -59,11 +59,10 @@ public class PostController {
     public String postView(HttpServletRequest request, Model model, @PathVariable String boardUri,@PathVariable Integer postId){
         sessionCheck(request,model);
 
+        postService.postViewsUP(boardUri,postId);
+
         Post findPost = postService.getPostOne(boardUri,postId);
         model.addAttribute("post",findPost);
-        log.info("viewPost= {}",findPost);
-
-        postService.postViewsUP(findPost);
 
         return "post/view";
     }

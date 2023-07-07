@@ -2,6 +2,7 @@ package project.forums.web.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import project.forums.domain.board.Board;
 import project.forums.domain.file.FileStore;
 import project.forums.domain.file.ImageProfile;
 import project.forums.domain.member.Member;
@@ -101,6 +102,11 @@ public class MemberService {
             return "src/main/resources/static/img/default_img.jpg";
 
         return fileStore.getFullPath(imageProfile.getStoreFileName());
+    }
+
+    public List<Board> getFavorBoards(String memberId){
+        List<Board> list = memberMapper.getFavorBoards(memberId);
+        return list;
     }
 
 

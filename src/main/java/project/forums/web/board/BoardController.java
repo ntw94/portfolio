@@ -65,6 +65,11 @@ public class BoardController {
         model.addAttribute("board",board);
         model.addAttribute("boardUri",boardUri);
 
+        if(p == 1) {
+            List<PostListForm> noticeList = postService.getNoticePosts(boardUri);
+            model.addAttribute("nList",noticeList);
+        }
+
         List<PostListForm> list = postService.getPosts(boardUri,category,p,10,model);
         model.addAttribute("list",list);
 
