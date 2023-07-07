@@ -4,6 +4,10 @@ drop table board;
 drop table comment;
 drop table post;
 drop table post_category;
+drop table board_manager;
+drop table board_bookmark;
+drop table board_favor;
+
 
 
 
@@ -45,13 +49,29 @@ create table board_favor(
     id int auto_increment primary key,
     member_id varchar(50) not null,
     board_id int not null,
+    favor int default 1,
     favor_regiDate datetime
 );
 
-insert into board_favor (member_id, board_id, favor_regiDate)
-value ('asdf','3',now());
+drop table board_favor;
 
-select * from board_favor;
+insert into board_favor (member_id, board_id,favor, favor_regiDate)
+value ('test','3',1,now());
+
+select * from member;
+
+#현재 회원 즐겨 찾기 구문
+select *
+from board b right join
+     board_favor bf on b.id = bf.board_id
+where bf.member_id ='asdf'
+order by favor_regiDate desc;
+
+#전체 채널에서 검색할때
+select *
+from board b left join
+     board_favor bf on b.id = bf.board_id
+    and bf.member_id = 'test';
 
 #게시판 매니저
 create table board_manager(
