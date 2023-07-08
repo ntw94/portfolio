@@ -62,6 +62,10 @@ public class BoardService {
         List<BoardFavor> list = boardFavorMapper.getFavorBoards(memberId);
         return list;
     }
+    public List<BoardFavor> getListAllContainFavor(String memberId){
+        List<BoardFavor> list = boardFavorMapper.getListAllContainFavor(memberId);
+        return list;
+    }
 
     public void addFavor(String memberId, Integer boardId){
         Map<String,Object> map = new HashMap<>();

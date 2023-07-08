@@ -17,7 +17,7 @@
                     <a class="nav-link" href="/favor">즐겨찾기</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">검색</a>
+                    <a class="nav-link" href="/boards">검색</a>
                 </li>
             </ul>
 

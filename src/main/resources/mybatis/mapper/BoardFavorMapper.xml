@@ -3,6 +3,7 @@
 
 <mapper namespace="project.forums.domain.board.BoardFavorMapper">
 
+<!-- 현재 회원이 즐겨찾기한 목록들 출력 -->
     <select id="getFavorBoards" parameterType="String" resultType="project.forums.domain.board.BoardFavor">
         select  b.id id, board_title, board_uri, board_description, upload_file_name,
                 store_file_name, board_create_date, board_update_date,
@@ -11,6 +12,15 @@
             board_favor bf on b.id = bf.board_id
         where bf.member_id = #{memberId}
         order by favor_regiDate desc;
+    </select>
+
+<!--  전체 목록 출력(즐겨찾기 목록은 체크표시) -->
+    <select id="getListAllContainFavor" parameterType="String" resultType="project.forums.domain.board.BoardFavor">
+        select  b.id id, board_title, board_uri, board_description, upload_file_name,
+                store_file_name, board_create_date, board_update_date,
+                b.member_id member_id, bf.favor favor, favor_regiDate
+        from board b left join
+             board_favor bf on b.id = bf.board_id and bf.member_id = #{memberId}
     </select>
 
     <insert id="setInsert" parameterType="Map">

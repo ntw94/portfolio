@@ -10,6 +10,7 @@ import java.util.Map;
 @Component
 public interface BoardFavorMapper {
     List<BoardFavor> getFavorBoards(String memberId);
+    List<BoardFavor> getListAllContainFavor(String memberId);
     void setInsert(Map<String,Object> map);
     void setDelete(Map<String,Object> map);
 }

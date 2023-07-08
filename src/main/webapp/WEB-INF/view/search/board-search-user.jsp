@@ -16,8 +16,9 @@
 
 <jsp:include page="../common/top-menu.jsp"/>
 
-<h1>즐겨찾기한 게시판 목록</h1>
+<h1>게시판 검색</h1>
 
+검색: <input type="text">
 <table class="table table-bordered" style="margin-right:10px;margin-left: 10px">
     <c:forEach var="list" items="${list}">
         <tr>
@@ -30,17 +31,18 @@
                     ${list.boardDescription}<br>
                 게시글<br>
                 게시글<br>
-
             </td>
             <td>
-                    <button id="btn-favor-${list.id}" type='button' class='btn btn-sm pull-right' value="${list.favor} "onclick="favor('${member.memberId}',${list.id})">★</button>
+                <button id="btn-favor-${list.id}" type='button' class='btn btn-sm pull-right' value="${list.favor} "onclick="favor('${member.memberId}',${list.id})">
+                    <c:if test="${list.favor == 1}">★</c:if>
+                    <c:if test="${list.favor != 1}">☆</c:if>
+                </button>
             </td>
         </tr>
     </c:forEach>
 </table>
 
 <script>
-
     function favor(memId,boardId){
         var favorStatus= $("#btn-favor-"+boardId).val();
 

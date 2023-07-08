@@ -196,6 +196,7 @@ select * from board_manager;
 select * from image_profile;
 select * from board;
 select * from post;
+select * from board_favor;
 select count(*) from post where board_uri = 'test';
 select * from comment order by comment_parentNo asc,comment_sequence asc,comment_level asc;
 

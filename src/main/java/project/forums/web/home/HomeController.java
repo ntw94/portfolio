@@ -46,7 +46,21 @@ public class HomeController {
 
         return "favor/favor";
     }
+    @GetMapping("/boards")
+    public String boards(HttpServletRequest request, Model model){
+        sessionCheck(request,model);
 
+        Member loginMember = (Member)model.getAttribute("member");
+        if(loginMember == null){
+            model.addAttribute("board",boardService.getBoardListForm());
+            return "search/board-search";
+        }
+
+        List<BoardFavor> list = boardService.getListAllContainFavor(loginMember.getMemberId());
+        model.addAttribute("list",list);
+
+        return "search/board-search-user";
+    }
     private void sessionCheck(HttpServletRequest request, Model model) {
         Member loginMember = loginService.sessionCheck(request);
         log.info("loginMem11ber = {}",loginMember);
