@@ -53,10 +53,4 @@
         where member_id = #{memberId}
     </update>
 
-<!--    즐겨찾기한 목록 조회 -->
-    <select id="getFavorBoards" parameterType="String" resultType="project.forums.domain.board.Board">
---         select b.id id,
---         from board b, board_favor f
---         where b.id = f.board_id and f.member_id = #{memberId}
-    </select>
 </mapper>

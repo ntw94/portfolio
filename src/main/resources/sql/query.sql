@@ -56,16 +56,21 @@ create table board_favor(
 drop table board_favor;
 
 insert into board_favor (member_id, board_id,favor, favor_regiDate)
-value ('test','3',1,now());
+value ('asdf','2',1,now());
 
 select * from member;
 
 #현재 회원 즐겨 찾기 구문
-select *
+select
+       b.id id, board_title, board_uri, board_description, upload_file_name,
+       store_file_name, board_create_date, board_update_date,
+       b.member_id member_id, bf.favor favor, favor_regiDate
 from board b right join
      board_favor bf on b.id = bf.board_id
 where bf.member_id ='asdf'
 order by favor_regiDate desc;
+
+select * from board;
 
 #전체 채널에서 검색할때
 select *

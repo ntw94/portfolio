@@ -7,7 +7,9 @@ import project.forums.domain.board.*;
 import project.forums.web.board.form.BoardListForm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -15,6 +17,7 @@ import java.util.List;
 public class BoardService {
     private final BoardMapper boardMapper;
     private final BoardManagerMapper managerMapper;
+    private final BoardFavorMapper boardFavorMapper;
 
     public List<Board> getBoardList(){
         return boardMapper.getListAll();
@@ -54,4 +57,23 @@ public class BoardService {
         return boardMapper.setInsert(board);
     }
 
+
+    public List<BoardFavor> getFavorBoards(String memberId){
+        List<BoardFavor> list = boardFavorMapper.getFavorBoards(memberId);
+        return list;
+    }
+
+    public void addFavor(String memberId, Integer boardId){
+        Map<String,Object> map = new HashMap<>();
+        map.put("memberId",memberId);
+        map.put("boardId",boardId);
+        boardFavorMapper.setInsert(map);
+    }
+
+    public void deleteFavor(String memberId, Integer boardId){
+        Map<String,Object> map = new HashMap<>();
+        map.put("memberId",memberId);
+        map.put("boardId",boardId);
+        boardFavorMapper.setDelete(map);
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import project.forums.domain.board.Board;
+import project.forums.domain.board.BoardFavor;
 import project.forums.domain.member.Member;
 import project.forums.web.board.BoardService;
 import project.forums.web.board.form.BoardListForm;
@@ -38,8 +39,10 @@ public class HomeController {
 
         Member loginMember = loginService.sessionCheck(request);
 
-//        List<Board> list = memberService.getFavorBoards(loginMember.getMemberId());
-//        model.addAttribute("list",list);
+        List<BoardFavor> list = boardService.getFavorBoards(loginMember.getMemberId());
+        model.addAttribute("list",list);
+
+        log.info("favor: {}",list);
 
         return "favor/favor";
     }

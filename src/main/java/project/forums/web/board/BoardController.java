@@ -79,6 +79,18 @@ public class BoardController {
         return "board/main";//
     }
 
+    @ResponseBody
+    @PostMapping("/favor/{memberId}/{boardId}/add")
+    private void doBoardFavorites(@PathVariable String memberId, @PathVariable int boardId){
+        boardService.addFavor(memberId,boardId);
+    }
+
+    @ResponseBody
+    @GetMapping("/favor/{memberId}/{boardId}/delete")
+    private void deleteBoardFavorites(@PathVariable String memberId, @PathVariable int boardId){
+        boardService.deleteFavor(memberId,boardId);
+    }
+
 
     //세션체크
     private void sessionCheck(HttpServletRequest request, Model model) {
@@ -89,4 +101,5 @@ public class BoardController {
             model.addAttribute("member",loginMember);
         }
     }
+
 }

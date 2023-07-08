@@ -104,10 +104,5 @@ public class MemberService {
         return fileStore.getFullPath(imageProfile.getStoreFileName());
     }
 
-    public List<Board> getFavorBoards(String memberId){
-        List<Board> list = memberMapper.getFavorBoards(memberId);
-        return list;
-    }
-
 
 }

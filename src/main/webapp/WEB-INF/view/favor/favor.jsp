@@ -9,6 +9,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
 </head>
 <body>
 
@@ -30,10 +32,51 @@
                 게시글<br>
 
             </td>
+            <td>
+                    <button id="btn-favor-${list.id}" type='button' class='btn btn-sm pull-right' onclick="favor('${member.memberId}',${list.id},${list.favor})">★</button>
+            </td>
         </tr>
     </c:forEach>
 </table>
 
+<script>
+    function favor(memId,boardId,status){
+        var favorStatus = status;
+        if(favorStatus == 1){
+            favorDelete(memId,boardId);
+        }else{
+            favorAdd(memId,boardId);
+        }
+    }
+    function favorAdd(memId,boardId){
+        $.ajax({
+            url:"/boards/favor/"+memId+"/"+boardId+"/add",
+            contentType:'application/json;charset=utf-8',
+            type:"post",
+            data:JSON.stringify({
+                "memberId":memId,
+                "boardId":boardId
+            }),
+            success:function(){
+                $("#btn-favor-"+boardId).val("gg");
+                $("#btn-favor-"+boardId).html("ㅁㅁㅁ");
+            },
+            error:function(){alert("error");}
+        });
+    }
+    function favorDelete(memId,boardId){
+        $.ajax({
+            url:"/boards/favor/"+memId+"/"+boardId+"/delete",
+            contentType:'application/json;charset=utf-8',
+            type:"get",
+            success:function(){
+                $("#btn-favor-"+boardId).html("ㅁㅁㅁ");
+                $("#btn-favor-"+boardId).val("gg");
+            },
+            error:function(){alert("error");}
+        });
+    }
+</script>
 
 </body>
 </html>
