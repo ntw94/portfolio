@@ -1,28 +1,43 @@
-class MyUploadAdapter {
+export default class UploadAdapter {
     constructor( loader ) {
         // The file loader instance to use during the upload.
         this.loader = loader;
     }
 
-    // Starts the upload process.
+
     upload() {
-        // Update the loader's progress.
-        server.onUploadProgress( data => {
-            loader.uploadTotal = data.total;
-            loader.uploaded = data.uploaded;
-        } );
-
-        // Return a promise that will be resolved when the file is uploaded.
-        return loader.file
-            .then( file => server.upload( file ) );
+        return this.loader.file.then( file => new Promise(((resolve, reject) => {
+            this._initRequest();
+            this._initListeners( resolve, reject, file );
+            this._sendRequest( file );
+        })))
     }
+    _initRequest() {
+        const xhr = this.xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:8080/api/image/upload', true);
+        xhr.responseType = 'json';
+    }
+    _initListeners(resolve, reject, file) {
+        const xhr = this.xhr;
+        const loader = this.loader;
+        const genericErrorText = '파일을 업로드 할 수 없습니다.'
 
-    // Aborts the upload process.
-    abort() {
-        // Reject the promise returned from the upload() method.
-        server.abortUpload();
+        xhr.addEventListener('error', () => {reject(genericErrorText)})
+        xhr.addEventListener('abort', () => reject())
+        xhr.addEventListener('load', () => {
+            const response = xhr.response
+            if(!response || response.error) {
+                return reject( response && response.error ? response.error.message : genericErrorText );
+            }
+
+            resolve({
+                default: response.url //업로드된 파일 주소
+            })
+        })
+    }
+    _sendRequest(file) {
+        const data = new FormData()
+        data.append('upload',file)
+        this.xhr.send(data)
     }
 }
-editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-    return new MyUploadAdapter( loader );
-};

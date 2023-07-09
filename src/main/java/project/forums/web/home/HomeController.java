@@ -61,6 +61,7 @@ public class HomeController {
 
         return "search/board-search-user";
     }
+
     private void sessionCheck(HttpServletRequest request, Model model) {
         Member loginMember = loginService.sessionCheck(request);
         log.info("loginMem11ber = {}",loginMember);

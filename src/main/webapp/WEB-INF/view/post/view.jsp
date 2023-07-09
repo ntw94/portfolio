@@ -8,13 +8,26 @@
     <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .image.image_resized{
+            display:block;
+            box-sizing: border-box;
+        }
+        .image.image_resized img{
+            width: 100%;
+        }
+        .image.image_resized > figcaption{
+            display: block;
+        }
+    </style>
 </head>
 <body>
 
 <jsp:include page="../common/top-menu.jsp"/>
 
 
-<table border="1" width="500px">
+<table border="1" width="100%">
     <tr>
         <td>회원번호</td>
         <td>${post.id}</td>
