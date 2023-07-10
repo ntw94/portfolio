@@ -31,33 +31,32 @@ public class FileController {
     private final MemberService memService;
     private final FileStore fileStore;
 
-    @ResponseBody
-    @RequestMapping("/images/ckeditor5Upload")
-    public void fileUpload() throws MalformedURLException {
-
-    }
 
 
-
+    //프리뷰될때 임시 테이블에 저장해야한다.
     @ResponseBody
     @PostMapping("/api/image/upload")
     public String imageUpload(
             HttpServletRequest request,
-            @RequestParam MultipartFile upload
+            @RequestParam MultipartFile upload,
+            @RequestParam String uuid
     ) throws IOException {
         String url = null;
 
         UploadFile uploadFile = fileStore.storeFile(upload);
         url = "/api/images/"+uploadFile.getStoreFileName();
 
-        log.info("{} {} {}",uploadFile.getUploadFileName(),uploadFile.getStoreFileName(),url);
+        //임시테이블에 저장
 
+        log.info("{} {} {}",uploadFile.getUploadFileName(),uploadFile.getStoreFileName(),url);
+        log.info("{}",uuid);
 
         return "{ \"uploaded\" : false, \"url\" : \"" + url + "\" }";
 
-//        return "{ \"uploaded\" : false, \"error\": { \"message\": \"업로드 중 에러가 발생했습니다.\" } }";
+        //return "{ \"uploaded\" : false, \"error\": { \"message\": \"업로드 중 에러가 발생했습니다.\" } }";
     }
 
+    //ckeditor에서 api 이미지 요청이 왔을때
     @ResponseBody
     @GetMapping("/api/images/{filename}")
     public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {

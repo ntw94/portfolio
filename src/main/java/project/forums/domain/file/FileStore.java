@@ -38,15 +38,16 @@ public class FileStore {
        if(multipartFile.isEmpty()){
            return null;
        }
-       String originalFilename = multipartFile.getOriginalFilename();
-       String storeFileName = createStoreFileName(originalFilename);
-       multipartFile.transferTo(new File(getFullPath(storeFileName)));
+
+       String originalFilename = multipartFile.getOriginalFilename(); // 업로드시 파일 이름
+       String storeFileName = createStoreFileName(originalFilename);  //db에 저장될 이미지 파일 이름
+       multipartFile.transferTo(new File(getFullPath(storeFileName)));  // 파일 직접 생성
 
        return new UploadFile(originalFilename,storeFileName);
     }
 
     private String createStoreFileName(String originalFilename){
-       String ext = extractExt(originalFilename);
+       String ext = extractExt(originalFilename);// 확장자 추출
        String uuid = UUID.randomUUID().toString();
        return uuid+"."+ext;
     }

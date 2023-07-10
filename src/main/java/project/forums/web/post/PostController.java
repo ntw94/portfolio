@@ -16,6 +16,7 @@ import project.forums.web.post.form.PostUpdateForm;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,6 +34,9 @@ public class PostController {
 
         List<PostCategory> list = postService.getPostCategories(boardUri);
         model.addAttribute("cateList",list);
+
+        String uuid = UUID.randomUUID().toString();
+        model.addAttribute("uuid",uuid);
 
         return "post/write";
     }

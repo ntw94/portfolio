@@ -75,7 +75,7 @@
 
         _initRequest() {
             const xhr = this.xhr = new XMLHttpRequest();
-            xhr.open( 'POST', 'http://localhost:8080/api/image/upload', true );
+            xhr.open( 'POST', 'http://localhost:8080/api/image/upload?uuid=${uuid}', true );
             xhr.responseType = 'json';
         }
 

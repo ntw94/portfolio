@@ -82,6 +82,12 @@
         </c:if>
     </ul>
 
+    <div>
+        <form action="/boards/${boardUri}/search">
+            검색:<input type="text" name="keyWord" id="keyWord"> &nbsp;
+            <input type="submit" value="검색">
+        </form>
+    </div>
 
 
 </div>

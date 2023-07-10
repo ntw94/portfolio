@@ -21,18 +21,9 @@ create table member (
     member_regiDate datetime
 );
 
-#회원이미지
-create table image_profile(
-    id int auto_increment primary key ,
-    member_id varchar(50) not null,
-    upload_file_name varchar(100),
-    store_file_name varchar(100),
-    regi_date datetime
-);
+
 
 #게시판
-#
-# boardGroup,boardSequence,level,available\\\\
 create table board(
     id int auto_increment primary key,
     board_title varchar(50) not null unique,
@@ -52,31 +43,6 @@ create table board_favor(
     favor int default 1,
     favor_regiDate datetime
 );
-
-drop table board_favor;
-
-insert into board_favor (member_id, board_id,favor, favor_regiDate)
-value ('asdf','2',1,now());
-
-select * from member;
-
-#현재 회원 즐겨 찾기 구문
-select
-       b.id id, board_title, board_uri, board_description, upload_file_name,
-       store_file_name, board_create_date, board_update_date,
-       b.member_id member_id, bf.favor favor, favor_regiDate
-from board b right join
-     board_favor bf on b.id = bf.board_id
-where bf.member_id ='asdf'
-order by favor_regiDate desc;
-
-select * from board;
-
-#전체 채널에서 검색할때
-select *
-from board b left join
-     board_favor bf on b.id = bf.board_id
-    and bf.member_id = 'test';
 
 #게시판 매니저
 create table board_manager(
@@ -135,6 +101,54 @@ create table comment(
     comment_available int default 1,
     comment_regiDate datetime
 );
+
+#회원이미지
+create table image_profile(
+    id int auto_increment primary key ,
+    member_id varchar(50) not null,
+    upload_file_name varchar(100),
+    store_file_name varchar(100),
+    regi_date datetime
+);
+
+#회원 이미지
+create table file_member_image(
+    id int auto_increment primary key ,
+    member_id varchar(50) not null,
+    upload_file_name varchar(100),
+    store_file_name varchar(100),
+    regi_date datetime
+);
+
+#게시판 이미지
+create table file_board_image(
+    id int auto_increment primary key,
+    board_uri varchar(50) not null,
+    upload_file_name varchar(100),
+    store_file_name varchar(100),
+    regi_date datetime
+);
+
+#게시글 임시 이미지 테이블
+create table file_post_temp(
+    id int auto_increment primary key ,
+    uuid varchar(200) not null,
+    member_id varchar(50) not null, # 글쓴 사람
+    upload_file_name varchar(100),
+    store_file_name varchar(100),
+    regi_date datetime
+);
+
+# 게시글 실제 저장 테이블
+create table file_post_image(
+    id int auto_increment primary key,
+    uuid varchar(200) not null,
+    post_id int,
+    upload_file_name varchar(100),
+    store_file_name varchar(100),
+    regi_date datetime
+)
+
 
 select p.id id, p.board_uri board_uri, post_title, post_writer, post_content,post_notice,post_category,p.post_regiDate post_regiDate
 from post p,post_notice pn
