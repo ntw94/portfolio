@@ -6,8 +6,12 @@ import org.springframework.stereotype.Component;
 @Mapper
 @Component
 public interface FileImageMapper {
-    //멤버이미지 crud
-    //게시글 이미지 crud
-    //게시판 이미지 crud
 
+    void getMemberImageOne(String memberId);
+    void saveMemberProfileImage(FileBoardImage fileBoardImage);
+    void updateMemberProfileImage(FileBoardImage fileBoardImage);
+
+    FileBoardImage getBoardImageOne(String boardUri);
+    void saveBoardImage(FileBoardImage fileBoardImage);
+    void updateBoardImage(FileBoardImage fileBoardImage);
 }

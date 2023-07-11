@@ -9,6 +9,44 @@
         where member_id = #{memberId}
     </select>
 
+    <insert id="saveMemberProfileImage" parameterType="project.forums.domain.file.FileMemberImage">
+        insert into file_member_image (member_id,upload_file_name,store_file_name,regi_date)
+        values(#{memberId},#{uploadFileName},#{storeFileName},#{regiDate})
+    </insert>
 
+    <update id="updateMemberProfileImage" parameterType="Map">
+        update file_member_image
+        set
+            upload_file_name =#{uploadFileName},
+            store_file_name = #{storeFileName},
+            regi_date = now()
+        where member_id = #{memberId}
+
+    </update>
+
+    <delete id="deleteMemberProfileImage" parameterType="Map">
+        delete from file_member_image
+        where member_id = #{memberId}
+    </delete>
+
+    <select id="getBoardImageOne" parameterType="String" resultType="project.forums.domain.file.FileBoardImage">
+        select *
+        from file_board_image
+        where board_uri = #{boardUri}
+    </select>
+
+    <insert id="saveBoardImage" parameterType="project.forums.domain.file.FileBoardImage">
+        insert into file_board_image (board_uri, upload_file_name, store_file_name, regi_date)
+        values (#{boardUri},#{uploadFileName},#{storeFileName},now())
+    </insert>
+
+    <update id="updateBoardImage" parameterType="project.forums.domain.file.FileBoardImage">
+        update file_board_image
+        set
+            upload_file_name=#{uploadFileName},
+            store_file_name=#{storeFileName},
+            regi_date=now()
+        where board_uri = #{boardUri}
+    </update>
 
 </mapper>

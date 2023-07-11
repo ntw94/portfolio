@@ -10,9 +10,14 @@
 </head>
 <body>
 
-<form action="/boards/add" method="post">
+<form action="/boards/add" method="post" enctype="multipart/form-data">
     <input type="hidden" name="memberId" name= "memberId" value="${member.memberId}" readonly/>
     <table>
+        <tr>
+            <td>
+                게시판 이미지 사진: <input type="file" name="boardImageFile">
+            </td>
+        </tr>
         <tr>
             <td>게시판 이름:<input type="text" name="boardTitle" ></td>
         </tr>
@@ -28,7 +33,6 @@
                 <input type="button" onclick="location.href='/';" value ="취소">
             </td>
         </tr>
-
     </table>
 </form>
 

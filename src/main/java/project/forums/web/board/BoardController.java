@@ -11,11 +11,13 @@ import project.forums.domain.category.PostCategory;
 import project.forums.domain.member.Member;
 import project.forums.domain.post.Post;
 import project.forums.web.board.form.BoardSaveForm;
+import project.forums.web.file.FileService;
 import project.forums.web.login.LoginService;
 import project.forums.web.post.PostService;
 import project.forums.web.post.form.PostListForm;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -27,6 +29,7 @@ public class BoardController {
     private final BoardService boardService;
     private final PostService postService;
     private final LoginService loginService;
+    private final FileService fileService;
 
     //게시판 만들기
     @GetMapping("/add")
@@ -36,14 +39,17 @@ public class BoardController {
         return "board/add";
     }
     @PostMapping("/add")
-    public String boardCreate(@ModelAttribute BoardSaveForm boardSaveForm, BindingResult bindingResult){
-        
+    public String boardCreate(@ModelAttribute BoardSaveForm boardSaveForm, BindingResult bindingResult) throws IOException {
+
+        log.info("multipart: {}",boardSaveForm.getBoardImageFile());
+
         Board board = new Board();
         board.setBoardTitle(boardSaveForm.getBoardTitle());
         board.setBoardUri(boardSaveForm.getBoardUri());
         board.setBoardDescription(boardSaveForm.getBoardDescription());
         board.setMemberId(boardSaveForm.getMemberId());
         boardService.boardCreate(board);
+        fileService.saveBoardImage(boardSaveForm);
 
         return "redirect:/";
     }

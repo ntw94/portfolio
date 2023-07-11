@@ -128,6 +128,13 @@ create table file_board_image(
     store_file_name varchar(100),
     regi_date datetime
 );
+select * from board;
+select * from file_board_image;
+truncate table file_board_image;
+insert into file_board_image(board_uri, upload_file_name, store_file_name, regi_date)
+value ('ttest','010','39-32',now());
+
+select * from file_board_image;
 
 #게시글 임시 이미지 테이블
 create table file_post_temp(

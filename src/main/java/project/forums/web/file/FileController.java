@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import project.forums.domain.file.FileStore;
 import project.forums.domain.file.UploadFile;
 import project.forums.domain.member.Member;
+import project.forums.web.board.BoardService;
 import project.forums.web.member.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,9 +30,9 @@ import java.util.Random;
 public class FileController {
 
     private final MemberService memService;
+    private final BoardService boardService;
     private final FileStore fileStore;
-
-
+    private final FileService fileService;
 
     //프리뷰될때 임시 테이블에 저장해야한다.
     @ResponseBody
@@ -64,6 +65,12 @@ public class FileController {
         return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
 
+    @ResponseBody
+    @GetMapping("/file/boards/{boardUri}/image")
+    public Resource getBoardImage(@PathVariable String boardUri) throws MalformedURLException{
+
+        return fileService.loadBoardImage(boardUri);
+    }
 
 
 }

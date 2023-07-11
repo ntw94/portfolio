@@ -20,7 +20,7 @@
         <c:forEach var="list" items="${board}">
             <tr>
                 <td width="20%">
-                    <img style="width:200px;height:200px" src="/boards/images/${list.boardTitle}">
+                    <img style="width:200px;height:200px" src="/file/boards/${list.boardUri}/image">
                 </td>
                 <td>
                     <h2>${list.boardTitle}</h2> <br>
