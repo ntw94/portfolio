@@ -5,10 +5,10 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class BoardManager {
+public class BoardAuth {
     private int id;
-    private String memberId ;
     private String boardUri;
+    private String memberId;
     private BoardRole boardRole;
     private LocalDateTime regiDate;
 }

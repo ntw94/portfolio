@@ -43,12 +43,8 @@ public class BoardController {
 
         log.info("multipart: {}",boardSaveForm.getBoardImageFile());
 
-        Board board = new Board();
-        board.setBoardTitle(boardSaveForm.getBoardTitle());
-        board.setBoardUri(boardSaveForm.getBoardUri());
-        board.setBoardDescription(boardSaveForm.getBoardDescription());
-        board.setMemberId(boardSaveForm.getMemberId());
-        boardService.boardCreate(board);
+
+        boardService.boardCreate(boardSaveForm);
         fileService.saveBoardImage(boardSaveForm);
 
         return "redirect:/";

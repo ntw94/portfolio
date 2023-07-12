@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import project.forums.domain.board.*;
 import project.forums.web.board.form.BoardListForm;
+import project.forums.web.board.form.BoardSaveForm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,8 +17,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardMapper boardMapper;
-    private final BoardManagerMapper managerMapper;
     private final BoardFavorMapper boardFavorMapper;
+    private final BoardAuthMapper boardAuthMapper;
 
     public List<Board> getBoardList(){
         return boardMapper.getListAll();
@@ -44,16 +45,20 @@ public class BoardService {
     public Board getBoardOne(String uri){
         return boardMapper.getListOne(uri);
     }
-    public Integer boardCreate(Board board){
+    public Integer boardCreate(BoardSaveForm boardSaveForm){
 
+        Board board = new Board();
+        board.setBoardTitle(boardSaveForm.getBoardTitle());
+        board.setBoardUri(boardSaveForm.getBoardUri());
+        board.setBoardDescription(boardSaveForm.getBoardDescription());
+        board.setMemberId(boardSaveForm.getMemberId());
 
-        BoardManager boardManager = new BoardManager();
-        boardManager.setId(board.getId());
-        boardManager.setBoardRole(BoardRole.MANAGER);
-        boardManager.setBoardUri(board.getBoardUri());
-        boardManager.setMemberId(board.getMemberId());
+        BoardAuth boardAuth = new BoardAuth();
+        boardAuth.setBoardUri(boardSaveForm.getBoardUri());
+        boardAuth.setMemberId(boardSaveForm.getMemberId());
+        boardAuth.setBoardRole(BoardRole.MANAGER);
+        boardAuthMapper.setInsert(boardAuth);
 
-        managerMapper.setInsert(boardManager);
         return boardMapper.setInsert(board);
     }
 

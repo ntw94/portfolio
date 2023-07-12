@@ -88,7 +88,7 @@ public class MemberController {
     // 회원 삭제
     @GetMapping("/{memberId}/delete")
     public String memDelete(@PathVariable("memberId") String memberId){
-        Member member = memService.getMemberOne(memberId);
+        Member  member = memService.getMemberOne(memberId);
         int res = memService.memberDelete(member);
 
         return "redirect:/members";

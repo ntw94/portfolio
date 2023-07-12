@@ -5,7 +5,6 @@ drop table comment;
 drop table post;
 drop table post_category;
 drop table board_manager;
-drop table board_bookmark;
 drop table board_favor;
 
 
@@ -36,6 +35,7 @@ create table board(
     board_update_date date
 );
 
+#게시판 즐겨찾기
 create table board_favor(
     id int auto_increment primary key,
     member_id varchar(50) not null,
@@ -45,19 +45,12 @@ create table board_favor(
 );
 
 #게시판 매니저
-create table board_manager(
-    id int auto_increment primary key,
-    member_id varchar(50) not null,
+create table board_auth(
+    id int auto_increment primary key ,
     board_uri varchar(50) not null,
+    member_id varchar(50) not null,
     board_role varchar(50) not null,
     regiDate datetime
-);
-
-#게시판 즐겨찾기
-create table board_bookmark(
-    id int auto_increment primary key,
-    member_id varchar(50) not null,
-    board_uri varchar(50) not null
 );
 
 #게시글
@@ -128,13 +121,6 @@ create table file_board_image(
     store_file_name varchar(100),
     regi_date datetime
 );
-select * from board;
-select * from file_board_image;
-truncate table file_board_image;
-insert into file_board_image(board_uri, upload_file_name, store_file_name, regi_date)
-value ('ttest','010','39-32',now());
-
-select * from file_board_image;
 
 #게시글 임시 이미지 테이블
 create table file_post_temp(
@@ -154,7 +140,7 @@ create table file_post_image(
     upload_file_name varchar(100),
     store_file_name varchar(100),
     regi_date datetime
-)
+);
 
 
 select p.id id, p.board_uri board_uri, post_title, post_writer, post_content,post_notice,post_category,p.post_regiDate post_regiDate

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.forums.domain.board.BoardAuthMapper">
+
+<!--    <select id="getListAll" resultType="project.forums.domain.board.BoardAuth">-->
+<!--        select *-->
+<!--        from board_auth-->
+<!--        order by id-->
+<!--    </select>-->
+
+<!--    <select id="getListAll" resultType="project.forums.domain.board.BoardAuth">-->
+<!--        select *-->
+<!--        from board_auth-->
+<!--        where member_id = #{memberId} and board_uri = #{boardUri}-->
+<!--        order by id-->
+<!--    </select>-->
+
+    <insert id="setInsert" parameterType="project.forums.domain.board.BoardAuth">
+        insert into board_auth(member_id,board_uri,board_role,regiDate)
+        values (#{memberId},#{boardUri},#{boardRole},now())
+    </insert>
+
+</mapper>

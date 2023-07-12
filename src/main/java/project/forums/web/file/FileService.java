@@ -34,7 +34,6 @@ public class FileService {
 
         fileImageMapper.saveBoardImage(fileBoardImage);
     }
-
     public UrlResource loadBoardImage(String boardUri) throws MalformedURLException {
         FileBoardImage fileBoardImage= fileImageMapper.getBoardImageOne(boardUri);
         if(fileBoardImage == null){
@@ -42,5 +41,7 @@ public class FileService {
         }
         return new UrlResource("file:"+fileStore.getFullPath(fileBoardImage.getStoreFileName()));
     }
+
+
 
 }

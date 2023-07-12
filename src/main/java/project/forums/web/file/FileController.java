@@ -65,6 +65,8 @@ public class FileController {
         return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
 
+
+    //게시판 이미지
     @ResponseBody
     @GetMapping("/file/boards/{boardUri}/image")
     public Resource getBoardImage(@PathVariable String boardUri) throws MalformedURLException{
