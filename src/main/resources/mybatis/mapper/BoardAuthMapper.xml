@@ -3,22 +3,18 @@
 
 <mapper namespace="project.forums.domain.board.BoardAuthMapper">
 
-<!--    <select id="getListAll" resultType="project.forums.domain.board.BoardAuth">-->
-<!--        select *-->
-<!--        from board_auth-->
-<!--        order by id-->
-<!--    </select>-->
-
-<!--    <select id="getListAll" resultType="project.forums.domain.board.BoardAuth">-->
-<!--        select *-->
-<!--        from board_auth-->
-<!--        where member_id = #{memberId} and board_uri = #{boardUri}-->
-<!--        order by id-->
-<!--    </select>-->
-
     <insert id="setInsert" parameterType="project.forums.domain.board.BoardAuth">
         insert into board_auth(member_id,board_uri,board_role,regiDate)
         values (#{memberId},#{boardUri},#{boardRole},now())
     </insert>
+
+<!--    동적쿼리로 다시 짜기 -->
+    <select id="checkMemberId" parameterType="project.forums.domain.board.BoardAuth"
+                                resultType="project.forums.domain.board.BoardAuth">
+        select *
+        from board_auth
+        where board_uri = #{boardUri} and
+              member_id = #{memberId}
+    </select>
 
 </mapper>
