@@ -11,7 +11,16 @@
         order by pn.post_regiDate desc;
     </select>
 
-<!--    전체 글 가져오기-->
+<!--    오늘 날짜 글 가져오기-->
+    <select id="getTodayPosts" parameterType="String" resultType="int">
+        select count(*)
+        from post
+        where board_uri = #{boardUri} and
+              DATE_FORMAT(post_regiDate,'%Y-%m-%d') = CURDATE()
+    </select>
+
+
+<!-- 전체 글 가져오기-->
     <select id="getListAll" parameterType="Map" resultType="project.forums.domain.post.Post">
         select *
         from post p
@@ -27,6 +36,15 @@
             and board_uri=#{boardUri}
         order by id desc
         limit #{beginPage},#{perPageSize}
+    </select>
+
+<!--    공지 사이트에서 5개의 글을 가져온다 운영자가 쓴 글을-->
+    <select id="getManageNoticePost" resultType="project.forums.domain.post.Post">
+        select *
+        from post
+        where post_writer = 'admin'
+        order by id desc
+        limit 0,5
     </select>
 
     <select id="getListOne" resultType="project.forums.domain.post.Post">

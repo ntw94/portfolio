@@ -17,4 +17,5 @@ public interface CommentMapper {
 
     int setReplyInsert(Comment comment);
     int setReplyProcess(Comment comment);
+    int getTodayComments(String boardUri);
 }

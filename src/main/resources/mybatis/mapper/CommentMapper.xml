@@ -25,17 +25,17 @@
         <selectKey resultType="int" keyProperty="commentParentNo" order="BEFORE">
             select IFNULL(max(comment_parentNo)+1,0) from comment
         </selectKey>
-        insert into comment (post_id, comment_writer, comment_content,comment_parentNo,comment_regiDate)
-        values (#{postId}, #{commentWriter}, #{commentContent},#{commentParentNo}, now())
+        insert into comment (post_id,board_uri,comment_writer, comment_content,comment_parentNo,comment_regiDate)
+        values (#{postId},#{boardUri}, #{commentWriter}, #{commentContent},#{commentParentNo}, now())
     </insert>
 
     <insert id="setReplyInsert" parameterType="project.forums.domain.comment.Comment">
-        insert into comment(post_id, comment_writer,
+        insert into comment(post_id,board_uri, comment_writer,
                             comment_content, comment_parentNo,
                             comment_sequence, comment_level,
                             comment_regiDate)
                     values (
-                            #{postId},#{commentWriter},
+                            #{postId},#{boardUri},#{commentWriter},
                                #{commentContent}, #{commentParentNo},
                             #{commentSequence}, #{commentLevel},
                             now())
@@ -65,4 +65,11 @@
               id != #{id}
     </update>
 
+<!--    오늘 쓴 댓글 수-->
+    <select id="getTodayComments" parameterType="String" >
+        select count(*)
+        from comment
+        where board_uri = #{boardUri} and
+            DATE_FORMAT(comment_regiDate,'%Y-%m-%d') = CURDATE()
+    </select>
 </mapper>

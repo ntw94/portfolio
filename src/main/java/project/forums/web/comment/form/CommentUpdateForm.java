@@ -8,4 +8,5 @@ public class CommentUpdateForm {
     private int postId; // fk
     private String memberId;//작성자
     private String commentContent;//글 내용
+    private String boardUri;
 }

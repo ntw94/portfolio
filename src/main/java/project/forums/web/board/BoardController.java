@@ -66,7 +66,6 @@ public class BoardController {
         Board board = boardService.getBoardOne(boardUri);
         model.addAttribute("board",board);
         model.addAttribute("boardUri",boardUri);
-        model.addAttribute("createId",board.getMemberId());
 
         if(p == 1) {
             List<PostListForm> noticeList = postService.getNoticePosts(boardUri);
@@ -82,12 +81,6 @@ public class BoardController {
         return "board/main";//
     }
 
-//    게시판 관리페이지 만들것
-    @GetMapping("/{}")
-    public String boardManage(){
-
-        return "";
-    }
 
     @ResponseBody
     @PostMapping("/favor/{memberId}/{boardId}/add")

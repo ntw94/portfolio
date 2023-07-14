@@ -6,6 +6,7 @@ import lombok.Data;
 public class Comment {
     private int id;
     private int postId; // fk
+    private String boardUri;
     private String commentWriter;//작성자
     private String commentContent;//글 내용
     private int commentParentNo;

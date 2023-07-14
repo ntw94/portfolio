@@ -15,6 +15,7 @@ public interface PostMapper {
     int setInsert(Post post);
     int setDelete(Post post);
     int setUpdate(Post post);
+
     //조회수 검색 등등 추가
     int getTotalPosts(@Param("boardUri") String boardUri,
                       @Param("category") String category);
@@ -23,4 +24,7 @@ public interface PostMapper {
     void viewsUp(Post post);
     //공지글 가져오기
     List<Post> getNoticePosts(String boardUri);
+
+    //오늘 쓴 글의 수 가져오기
+    int getTodayPosts(String boardUri);
 }

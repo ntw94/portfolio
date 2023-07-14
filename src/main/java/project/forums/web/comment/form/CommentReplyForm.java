@@ -8,6 +8,5 @@ public class CommentReplyForm {
     private int postId;
     private String memberId;
     private String commentReplyContent;
-
-
+    private String boardUri;
 }

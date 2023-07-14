@@ -21,8 +21,12 @@
 <div class="container">
     <jsp:include page="../common/top-menu.jsp"/>
 
-    <c:if test="${member.memberId} eq ${board.memberId}"></c:if>
-    <a href="/boards/${boardUri}/manage">게시판 관리 </a>
+    <h1>
+        ${member.memberId} : ${board.memberId}
+    </h1>
+    <c:if test="${member.memberId eq board.memberId}">
+        <a href="/manage/boards/${boardUri}/">게시판 관리 </a>
+    </c:if>
 
     <h1>여기가 ${board.boardTitle} 게시판입니다.</h1>
     <h2>${board.boardDescription}</h2>

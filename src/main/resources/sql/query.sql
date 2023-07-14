@@ -86,6 +86,7 @@ create table post_category(
 create table comment(
     id int auto_increment primary key,
     post_id int not null,
+    board_uri varchar(50) not null,
     comment_writer varchar(50) not null,
     comment_content text,
     comment_parentNo int,
@@ -209,4 +210,7 @@ select * from comment order by comment_parentNo asc,comment_sequence asc,comment
 
 select * from board_auth;
 
-
+select *
+from post
+where board_uri ='test' and
+      DATE_FORMAT(post_regiDate,'%Y-%m-%d') =CURDATE();

@@ -34,6 +34,7 @@ public class CommentController {
         comment.setCommentContent(form.getCommentContent());
         comment.setCommentWriter(form.getMemberId());
         comment.setCommentRegiDate(form.getCommentRegiDate());
+        comment.setBoardUri(form.getBoardUri());
 
        commentService.commentWrite(comment);
 

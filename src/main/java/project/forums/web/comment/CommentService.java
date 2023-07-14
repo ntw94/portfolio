@@ -52,10 +52,14 @@ public class CommentService {
         cComment.setCommentParentNo(pComment.getCommentParentNo()); // 부모글
         cComment.setCommentSequence(pComment.getCommentSequence()+1);
         cComment.setCommentLevel(pComment.getCommentLevel()+1);
+        cComment.setBoardUri(pComment.getBoardUri());
 
         commentMapper.setReplyInsert(cComment);
         commentMapper.setReplyProcess(cComment);
         //update하면 끝
+    }
 
+    public int getTodayComments(String boarUri){
+        return commentMapper.getTodayComments(boarUri);
     }
 }

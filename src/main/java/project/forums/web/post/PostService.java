@@ -110,6 +110,10 @@ public class PostService {
        return listForm;
     }
 
+    public int getTodayPosts(String boardUri){
+        return postMapper.getTodayPosts(boardUri);
+    }
+
 
 
     private static void convertListForm(List<Post> list, List<PostListForm> listForm, LocalDateTime nowTime) {

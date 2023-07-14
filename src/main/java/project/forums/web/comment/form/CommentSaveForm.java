@@ -9,4 +9,5 @@ public class CommentSaveForm {
     private String commentContent;//글 내용
     private String commentRegiDate;//등록시간
     private String memberId;
+    private String boardUri;
 }

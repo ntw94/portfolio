@@ -71,7 +71,7 @@
     <form id="commentForm">
         <input type="hidden" name="memberId" value="${member.memberId}"/>
         <input type="hidden" name="postId" value="${post.id }"/>
-
+        <input type="hidden" name="boardUri" value="${boardUri}" />
         <div class="panel-body" >
             <table class="table" >
                 <tr>
@@ -94,6 +94,7 @@
 
     <div id="commentReplyContainer">
         <div id="commentReplyForm" style="display:none;">
+            <input type="hidden" id="commentReplyBoardUri" name="boardUri" value="${boardUri}"/>
             <input type="hidden" id="commentReplyWriter" name="memberId" value="${member.memberId}"/>
             <input type="hidden" id="commentReplyPostId" name="postId" value="${post.id }"/>
             <input type="hidden" id="commentReplyParentId" value=""/>
@@ -274,6 +275,7 @@
         var commReplyWriter = $("#commentReplyWriter").val();
         var commPostId = $("#commentReplyPostId").val();
         var commReplyParentId = $("#commentReplyParentId").val();
+        var commReplyBoardUri = $("#commentReplyBoardUri").val();
 
         $.ajax({
             url : "/comments/${postId}/reply",
@@ -283,7 +285,8 @@
                 "parentId":commReplyParentId, // 댓글 고유번호
                 "memberId": commReplyWriter,
                 "commentReplyContent":commReplyContent,
-                "postId":commPostId
+                "postId":commPostId,
+                "boardUri":commReplyBoardUri
             }),
             success:commentLoadList,
             error:function(){alert("댓글 업데이트 실패");}
