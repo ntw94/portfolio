@@ -3,10 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@include file="../common/_include.jsp" %>
-<style>
-    .ck-editor__editable { height: 400px; }
-    .ck-content { font-size: 13px; }
-</style>
+
 
 <!DOCTYPE html>
 <html lang="ko">

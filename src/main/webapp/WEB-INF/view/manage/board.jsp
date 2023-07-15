@@ -15,7 +15,8 @@
 </head>
 <body>
 <div class="container">
-<jsp:include page="../common/manage-top-menu.jsp"/>
+    <%@include file="../common/manage-top-menu.jsp"%>
+
     <h1>게시판 정보 수정</h1>
 </div>
 </body>

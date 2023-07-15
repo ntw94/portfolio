@@ -1,12 +1,8 @@
-home.jsphome.jsp<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@include file="../common/_include.jsp" %>
-<style>
-    .ck-editor__editable { height: 400px; }
-    .ck-content { font-size: 13px; }
-</style>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -21,6 +17,34 @@ home.jsphome.jsp<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %
 <div class="container">
 <jsp:include page="../common/manage-top-menu.jsp"/>
     <h1>회원관리</h1>
+    <h2>전체 회원 관리</h2>
+    <h2>차단 회원 관리</h2>
+
+    <form method="get" action="/manage/member/${boardUri}/search">
+        아이디 검색 : <input type="text" name="keyword">
+        <input type="date" name="date"/>
+        <input type="submit" value="검색">
+    </form>
+
+
+    <table>
+        <tr>
+            <td>아이디</td>
+            <td>가입일</td>
+            <td>게시글 수</td>
+            <td>댓글 수</td>
+            <td>활동여부</td>
+        </tr>
+        <c:forEach var="list" items="${mList}">
+            <tr>
+                <td>${list.memberId}</td>
+                <td>${list.memberRegiDate}</td>
+                <td>미구현</td>
+                <td>미구현</td>
+                <td>미구현</td>
+            </tr>
+        </c:forEach>
+    </table>
 </div>
 </body>
 </html>

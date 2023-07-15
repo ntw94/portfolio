@@ -214,3 +214,7 @@ select *
 from post
 where board_uri ='test' and
       DATE_FORMAT(post_regiDate,'%Y-%m-%d') =CURDATE();
+
+
+
+select * from member;
