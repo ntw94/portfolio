@@ -19,19 +19,28 @@ public class ManageController {
 
     private final PostService postService;
     private final CommentService commentService;
-
+    private final ManageService manageService;
 
     @GetMapping("/boards/{boardUri}")
     public String boardManageHome(@PathVariable String boardUri, Model model){
 
 
-        int todayPosts = postService.getTodayPosts(boardUri);
-        int todayComments = commentService.getTodayComments(boardUri);
+        int todayPosts = manageService.getTodayBoardPosts(boardUri);
+        int todayComments = manageService.getTodayBoardComments(boardUri);
 
         model.addAttribute("todayPosts",todayPosts);
         model.addAttribute("todayComments",todayComments);
 
         return "manage/home";
+    }
+
+
+    //회원관리
+    @GetMapping("/member/{boardUri}")
+    public String boardMemberMange(@PathVariable String boardUri,Model model){
+
+
+        return "manage/member";
     }
 
 
