@@ -3,16 +3,21 @@ package project.forums.web.manage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import project.forums.domain.comment.Comment;
 import project.forums.domain.comment.CommentMapper;
 import project.forums.domain.file.FileStore;
 import project.forums.domain.member.Member;
 import project.forums.domain.member.MemberMapper;
 import project.forums.domain.post.PostMapper;
+import project.forums.web.board.PageHandler;
 import project.forums.web.login.LoginService;
+import project.forums.web.manage.form.ManageMemberForm;
 import project.forums.web.member.MemberService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -23,9 +28,21 @@ public class ManageService {
     private final CommentMapper commentMapper;
     private final FileStore fileStore;
 
-    public List<Member> getMemberList(){
+    public List<Member> getMemberList(ManageMemberForm form,Model model){
 
-        return memberMapper.getListAll();
+        //pagin을 하려면 total을 구해야한다.
+        Map<String, Object> map= new HashMap<>();
+        map.put("keyword",form.getKeyword());
+        map.put("boardUri",form.getBoardUri());
+        map.put("perPageSize",form.getPerPageSize());
+        map.put("beginPage",(form.getPage()-1)*form.getPerPageSize());
+
+        int totalMember = memberMapper.getTotalMember(map);
+        PageHandler pageHandler = new PageHandler(form.getPage(),form.getPerPageSize(),totalMember);
+        model.addAttribute("page",pageHandler);
+        model.addAttribute("keyword",form.getKeyword());
+
+        return memberMapper.getListWithPagingSearch(map);
     }
 
     public int getTodayBoardPosts(String boardUri){

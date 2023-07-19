@@ -7,4 +7,6 @@
         from member
         where member_id=#{memberId} and member_pwd=#{memberPwd}
     </select>
+
+
 </mapper>

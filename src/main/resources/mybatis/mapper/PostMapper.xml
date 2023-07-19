@@ -3,7 +3,7 @@
 
 <mapper namespace="project.forums.domain.post.PostMapper">
 
-<!--    공지글-->
+<!--    공지글포함 글 가져오기 -->
     <select id="getNoticePosts" parameterType="String" resultType="project.forums.domain.post.Post">
         select p.id id, p.board_uri board_uri, post_title, post_writer,post_hit, post_content,post_notice,post_category,p.post_regiDate post_regiDate
         from post p,post_notice pn
@@ -11,7 +11,7 @@
         order by pn.post_regiDate desc;
     </select>
 
-<!--    오늘 날짜 글 가져오기-->
+<!-- 오늘 날짜 글 가져오기 -->
     <select id="getTodayPosts" parameterType="String" resultType="int">
         select count(*)
         from post
@@ -20,7 +20,7 @@
     </select>
 
 
-<!-- 전체 글 가져오기-->
+<!-- 전체 글 가져오기 -->
     <select id="getListAll" parameterType="Map" resultType="project.forums.domain.post.Post">
         select *
         from post p

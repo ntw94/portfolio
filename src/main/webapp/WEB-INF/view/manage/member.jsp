@@ -20,8 +20,8 @@
     <h2>전체 회원 관리</h2>
     <h2>차단 회원 관리</h2>
 
-    <form method="get" action="/manage/member/${boardUri}/search">
-        아이디 검색 : <input type="text" name="keyword">
+    <form method="get" action="/manage/member/${boardUri}">
+        아이디 검색 : <input type="text" name="keyword" value="${keyword}">
         <input type="date" name="date"/>
         <input type="submit" value="검색">
     </form>
@@ -45,6 +45,18 @@
             </tr>
         </c:forEach>
     </table>
+
+    <ul class="pagination justify-content-center">
+        <c:if test="${page.showPrev}">
+            <li class="page-item"><a class="page-link" href="/manage/member/${boardUri}?p=${page.beginPage-1}&keyword=${keyword}">Previous</a></li>
+        </c:if>
+        <c:forEach var="i" begin="${page.beginPage}" end="${page.endPage}">
+            <li class="page-item"><a class="page-link" href="/manage/member/${boardUri}?p=${i}&keyword=${keyword}">${i}</a></li>
+        </c:forEach>
+        <c:if test="${page.showNext}">
+            <li class="page-item"><a class="page-link" href="/manage/member/${boardUri}?p=${page.endPage+1}&keyword=${keyword}">Next</a></li>
+        </c:if>
+    </ul>
 </div>
 </body>
 </html>

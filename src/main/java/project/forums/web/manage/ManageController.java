@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import project.forums.domain.comment.Comment;
+import project.forums.domain.member.Member;
 import project.forums.web.comment.CommentService;
+import project.forums.web.manage.form.ManageMemberForm;
 import project.forums.web.post.PostService;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -37,11 +39,16 @@ public class ManageController {
 
     //회원관리
     @GetMapping("/member/{boardUri}")
-    public String boardMemberMange(@PathVariable String boardUri,Model model){
+    public String boardMemberMange(@PathVariable String boardUri
+                                    , @ModelAttribute ManageMemberForm manageMemberForm
+                                    , Model model){
+
+        manageMemberForm.setBoardUri(boardUri);
+        List<Member> list = manageService.getMemberList(manageMemberForm,model);
+        model.addAttribute("mList", list);
 
 
         return "manage/member";
     }
-
 
 }

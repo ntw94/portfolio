@@ -3,12 +3,32 @@
 
 <mapper namespace="project.forums.domain.member.MemberMapper">
 
+    <sql id="search">
+        <choose>
+            <when test="keyword != null and keyword != ''">
+                and (member_id like CONCAT('%',#{keyword},'%'))
+            </when>
+            <otherwise>
+                and 1!=1
+            </otherwise>
+        </choose>
+    </sql>
+
+    <select id="getListWithPagingSearch" parameterType="Map" resultType="project.forums.domain.member.Member">
+        select id,member_id,member_name,member_phone,member_regiDate
+        from member
+        where 1=1
+            <include refid="search"/>
+        order by id
+        limit #{beginPage},#{perPageSize}
+    </select>
+
     <select id="getListAll" resultType="project.forums.domain.member.Member">
-        select id,member_id,member_name,
-               member_phone,member_regiDate
+        select id,member_id,member_name,member_phone,member_regiDate
         from member
         order by id
     </select>
+
 
     <select id="getListOne" resultType="project.forums.domain.member.Member">
         select *
@@ -52,5 +72,13 @@
             regi_date = now()
         where member_id = #{memberId}
     </update>
+
+    <select id="getTotalMember" parameterType="Map" resultType="int">
+        select count(*)
+        from member
+        where 1=1
+        <include refid="search"/>
+
+    </select>
 
 </mapper>

@@ -218,3 +218,8 @@ where board_uri ='test' and
 
 
 select * from member;
+
+select *
+from member
+where 1=1
+    and member_id like '%'||'t'||'%';

@@ -13,4 +13,8 @@ public class Member {
     private String memberPhone;
     private LocalDateTime memberRegiDate;
     private Role role;
+
+    //관리자에서 사용하는것
+    private int totalPosts;
+    private int totalComments;
 }
