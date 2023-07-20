@@ -9,7 +9,6 @@ drop table board_favor;
 
 
 
-
 #회원
 create table member (
     id int auto_increment primary key ,
@@ -18,6 +17,15 @@ create table member (
     member_name varchar(50) not null,
     member_phone varchar(20) not null,
     member_regiDate datetime
+);
+
+#차단 회원 테이블
+create table stop_member(
+    id int auto_increment primary key,
+    board_uri varchar(50) not null,
+    member_id varchar(50) not null,
+    stop_date datetime,
+    regiDate datetime
 );
 
 
@@ -213,13 +221,8 @@ select * from board_auth;
 select *
 from post
 where board_uri ='test' and
-      DATE_FORMAT(post_regiDate,'%Y-%m-%d') =CURDATE();
+      DATE_FORMAT(post_regiDate,'%Y-%m-%d') =now();
 
 
 
 select * from member;
-
-select *
-from member
-where 1=1
-    and member_id like '%'||'t'||'%';

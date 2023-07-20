@@ -39,7 +39,7 @@ public class ManageController {
 
     //회원관리
     @GetMapping("/member/{boardUri}")
-    public String boardMemberMange(@PathVariable String boardUri
+    public String boardMemberManage(@PathVariable String boardUri
                                     , @ModelAttribute ManageMemberForm manageMemberForm
                                     , Model model){
 
@@ -51,4 +51,10 @@ public class ManageController {
         return "manage/member";
     }
 
+    @GetMapping("/member/stop/{boardUri}")
+    public String stopMemberManage(@PathVariable String boardUri){
+
+
+        return "manage/member-stop";
+    }
 }

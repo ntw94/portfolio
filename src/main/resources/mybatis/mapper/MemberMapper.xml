@@ -15,7 +15,14 @@
     </sql>
 
     <select id="getListWithPagingSearch" parameterType="Map" resultType="project.forums.domain.member.Member">
-        select id,member_id,member_name,member_phone,member_regiDate
+        select id,member_id,member_name,member_regiDate,(select count(*)
+                                                         from post p
+                                                         where member_id = p.post_writer and
+                                                               board_uri = p.board_uri) totalPosts,
+                                                                       (select count(*)
+                                                                        from comment c
+                                                                        where member_id = c.comment_writer and
+                                                                              board_uri = c.board_uri) totalComments
         from member
         where 1=1
             <include refid="search"/>

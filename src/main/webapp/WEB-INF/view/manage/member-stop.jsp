@@ -16,11 +16,9 @@
 <body>
 <div class="container">
 <jsp:include page="../common/manage-top-menu.jsp"/>
-    <h1>회원관리</h1>
-    <h2>회원 검색</h2>
-    <h2><a href="/manage/member/stop/${boardUri}">차단 회원 관리</a></h2>
+    <h2>차단 회원 관리</h2>
 
-    <form method="get" action="/manage/member/${boardUri}">
+    <form method="get" action="/manage/member/stop/${boardUri}">
         아이디 검색 : <input type="text" name="keyword" value="${keyword}">
         <input type="date" name="date"/>
         <input type="submit" value="검색">
