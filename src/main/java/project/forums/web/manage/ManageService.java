@@ -9,10 +9,13 @@ import project.forums.domain.comment.CommentMapper;
 import project.forums.domain.file.FileStore;
 import project.forums.domain.member.Member;
 import project.forums.domain.member.MemberMapper;
+import project.forums.domain.member.StopMember;
+import project.forums.domain.member.StopMemberMapper;
 import project.forums.domain.post.PostMapper;
 import project.forums.web.board.PageHandler;
 import project.forums.web.login.LoginService;
 import project.forums.web.manage.form.ManageMemberForm;
+import project.forums.web.manage.form.ManageStopMemberForm;
 import project.forums.web.member.MemberService;
 
 import java.util.HashMap;
@@ -24,6 +27,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ManageService {
     private final MemberMapper memberMapper;
+    private final StopMemberMapper stopMemberMapper;
     private final PostMapper postMapper;
     private final CommentMapper commentMapper;
     private final FileStore fileStore;
@@ -45,10 +49,28 @@ public class ManageService {
         return memberMapper.getListWithPagingSearch(map);
     }
 
+    public List<StopMember> getStopMemberList(ManageStopMemberForm form, Model model){
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("keyword",form.getKeyword());
+        map.put("boardUri",form.getBoardUri());
+        map.put("perPageSize",form.getPerPageSize());
+        map.put("beginPage",(form.getPage()-1)*form.getPerPageSize());
+
+        int totalMember = stopMemberMapper.getTotalStopMember(map);
+        PageHandler pageHandler = new PageHandler(form.getPage(),form.getPerPageSize(),totalMember);
+        model.addAttribute("page",pageHandler);
+        model.addAttribute("keyword",form.getKeyword());
+
+        return  stopMemberMapper.getListWithPagingSearch(map);
+    }
+
+    //하루 총 글
     public int getTodayBoardPosts(String boardUri){
 
         return postMapper.getTodayPosts(boardUri);
     }
+    //하루 총 댓글량
     public int getTodayBoardComments(String boardUri){
 
         return commentMapper.getTodayComments(boardUri);

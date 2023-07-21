@@ -24,32 +24,36 @@
         <input type="submit" value="검색">
     </form>
 
-
-    <table>
-        <tr>
-            <td>아이디</td>
-            <td>가입일</td>
-            <td>게시글 수</td>
-            <td>댓글 수</td>
-            <td>활동여부</td>
-        </tr>
-        <c:forEach var="list" items="${mList}">
+    <form method="post" action="/manage/member/stop/${boardUri}">
+        <table>
             <tr>
-                <td>${list.memberId}</td>
-                <td>${list.memberRegiDate}</td>
-                <td>${list.totalPosts}</td>
-                <td>${list.totalComments}</td>
-                <td>미구현</td>
+                <td><input type="checkbox" name="selectall" value="selectall" onclick="selectAll(this)">전체선택 </td>
+                <td>아이디</td>
+                <td>정지기간</td>
+                <td>정지된 날짜</td>
+                <td>활동여부</td>
             </tr>
-        </c:forEach>
-    </table>
+            <c:forEach var="list" items="${stopList}">
+                <tr>
+                    <td><input type="checkbox" name="chkMember" value="${list.memberId}" onclick="checkSelectAll()"></td>
+                    <td>${list.memberId}</td>
+                    <td>${list.stopDate}</td>
+                    <td>${list.regiDate}</td>
+                    <td>정지</td>
+                </tr>
+            </c:forEach>
+        </table>
+
+        <input type="button" name="" value="활동정지" onclick="openModal()">
+        <input type="button" value="취소">
+    </form>
 
     <ul class="pagination justify-content-center">
         <c:if test="${page.showPrev}">
-            <li class="page-item"><a class="page-link" href="/manage/member/${boardUri}?p=${page.beginPage-1}&keyword=${keyword}">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="/manage/member/stop/${boardUri}?p=${page.beginPage-1}&keyword=${keyword}">Previous</a></li>
         </c:if>
         <c:forEach var="i" begin="${page.beginPage}" end="${page.endPage}">
-            <li class="page-item"><a class="page-link" href="/manage/member/${boardUri}?p=${i}&keyword=${keyword}">${i}</a></li>
+            <li class="page-item"><a class="page-link" href="/manage/member/stop/${boardUri}?p=${i}&keyword=${keyword}">${i}</a></li>
         </c:forEach>
         <c:if test="${page.showNext}">
             <li class="page-item"><a class="page-link" href="/manage/member/${boardUri}?p=${page.endPage+1}&keyword=${keyword}">Next</a></li>
@@ -58,3 +62,32 @@
 </div>
 </body>
 </html>
+
+<script>
+    function selectAll(selectAll)  {
+        const checkboxes
+            = document.getElementsByName('chkMember');
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = selectAll.checked;
+        })
+    }
+    function checkSelectAll()  {
+        const checkboxes = document.querySelectorAll('input[name="chkMember"]');
+        const checked = document.querySelectorAll('input[name="chkMember"]:checked');
+        const selectAll = document.querySelector('input[name="selectall"]');
+
+        if(checkboxes.length === checked.length)  {
+            selectAll.checked = true;
+        }else {
+            selectAll.checked = false;
+        }
+    }
+
+    function openModal(){
+        let popOption = "width=650px, height=550px, top=300px, left=300px, scrolllbars=yes";
+        let openUrl = '/manage/member/stop/${boardUri}'
+        window.open(openUrl,'pop',popOption);
+    }
+
+</script>

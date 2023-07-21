@@ -28,8 +28,10 @@ create table stop_member(
     regiDate datetime
 );
 
+insert into stop_member(board_uri, member_id, stop_date, regiDate)
+values ('test','test3',now(),now());
 
-
+select * from member;
 #게시판
 create table board(
     id int auto_increment primary key,

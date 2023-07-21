@@ -7,8 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import project.forums.domain.comment.Comment;
 import project.forums.domain.member.Member;
+import project.forums.domain.member.StopMember;
 import project.forums.web.comment.CommentService;
 import project.forums.web.manage.form.ManageMemberForm;
+import project.forums.web.manage.form.ManageStopMemberForm;
 import project.forums.web.post.PostService;
 
 import java.util.List;
@@ -48,13 +50,29 @@ public class ManageController {
         model.addAttribute("mList", list);
 
 
+
         return "manage/member";
     }
 
     @GetMapping("/member/stop/{boardUri}")
-    public String stopMemberManage(@PathVariable String boardUri){
+    public String stopMemberManage(@ModelAttribute ManageStopMemberForm stopForm, @PathVariable String boardUri, Model model){
+
+        log.info("{}",stopForm);
+
+        List<StopMember> list = manageService.getStopMemberList(stopForm,model);
+        model.addAttribute("stopList",list);
 
 
         return "manage/member-stop";
+    }
+
+    @PostMapping("/member/stop/{boardUri}")
+    public String stopMemberManage(@ModelAttribute ManageStopMemberForm form){
+
+        // 버튼 입력에 따른 차단을 해제하고 풀어주고 하면됨
+
+
+
+        return "redirect:/manage/member/stop/{boardUri}";
     }
 }

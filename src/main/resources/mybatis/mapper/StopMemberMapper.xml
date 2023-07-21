@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.forums.domain.member.StopMemberMapper">
+
+    <sql id="search">
+        <choose>
+            <when test="keyword != null and keyword != ''">
+                and (member_id like CONCAT('%',#{keyword},'%'))
+            </when>
+            <otherwise>
+                and 1=1
+            </otherwise>
+        </choose>
+    </sql>
+
+    <select id="getListWithPagingSearch" parameterType="Map" resultType="project.forums.domain.member.StopMember">
+        select id,member_id,board_uri,stop_date,regiDate
+        from stop_member
+        where 1=1
+            <include refid="search"/>
+        order by id
+        limit #{beginPage},#{perPageSize}
+    </select>
+
+    <select id="getListOne" parameterType="project.forums.domain.member.StopMember" resultType="project.forums.domain.member.StopMember">
+        select *
+        from stop_member
+        where board_uri = #{boardUri} and
+              member_id = #{memberId}
+    </select>
+
+    <update id="setUpdate" parameterType="project.forums.domain.member.StopMember">
+        update stop_member
+        set stop_date = #{stop_date}
+        where board_uri =#{boardUri} and member_id = #{memberId}
+    </update>
+
+    <delete id="setDelete" parameterType="project.forums.domain.member.StopMember">
+        delete from stop_member
+        where board_uri = #{boardUri} and member_id = #{memberId}
+    </delete>
+
+    <insert id="setInsert" parameterType="project.forums.domain.member.StopMember">
+        insert into stop_member(board_uri, member_id, stop_date, regiDate)
+        values (#{boardUri},#{memberId},#{stopDate},now())
+    </insert>
+
+
+    <select id="getTotalStopMember" parameterType="Map" resultType="int">
+        select count(*)
+        from stop_member
+        where 1=1
+        <include refid="search"/>
+    </select>
+
+</mapper>
