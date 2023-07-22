@@ -85,8 +85,8 @@
     }
 
     function openModal(){
-        let popOption = "width=650px, height=550px, top=300px, left=300px, scrolllbars=yes";
-        let openUrl = '/manage/member/stop/${boardUri}'
+        let popOption = "width=650px, height=750px, top=300px, left=300px, scrollbars=yes";
+        let openUrl = '/manage/member/stop/popup/${boardUri}'
         window.open(openUrl,'pop',popOption);
     }
 

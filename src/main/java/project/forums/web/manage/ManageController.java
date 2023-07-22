@@ -75,4 +75,11 @@ public class ManageController {
 
         return "redirect:/manage/member/stop/{boardUri}";
     }
+
+    @GetMapping("/member/stop/popup/{boardUri}")
+    public String stopMemberPopup(@ModelAttribute ManageStopMemberForm from){
+
+        return "manage/member-stop-popup";
+    }
+
 }
