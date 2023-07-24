@@ -29,8 +29,8 @@ create table stop_member(
 );
 
 insert into stop_member(board_uri, member_id, stop_date, regiDate)
-values ('test','test3',now(),now());
-
+values ('test', 'test1', now(), now());
+select * from stop_member;
 select * from member;
 #게시판
 create table board(
@@ -228,3 +228,6 @@ where board_uri ='test' and
 
 
 select * from member;
+
+select * from stop_member
+where member_id not in ('test1','test2');

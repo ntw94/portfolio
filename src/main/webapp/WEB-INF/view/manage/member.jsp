@@ -26,25 +26,30 @@
         <input type="submit" value="검색">
     </form>
 
-
-    <table>
-        <tr>
-            <td>아이디</td>
-            <td>가입일</td>
-            <td>게시글 수</td>
-            <td>댓글 수</td>
-            <td>활동여부</td>
-        </tr>
-        <c:forEach var="list" items="${mList}">
+    <form id="memberForm">
+        <table>
             <tr>
-                <td>${list.memberId}</td>
-                <td>${list.memberRegiDate}</td>
-                <td>${list.totalPosts}</td>
-                <td>${list.totalComments}</td>
-                <td>미구현</td>
+                <td><input type="checkbox" name="selectall" value="selectall" onclick="selectAll(this)">전체선택 </td>
+                <td>아이디</td>
+                <td>가입일</td>
+                <td>게시글 수</td>
+                <td>댓글 수</td>
+                <td>활동여부</td>
             </tr>
-        </c:forEach>
-    </table>
+            <c:forEach var="list" items="${mList}">
+                <tr>
+                    <td><input type="checkbox" name="chkMember" value="${list.memberId}" onclick="checkSelectAll()"></td>
+                    <td>${list.memberId}</td>
+                    <td>${list.memberRegiDate}</td>
+                    <td>${list.totalPosts}</td>
+                    <td>${list.totalComments}</td>
+                    <td>미구현</td>
+                </tr>
+            </c:forEach>
+        </table>
+
+        <input type="button" value="활동정지" onclick="openModal()">
+    </form>
 
     <ul class="pagination justify-content-center">
         <c:if test="${page.showPrev}">
@@ -60,3 +65,48 @@
 </div>
 </body>
 </html>
+
+<script>
+    function selectAll(selectAll)  {
+        const checkboxes
+            = document.getElementsByName('chkMember');
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = selectAll.checked;
+        })
+    }
+    function checkSelectAll()  {
+        const checkboxes = document.querySelectorAll('input[name="chkMember"]');
+        const checked = document.querySelectorAll('input[name="chkMember"]:checked');
+        const selectAll = document.querySelector('input[name="selectall"]');
+
+        if(checkboxes.length === checked.length)  {
+            selectAll.checked = true;
+        }else {
+            selectAll.checked = false;
+        }
+    }
+
+    function openModal(){
+        let popOption = "width=650px, height=750px, top=300px, left=300px, scrollbars=yes";
+        let openUrl = "";
+        let windowTarget = 'pop';
+        window.open(openUrl,windowTarget,popOption);
+
+        var form = document.getElementById("memberForm")
+        form.action='/manage/member/stop/popup/${boardUri}'
+        form.method="post";
+        form.target=windowTarget;
+        form.submit();
+    }
+
+    function activateBtn(){
+        if(confirm("해제 하시겠습니까?")){
+            var form = document.getElementById("stopForm");
+            form.action = "/manage/member/stop/${boardUri}";
+            form.method ="POST";
+            form.submit();
+        }
+    }
+
+</script>

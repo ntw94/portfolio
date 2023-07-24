@@ -66,20 +66,47 @@ public class ManageController {
         return "manage/member-stop";
     }
 
+    //게시판 관리자 활동해제 처리부분( 다시 활성화 )
     @PostMapping("/member/stop/{boardUri}")
     public String stopMemberManage(@ModelAttribute ManageStopMemberForm form){
 
-        // 버튼 입력에 따른 차단을 해제하고 풀어주고 하면됨
-
+        log.info("{}",form);
+        manageService.unlockMember(form);
 
 
         return "redirect:/manage/member/stop/{boardUri}";
     }
 
+    //게시판 관리자 팝업창
     @GetMapping("/member/stop/popup/{boardUri}")
-    public String stopMemberPopup(@ModelAttribute ManageStopMemberForm from){
+    public String stopMemberGetPopup(@ModelAttribute ManageStopMemberForm form){
+
+        log.info("Get: {}",form);
 
         return "manage/member-stop-popup";
+    }
+
+    //게시판 관리자 팝업창Post
+    @PostMapping("/member/stop/popup/{boardUri}")
+    public String stopMemberPostPopup(@ModelAttribute ManageStopMemberForm form){
+
+        log.info("Post: {}",form);
+
+        return "manage/member-stop-popup";
+    }
+
+    //차단 회원 등록
+    @PostMapping("/member/stop/popup/{boardUri}/add")
+    public String stopMemberPopupAdd(@ModelAttribute ManageStopMemberForm form){
+
+        //1. 차단해야할 아이디를 선별한다.(이미 정지된 유저는 제외)
+        // select * from stop_member where board_uri = #{boardUri}
+        // and member_id not in <forEach>
+        // in not 하면되네
+
+        //2. 위에 걸러진 아이디를 다시 db에 저장한다.
+        //3. stopMEmberSaveForm 해서 정지날짜 추가해주고
+        return "redirect:/manage/member/stop/{boardUri}";
     }
 
 }

@@ -65,6 +65,18 @@ public class ManageService {
         return  stopMemberMapper.getListWithPagingSearch(map);
     }
 
+    //게시판 멤버 활동해제
+    public void unlockMember(ManageStopMemberForm form){
+        List<String> chkMember = form.getChkMember();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("chkMember",chkMember);
+        map.put("boardUri",form.getBoardUri());
+
+
+        stopMemberMapper.setDelete(map);
+    }
+
     //하루 총 글
     public int getTodayBoardPosts(String boardUri){
 

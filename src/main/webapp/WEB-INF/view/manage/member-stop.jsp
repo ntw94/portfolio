@@ -24,7 +24,7 @@
         <input type="submit" value="검색">
     </form>
 
-    <form method="post" action="/manage/member/stop/${boardUri}">
+    <form id="stopForm" action="/manage/member/stop/${boardUri}">
         <table>
             <tr>
                 <td><input type="checkbox" name="selectall" value="selectall" onclick="selectAll(this)">전체선택 </td>
@@ -44,8 +44,7 @@
             </c:forEach>
         </table>
 
-        <input type="button" name="" value="활동정지" onclick="openModal()">
-        <input type="button" value="취소">
+        <input type="button" name="" value="활동해제" onclick="activateBtn()">
     </form>
 
     <ul class="pagination justify-content-center">
@@ -88,6 +87,15 @@
         let popOption = "width=650px, height=750px, top=300px, left=300px, scrollbars=yes";
         let openUrl = '/manage/member/stop/popup/${boardUri}'
         window.open(openUrl,'pop',popOption);
+    }
+
+    function activateBtn(){
+        if(confirm("해제 하시겠습니까?")){
+            var form = document.getElementById("stopForm");
+            form.action = "/manage/member/stop/${boardUri}";
+            form.method ="POST";
+            form.submit();
+        }
     }
 
 </script>

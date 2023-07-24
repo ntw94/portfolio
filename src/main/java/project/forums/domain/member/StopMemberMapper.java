@@ -14,7 +14,7 @@ public interface StopMemberMapper {
     List<StopMember> getListAll();
     StopMember getListOne(StopMember stopMember);
     void setInsert(StopMember stopMember);
-    void setDelete(StopMember stopMember);
+    void setDelete(Map<String,Object> map);
     void setUpdate(StopMember stopMember);
 
     //차단한 회원 구하기
