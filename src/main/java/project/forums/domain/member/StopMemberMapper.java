@@ -11,7 +11,7 @@ import java.util.Map;
 public interface StopMemberMapper {
 
     List<StopMember> getListWithPagingSearch(Map<String,Object> map);
-    List<StopMember> getListAll();
+    List<StopMember> getListAll(Map<String,Object> map);
     StopMember getListOne(StopMember stopMember);
     void setInsert(StopMember stopMember);
     void setDelete(Map<String,Object> map);

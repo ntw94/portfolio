@@ -100,13 +100,4 @@
         form.submit();
     }
 
-    function activateBtn(){
-        if(confirm("해제 하시겠습니까?")){
-            var form = document.getElementById("stopForm");
-            form.action = "/manage/member/stop/${boardUri}";
-            form.method ="POST";
-            form.submit();
-        }
-    }
-
 </script>

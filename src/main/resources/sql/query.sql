@@ -7,8 +7,6 @@ drop table post_category;
 drop table board_manager;
 drop table board_favor;
 
-
-
 #회원
 create table member (
     id int auto_increment primary key ,
@@ -29,7 +27,7 @@ create table stop_member(
 );
 
 insert into stop_member(board_uri, member_id, stop_date, regiDate)
-values ('test', 'test1', now(), now());
+values ('qweqw', 'test', now(), now());
 select * from stop_member;
 select * from member;
 #게시판
@@ -225,9 +223,6 @@ from post
 where board_uri ='test' and
       DATE_FORMAT(post_regiDate,'%Y-%m-%d') =now();
 
+select member_id
+from stop_member;
 
-
-select * from member;
-
-select * from stop_member
-where member_id not in ('test1','test2');

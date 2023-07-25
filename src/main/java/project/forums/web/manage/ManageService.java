@@ -18,9 +18,12 @@ import project.forums.web.manage.form.ManageMemberForm;
 import project.forums.web.manage.form.ManageStopMemberForm;
 import project.forums.web.member.MemberService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -67,14 +70,27 @@ public class ManageService {
 
     //게시판 멤버 활동해제
     public void unlockMember(ManageStopMemberForm form){
-        List<String> chkMember = form.getChkMember();
 
         Map<String, Object> map = new HashMap<>();
-        map.put("chkMember",chkMember);
+        map.put("chkMember",form.getChkMember());
         map.put("boardUri",form.getBoardUri());
 
-
         stopMemberMapper.setDelete(map);
+    }
+
+    public List<String> getPopupStopMemberList(ManageStopMemberForm form){
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("boardUri",form.getBoardUri());
+
+        List<StopMember> filterList = stopMemberMapper.getListAll(map); // 차단된 회원 아이디 조회
+
+        //차단된 회원 제거
+        List<String> stopMemberIdList = form.getChkMember().stream()
+                .filter( input -> filterList.stream().map(StopMember::getMemberId)
+                .noneMatch(filter -> input.equals(filter))).collect(Collectors.toList());
+
+        return stopMemberIdList;
     }
 
     //하루 총 글

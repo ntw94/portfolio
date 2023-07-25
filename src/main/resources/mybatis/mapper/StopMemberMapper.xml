@@ -19,6 +19,7 @@
         from stop_member
         where 1=1
             <include refid="search"/>
+            and board_uri = #{boardUri}
         order by id
         limit #{beginPage},#{perPageSize}
     </select>
@@ -29,14 +30,12 @@
         where board_uri = #{boardUri} and
               member_id = #{memberId}
     </select>
-    <!--차단 리스트에 등록되지 않은 회원 조회-->
-    <select id="setDelete" parameterType="Map">
+
+    <!--차단 리스트에 회원 가져오기-->
+    <select id="getListAll" parameterType="Map" resultType="project.forums.domain.member.StopMember">
         select *
         from stop_member
-        where board_uri = #{boardUri} and member_id not in
-        <foreach collection="chkMember" item="item" open="(" close=")" separator=",">
-            #{item}
-        </foreach>
+        where board_uri = #{boardUri};
     </select>
 
     <update id="setUpdate" parameterType="project.forums.domain.member.StopMember">
