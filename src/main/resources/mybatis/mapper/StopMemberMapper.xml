@@ -54,9 +54,12 @@
     </delete>
 
     <!--차단 멤버 등록 date함수로 더해주면 끝-->
-    <insert id="setInsert" parameterType="project.forums.domain.member.StopMember">
+    <insert id="setInsert" parameterType="Map">
         insert into stop_member(board_uri, member_id, stop_date, regiDate)
-        values (#{boardUri},#{memberId},#{stopDate},now())
+        values
+            <foreach collection="chkMember" item="item" open="(" close=")" separator=",">
+                #{boardUri},#{item},DATE_ADD(NOW(),INTERVAL #{period} DAY),now()
+            </foreach>
     </insert>
 
 

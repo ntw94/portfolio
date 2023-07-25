@@ -17,7 +17,7 @@ create table member (
     member_regiDate datetime
 );
 
-#차단 회원 테이블
+#차단 회원 테이블 ( 차단 사유, 차단한 매니저 아이디)
 create table stop_member(
     id int auto_increment primary key,
     board_uri varchar(50) not null,
@@ -30,6 +30,7 @@ insert into stop_member(board_uri, member_id, stop_date, regiDate)
 values ('qweqw', 'test', now(), now());
 select * from stop_member;
 select * from member;
+
 #게시판
 create table board(
     id int auto_increment primary key,
@@ -226,3 +227,5 @@ where board_uri ='test' and
 select member_id
 from stop_member;
 
+
+select * from stop_member;

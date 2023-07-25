@@ -68,7 +68,7 @@ public class ManageMemberController {
 
         List<String> list = manageService.getPopupStopMemberList(form);
 
-        log.info("{}",list );
+        log.info("{}",list);
 
         model.addAttribute("list",list);
         model.addAttribute("boardUri",boardUri);
@@ -78,13 +78,25 @@ public class ManageMemberController {
 
     //차단 회원 등록
     @PostMapping("/member/stop/popup/{boardUri}/add")
-    public String stopMemberPopupAdd(@ModelAttribute ManageSaveStopMemberForm form, HttpServletResponse response){
+    public void stopMemberPopupAdd(@ModelAttribute ManageSaveStopMemberForm form, HttpServletResponse response){
 
         log.info("popupSave: {}",form);
 
-        //여기서 다른 코드를 넘겨줘야할듯
+        manageService.saveStopMember(form);
 
-        return "redirect:/manage/member/{boardUri}";
+        log.info("{}",form.getReason());
+        try {
+            PrintWriter out = response.getWriter();
+
+            out.println("<script>" +
+                    "opener.parent.location.reload();"+
+                    "window.close()" +
+                    " </script>");
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }

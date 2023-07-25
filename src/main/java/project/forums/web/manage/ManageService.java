@@ -15,6 +15,7 @@ import project.forums.domain.post.PostMapper;
 import project.forums.web.board.PageHandler;
 import project.forums.web.login.LoginService;
 import project.forums.web.manage.form.ManageMemberForm;
+import project.forums.web.manage.form.ManageSaveStopMemberForm;
 import project.forums.web.manage.form.ManageStopMemberForm;
 import project.forums.web.member.MemberService;
 
@@ -91,6 +92,19 @@ public class ManageService {
                 .noneMatch(filter -> input.equals(filter))).collect(Collectors.toList());
 
         return stopMemberIdList;
+    }
+
+    //차단회원 등록
+    public void saveStopMember(ManageSaveStopMemberForm form){
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("chkMember",form.getChkMember());
+        map.put("period",form.getPeriod());
+        map.put("boardUri",form.getBoardUri());
+        map.put("reason",form.getReason());
+
+        stopMemberMapper.setInsert(map);
+
     }
 
     //하루 총 글
