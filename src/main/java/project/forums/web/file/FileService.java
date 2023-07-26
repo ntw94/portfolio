@@ -22,10 +22,13 @@ public class FileService {
     private final FileImageMapper fileImageMapper;
 
     public void saveBoardImage(BoardSaveForm boardSaveForm) throws IOException {
-        if(boardSaveForm.getBoardImageFile() == null)
-            return;
+
 
         UploadFile uploadFile = fileStore.storeFile(boardSaveForm.getBoardImageFile());
+
+        if(uploadFile == null){
+            return;
+        }
 
         FileBoardImage fileBoardImage = new FileBoardImage();
         fileBoardImage.setBoardUri(boardSaveForm.getBoardUri());

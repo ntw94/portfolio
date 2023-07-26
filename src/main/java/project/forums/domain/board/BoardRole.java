@@ -1,5 +1,14 @@
 package project.forums.domain.board;
 
-public enum BoardRole {
-    ADMIN,MANAGER,SUB_MANAGER,STEP,USER
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+public class BoardRole {
+    private int id;
+    private String boardUri;
+    private String memberId;
+    private BoardPosition boardRole;
+    private LocalDateTime regiDate;
 }

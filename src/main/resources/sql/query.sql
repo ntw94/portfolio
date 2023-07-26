@@ -14,6 +14,7 @@ create table member (
     member_pwd varchar(100) not null,
     member_name varchar(50) not null,
     member_phone varchar(20) not null,
+    member_role varchar(50),
     member_regiDate datetime
 );
 
@@ -25,6 +26,7 @@ create table stop_member(
     stop_date datetime,
     regiDate datetime
 );
+
 
 insert into stop_member(board_uri, member_id, stop_date, regiDate)
 values ('qweqw', 'test', now(), now());
@@ -53,14 +55,16 @@ create table board_favor(
     favor_regiDate datetime
 );
 
+
 #게시판 매니저
-create table board_auth(
+create table board_role(
     id int auto_increment primary key ,
     board_uri varchar(50) not null,
     member_id varchar(50) not null,
     board_role varchar(50) not null,
     regiDate datetime
 );
+
 
 #게시글
 create table post(
@@ -142,6 +146,8 @@ create table file_post_temp(
     regi_date datetime
 );
 
+select * from file_board_image;
+select * from board_role;
 # 게시글 실제 저장 테이블
 create table file_post_image(
     id int auto_increment primary key,
@@ -216,8 +222,6 @@ select * from post;
 select * from board_favor;
 select count(*) from post where board_uri = 'test';
 select * from comment order by comment_parentNo asc,comment_sequence asc,comment_level asc;
-
-select * from board_auth;
 
 select *
 from post

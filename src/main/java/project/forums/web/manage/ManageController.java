@@ -39,13 +39,4 @@ public class ManageController {
     }
 
 
-
-
-//    //게시판 관리자 팝업창
-//    @GetMapping("/member/stop/popup/{boardUri}")
-//    public String stopMemberGetPopup(@ModelAttribute ManageStopMemberForm form){
-//
-//        return "manage/member-stop-popup";
-//    }
-
 }

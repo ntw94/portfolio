@@ -29,7 +29,7 @@ public class ManageMemberController {
     private final CommentService commentService;
     private final ManageService manageService;
 
-    //회원관리
+    //회원관리 홈
     @GetMapping("/member/{boardUri}")
     public String boardMemberManage(@PathVariable String boardUri
             , @ModelAttribute ManageMemberForm manageMemberForm
@@ -38,9 +38,10 @@ public class ManageMemberController {
         List<Member> list = manageService.getMemberList(manageMemberForm,model);
         model.addAttribute("mList", list);
 
-        return "manage/member";
+        return "manage/member/member";
     }
 
+    //차단 회원 페이지 홈
     @GetMapping("/member/stop/{boardUri}")
     public String stopMemberManage(@ModelAttribute ManageStopMemberForm stopForm, @PathVariable String boardUri, Model model){
 
@@ -49,7 +50,7 @@ public class ManageMemberController {
         List<StopMember> list = manageService.getStopMemberList(stopForm,model);
         model.addAttribute("stopList",list);
 
-        return "manage/member-stop";
+        return "manage/member/member-stop";
     }
 
     // 활동해제 버튼 눌렀을때
@@ -62,7 +63,7 @@ public class ManageMemberController {
 
         return "redirect:/manage/member/stop/{boardUri}";
     }
-    //게시판 관리자 팝업창Post
+    //게시판 관리자 팝업창 띄우기
     @PostMapping("/member/stop/popup/{boardUri}")
     public String stopMemberPostPopup(@ModelAttribute ManageStopMemberForm form,@PathVariable String boardUri,Model model){
 
@@ -73,10 +74,10 @@ public class ManageMemberController {
         model.addAttribute("list",list);
         model.addAttribute("boardUri",boardUri);
 
-        return "manage/member-stop-popup";
+        return "manage/member/member-stop-popup";
     }
 
-    //차단 회원 등록
+    //차단 회원 등록 처리
     @PostMapping("/member/stop/popup/{boardUri}/add")
     public void stopMemberPopupAdd(@ModelAttribute ManageSaveStopMemberForm form, HttpServletResponse response){
 
@@ -97,6 +98,12 @@ public class ManageMemberController {
             e.printStackTrace();
         }
 
+    }
+
+    @GetMapping("/member/step/{boardUri}")
+    public String stepMemberHome(@PathVariable String boardUri){
+
+        return "manage/member/step";
     }
 
 }

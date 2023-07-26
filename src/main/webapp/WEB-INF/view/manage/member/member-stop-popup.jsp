@@ -2,7 +2,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@include file="../common/_include.jsp" %>
+<%@include file="../../common/_include.jsp" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -65,6 +65,9 @@
         formdata.action="/manage/member/stop/popup/${boardUri}/add";
         formdata.method="post";
         formdata.submit();
+    }
+    function cancel(){
+        window.close();
     }
 
     function func1(){

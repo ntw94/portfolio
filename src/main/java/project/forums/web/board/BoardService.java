@@ -18,7 +18,7 @@ import java.util.Map;
 public class BoardService {
     private final BoardMapper boardMapper;
     private final BoardFavorMapper boardFavorMapper;
-    private final BoardAuthMapper boardAuthMapper;
+    private final BoardRoleMapper boardAuthMapper; // 게시판
 
     public List<Board> getBoardList(){
         return boardMapper.getListAll();
@@ -53,10 +53,10 @@ public class BoardService {
         board.setBoardDescription(boardSaveForm.getBoardDescription());
         board.setMemberId(boardSaveForm.getMemberId());
 
-        BoardAuth boardAuth = new BoardAuth();
+        BoardRole boardAuth = new BoardRole();
         boardAuth.setBoardUri(boardSaveForm.getBoardUri());
         boardAuth.setMemberId(boardSaveForm.getMemberId());
-        boardAuth.setBoardRole(BoardRole.MANAGER);
+        boardAuth.setBoardRole(BoardPosition.MANAGER);
         boardAuthMapper.setInsert(boardAuth);
 
         return boardMapper.setInsert(board);
