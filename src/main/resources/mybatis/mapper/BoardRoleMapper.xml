@@ -13,7 +13,7 @@
     <select id="getListAll" resultType="project.forums.domain.board.BoardRole">
         select *
         from board_role
-        where board_uri = #{boardUri}
+        where board_uri = #{boardUri} and board_role != 'MANAGER'
     </select>
 
     <delete id="setDelete" parameterType="project.forums.domain.board.BoardRole">

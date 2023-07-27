@@ -39,7 +39,11 @@
     </form>
 
     <%-- 현재 스탭 현황 --%>
-    <form action="/manage/member/step/${boardUri}/delete" method="post">
+    <form id="stepListForm">
+        <input type="hidden" id="stepId" name="memberId" value="">
+        <input type="hidden" name="boardUri" value="${boardUri}">
+    </form>
+
         <table>
             <tr>
                 <td>역할</td>
@@ -52,11 +56,10 @@
                     <td>${list.boardRole}</td>
                     <td>${list.memberId}</td>
                     <td>${list.regiDate}</td>
-                    <td><input type="submit" class="btn--tiny" value="삭제" onclick="deleteRole('${list.memberId}')"></td>
+                    <td><input type="button" id="deleteBtn_${list.id}" class="btn--tiny" value="삭제" onclick="deleteRole('${list.id}','${list.memberId}')"></td>
                 </tr>
             </c:forEach>
         </table>
-    </form>
 
 
 </div>
@@ -64,9 +67,10 @@
 </html>
 
 <script>
-    function deleteRole(memberid){
-
-        $("")
+    function deleteRole(id,memberId){
+        $("#stepId").attr("value",memberId);
+        $("#stepListForm").attr("method","post");
+        $("#stepListForm").attr("action","/manage/member/step/${boardUri}/delete").submit();
     }
 
     /* 아이디 검색시 */

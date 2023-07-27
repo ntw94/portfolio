@@ -68,7 +68,6 @@ create table board_role(
 # on duplicate key update는 PK나 unique를 검색함
 alter table board_role add unique key(board_uri,member_id);
 
-select * from member;
 #게시글
 create table post(
     id int auto_increment primary key,
@@ -82,6 +81,7 @@ create table post(
     post_regiDate datetime
 );
 
+
 #공지 게시글
 create table post_notice(
     id int auto_increment primary key,
@@ -94,6 +94,7 @@ create table post_category(
     id int auto_increment primary key,
     board_uri varchar(50) not null,
     category_menu varchar(50),
+    category_order int default 1,
     category_regiDate datetime
 );
 
