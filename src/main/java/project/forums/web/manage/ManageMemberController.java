@@ -5,12 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import project.forums.domain.board.BoardPosition;
+import project.forums.domain.board.BoardRole;
 import project.forums.domain.member.Member;
 import project.forums.domain.member.StopMember;
 import project.forums.web.comment.CommentService;
-import project.forums.web.manage.form.ManageMemberForm;
-import project.forums.web.manage.form.ManageSaveStopMemberForm;
-import project.forums.web.manage.form.ManageStopMemberForm;
+import project.forums.web.comment.form.CommentReplyForm;
+import project.forums.web.manage.form.*;
 import project.forums.web.post.PostService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,7 @@ public class ManageMemberController {
     public String boardMemberManage(@PathVariable String boardUri
             , @ModelAttribute ManageMemberForm manageMemberForm
             , Model model){
+
         manageMemberForm.setBoardUri(boardUri);
         List<Member> list = manageService.getMemberList(manageMemberForm,model);
         model.addAttribute("mList", list);
@@ -100,10 +102,60 @@ public class ManageMemberController {
 
     }
 
+    /* 스탭관리 홈*/
     @GetMapping("/member/step/{boardUri}")
-    public String stepMemberHome(@PathVariable String boardUri){
+    public String stepMemberHome(@PathVariable String boardUri,Model model){
+
+        List<BoardRole> stepList = manageService.getStepList(boardUri);
+        model.addAttribute("stepList",stepList);
 
         return "manage/member/step";
+    }
+
+    /* ajax 아이디 검색 받는 부분 */
+    @ResponseBody
+    @PostMapping("/member/step/{boardUri}/search")
+    public String stepMemberSearch(
+            @RequestBody ManageSearchStepMemberForm form){
+
+        log.info(" = {}", form);
+        String result = manageService.getSearchMemberId(form);
+
+        if(result == null){
+            return "";
+        }
+        return result;
+    }
+
+    /* 게시판 매니저 등록 */
+    @PostMapping("/member/step/{boardUri}/add")
+    public String stepMemberAdd(
+            @ModelAttribute ManageSaveStepMemberForm form
+            ){
+
+        log.info("{}",form);
+
+        int managerCount = 0;
+        if(form.getRole()== BoardPosition.SUB_MANAGER){
+            managerCount = manageService.getTotalSubManager(form.getBoardUri());
+        }
+        if(managerCount == 0){
+            manageService.saveStepMember(form);
+        }else {
+           //에러 메세지 보내준다.
+            log.info("이미 부매니저는 1명만 가능합니다.!!");
+        }
+
+        return "redirect:/manage/member/step/{boardUri}";
+    }
+
+    @PostMapping("/member/step/{boardUri}/delete")
+    public String stepMemberDelete(@ModelAttribute ManageDeleteStepMemberForm form){
+
+        log.info("{}",form);
+        manageService.deleteStepMember(form);
+
+        return "redirect:/manage/member/step/{boardUri}";
     }
 
 }

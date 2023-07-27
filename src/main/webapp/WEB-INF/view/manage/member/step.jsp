@@ -19,85 +19,81 @@
     <h1>회원관리</h1>
     <h2>회원 검색</h2>
     <h2><a href="/manage/member/stop/${boardUri}">차단 회원 관리</a></h2>
+    <h2><a href="/manage/member/step/${boardUri}">스탭관리</a></h2>
 
-    <form method="get" action="/manage/member/${boardUri}">
-        아이디 검색 : <input type="text" name="keyword" value="${keyword}">
-        <input type="date" name="date"/>
-        <input type="submit" value="검색">
+    <%-- 매니저 부여 --%>
+    <form id="saveManageForm" action="/manage/member/step/${boardUri}/add" method="post">
+        <hr>
+            <select name="role">
+                <option value="">--선택--</option>
+                <option value="SUB_MANAGER">부 매니저</option>
+                <option value="STEP">스탭</option>
+            </select>
+        <hr>
+            아이디 검색 : <input type="text" id="keyword" name="keyword" value="${keyword}">
+            <input type="button" value="검색" onclick="manageMemberSearch()">
+            <div id="result">
+
+            </div>
+        <hr>
     </form>
 
-    <form id="memberForm">
+    <%-- 현재 스탭 현황 --%>
+    <form action="/manage/member/step/${boardUri}/delete" method="post">
         <table>
             <tr>
-                <td><input type="checkbox" name="selectall" value="selectall" onclick="selectAll(this)">전체선택 </td>
+                <td>역할</td>
                 <td>아이디</td>
-                <td>가입일</td>
-                <td>게시글 수</td>
-                <td>댓글 수</td>
-                <td>활동여부</td>
+                <td>부여일</td>
+                <td>매니저 해지</td>
             </tr>
-            <c:forEach var="list" items="${mList}">
+            <c:forEach var="list" items="${stepList}">
                 <tr>
-                    <td><input type="checkbox" name="chkMember" value="${list.memberId}" onclick="checkSelectAll()"></td>
+                    <td>${list.boardRole}</td>
                     <td>${list.memberId}</td>
-                    <td>${list.memberRegiDate}</td>
-                    <td>${list.totalPosts}</td>
-                    <td>${list.totalComments}</td>
-                    <td>미구현</td>
+                    <td>${list.regiDate}</td>
+                    <td><input type="submit" class="btn--tiny" value="삭제" onclick="deleteRole('${list.memberId}')"></td>
                 </tr>
             </c:forEach>
         </table>
-
-        <input type="button" value="활동정지" onclick="openModal()">
     </form>
 
-    <ul class="pagination justify-content-center">
-        <c:if test="${page.showPrev}">
-            <li class="page-item"><a class="page-link" href="/manage/member/${boardUri}?p=${page.beginPage-1}&keyword=${keyword}">Previous</a></li>
-        </c:if>
-        <c:forEach var="i" begin="${page.beginPage}" end="${page.endPage}">
-            <li class="page-item"><a class="page-link" href="/manage/member/${boardUri}?p=${i}&keyword=${keyword}">${i}</a></li>
-        </c:forEach>
-        <c:if test="${page.showNext}">
-            <li class="page-item"><a class="page-link" href="/manage/member/${boardUri}?p=${page.endPage+1}&keyword=${keyword}">Next</a></li>
-        </c:if>
-    </ul>
+
 </div>
 </body>
 </html>
 
 <script>
-    function selectAll(selectAll)  {
-        const checkboxes
-            = document.getElementsByName('chkMember');
+    function deleteRole(memberid){
 
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = selectAll.checked;
-        })
-    }
-    function checkSelectAll()  {
-        const checkboxes = document.querySelectorAll('input[name="chkMember"]');
-        const checked = document.querySelectorAll('input[name="chkMember"]:checked');
-        const selectAll = document.querySelector('input[name="selectall"]');
-
-        if(checkboxes.length === checked.length)  {
-            selectAll.checked = true;
-        }else {
-            selectAll.checked = false;
-        }
+        $("")
     }
 
-    function openModal(){
-        let popOption = "width=650px, height=750px, top=300px, left=300px, scrollbars=yes";
-        let openUrl = "";
-        let windowTarget = 'pop';
-        window.open(openUrl,windowTarget,popOption);
+    /* 아이디 검색시 */
+    function manageMemberSearch(){
+        var memberId = $("#keyword").val();
 
-        var form = document.getElementById("memberForm")
-        form.action='/manage/member/stop/popup/${boardUri}'
-        form.method="post";
-        form.target=windowTarget;
-        form.submit();
+        $.ajax({
+            url : "/manage/member/step/${boardUri}/search",
+            type : "post",
+            contentType:'application/json;charset=utf-8',
+            data : JSON.stringify({
+                "memberId": memberId,
+            }),
+            success: function(data){
+                var search_var = data;
+                var jsHtml = "";
+
+                if(search_var === ""){
+                    jsHtml += "<p>"+memberId+"는 없는 회원입니다. </p>"
+                }else{
+                    jsHtml += "<input type='checkbox' name='memberId' value="+memberId+">"+memberId;
+                    jsHtml += "<input type='submit' value='저장'>"
+                }
+
+                $("#result").html(jsHtml);
+            },
+            error:function(){alert("값을 가져오지 못했습니다.");}
+        });
     }
-
 </script>

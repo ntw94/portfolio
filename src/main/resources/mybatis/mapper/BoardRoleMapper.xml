@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.forums.domain.board.BoardRoleMapper">
+
+    <!--매니저 등록 -->
+    <insert id="setInsert" parameterType="project.forums.domain.board.BoardRole">
+        insert into board_role(member_id,board_uri,board_role,regiDate)
+        values (#{memberId},#{boardUri},#{boardRole},now())
+        on duplicate key update board_role = #{boardRole}
+    </insert>
+
+    <select id="getListAll" resultType="project.forums.domain.board.BoardRole">
+        select *
+        from board_role
+        where board_uri = #{boardUri}
+    </select>
+
+    <delete id="setDelete" parameterType="project.forums.domain.board.BoardRole">
+        delete from board_role
+        where board_uri = #{boardUri} and member_id = #{memberId}
+    </delete>
+
+    <update id="setUpdate" parameterType="Map">
+        update board_role
+        set board_role = #{board_Role}
+        where member_id = #{memberId} and board_uri = #{boardUri}
+    </update>
+
+    <select id="getSubManagerCount" parameterType="String" resultType="int">
+        select count(*)
+        from board_role
+        where board_uri = #{boardUri} and board_role='SUB_MANAGER'
+    </select>
+
+    <select id="getListOne" parameterType="map" resultType="project.forums.domain.board.BoardRole">
+        select *
+        from board_role
+        where board_uri = #{boardUri} and member_id = #{memberId}
+    </select>
+
+</mapper>

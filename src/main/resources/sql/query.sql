@@ -64,8 +64,11 @@ create table board_role(
     board_role varchar(50) not null,
     regiDate datetime
 );
+# duplicate를 사용하기위해 조합키로 묶었음
+# on duplicate key update는 PK나 unique를 검색함
+alter table board_role add unique key(board_uri,member_id);
 
-
+select * from member;
 #게시글
 create table post(
     id int auto_increment primary key,

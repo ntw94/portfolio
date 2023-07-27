@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import project.forums.domain.board.BoardRole;
+import project.forums.domain.board.BoardRoleMapper;
 import project.forums.domain.comment.Comment;
 import project.forums.domain.comment.CommentMapper;
 import project.forums.domain.file.FileStore;
@@ -14,9 +16,7 @@ import project.forums.domain.member.StopMemberMapper;
 import project.forums.domain.post.PostMapper;
 import project.forums.web.board.PageHandler;
 import project.forums.web.login.LoginService;
-import project.forums.web.manage.form.ManageMemberForm;
-import project.forums.web.manage.form.ManageSaveStopMemberForm;
-import project.forums.web.manage.form.ManageStopMemberForm;
+import project.forums.web.manage.form.*;
 import project.forums.web.member.MemberService;
 
 import java.util.ArrayList;
@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 public class ManageService {
     private final MemberMapper memberMapper;
     private final StopMemberMapper stopMemberMapper;
+    private final BoardRoleMapper boardRoleMapper;
     private final PostMapper postMapper;
     private final CommentMapper commentMapper;
     private final FileStore fileStore;
@@ -96,7 +97,6 @@ public class ManageService {
 
     //차단회원 등록
     public void saveStopMember(ManageSaveStopMemberForm form){
-
         Map<String,Object> map = new HashMap<>();
         map.put("chkMember",form.getChkMember());
         map.put("period",form.getPeriod());
@@ -106,7 +106,52 @@ public class ManageService {
         stopMemberMapper.setInsert(map);
 
     }
+    /*매니저 전체 조회 */
+    public List<BoardRole> getStepList(String boardUri){
 
+        return boardRoleMapper.getListAll(boardUri);
+    }
+
+    /* 아이디 찾기 */
+    public String getSearchMemberId(ManageSearchStepMemberForm form){
+
+        Member resultMember = memberMapper.getListOne(form.getMemberId());
+        if(resultMember == null){
+            return "";
+        }else{
+            return resultMember.getMemberId();
+        }
+    }
+
+    /* 매니저 등록 추가 */
+
+    public void saveStepMember(ManageSaveStepMemberForm form){
+        if(form.getRole()== null || form.getRole().equals("")){
+            return;
+        }
+
+        BoardRole boardRole = new BoardRole();
+        boardRole.setMemberId(form.getMemberId());
+        boardRole.setBoardUri(form.getBoardUri());
+        boardRole.setBoardRole(form.getRole());
+
+        boardRoleMapper.setInsert(boardRole);
+    }
+
+    public void deleteStepMember(ManageDeleteStepMemberForm form){
+
+        BoardRole boardRole = new BoardRole();
+        boardRole.setMemberId(form.getMemberId());
+        boardRole.setBoardUri(form.getBoardUri());
+
+        boardRoleMapper.setDelete(boardRole);
+    }
+
+    /* 서브 매니저 수 */
+    public int getTotalSubManager(String boardUri){
+
+       return boardRoleMapper.getSubManagerCount(boardUri);
+    }
     //하루 총 글
     public int getTodayBoardPosts(String boardUri){
 

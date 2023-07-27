@@ -26,6 +26,7 @@ public class CommentController {
         log.info("commlist = {}", list);
         return list;
     }
+
     @PostMapping("/{postId}/write")
     public void commentWrite(@PathVariable Integer postId,@ModelAttribute CommentSaveForm form){
 

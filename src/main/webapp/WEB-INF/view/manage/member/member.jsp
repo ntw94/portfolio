@@ -19,6 +19,7 @@
     <h1>회원관리</h1>
     <h2>회원 검색</h2>
     <h2><a href="/manage/member/stop/${boardUri}">차단 회원 관리</a></h2>
+    <h2><a href="/manage/member/step/${boardUri}">스탭관리</a></h2>
 
     <form method="get" action="/manage/member/${boardUri}">
         아이디 검색 : <input type="text" name="keyword" value="${keyword}">

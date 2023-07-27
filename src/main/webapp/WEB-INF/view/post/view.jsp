@@ -145,7 +145,6 @@
     function commentMakeView(data){
         var listHtml="";
 
-
         $.each(data,function(index,obj){
             var level = obj.commentLevel;
             var space = (level > 4) ? 150 : level * 20 + 10;
@@ -292,40 +291,6 @@
             error:function(){alert("댓글 업데이트 실패");}
         });
     }
-
-
-    <%--function rateUp(data){--%>
-    <%--    if(data === ""){--%>
-    <%--        location.href="${contextPath}/memberLoginForm.do";--%>
-    <%--    }else{--%>
-    <%--        var color = $("#rateUpBtn").css("background-color");--%>
-
-
-    <%--        if(color.toString() ==="rgb(255, 255, 255)"){//좋아요 등록--%>
-    <%--            var fData=$("#recoUpForm").serialize();--%>
-    <%--            $.ajax({--%>
-    <%--                url :"board/reco/insert",--%>
-    <%--                type: "post",--%>
-    <%--                data:fData,--%>
-    <%--                success:function(){--%>
-    <%--                    $("#rateUpBtn").css("background-color","rgb(255, 255, 0)"); //노란색--%>
-    <%--                },--%>
-    <%--                error:function(){alert("");}--%>
-    <%--            });--%>
-    <%--        }else{ //좋아요 해제--%>
-    <%--            var fData=$("#recoDownForm").serialize();--%>
-    <%--            $.ajax({--%>
-    <%--                url :"board/reco/delete",--%>
-    <%--                type: "post",--%>
-    <%--                data:fData,--%>
-    <%--                success:function(){--%>
-    <%--                    $("#rateUpBtn").css("background-color","rgb(255, 255, 255)"); //하얀색--%>
-    <%--                },--%>
-    <%--                error:function(){alert("");}--%>
-    <%--            });--%>
-    <%--        }--%>
-    <%--    }--%>
-    <%--}--%>
 </script>
 
 </body>
