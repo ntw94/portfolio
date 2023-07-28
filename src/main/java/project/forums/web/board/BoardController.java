@@ -43,7 +43,6 @@ public class BoardController {
 
         log.info("multipart: {}",boardSaveForm.getBoardImageFile());
 
-
         boardService.boardCreate(boardSaveForm);
         fileService.saveBoardImage(boardSaveForm);
 

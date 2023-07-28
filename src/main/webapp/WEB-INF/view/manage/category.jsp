@@ -25,66 +25,61 @@
 
     #sortable li{
         font-size: 20px;
+        width:50px;
     }
     #sortable li:hover {
         cursor: pointer;
     }
     .itemBoxHighlight {
         border:solid 1px black;
-        width:100%;
-        height:30px;
-        background-color:yellow;
+        width:50px;
+        height:50px;
+        background-color:#eee;
     }
 </style>
 <body>
 <div class="container">
 <jsp:include page="../common/manage-top-menu.jsp"/>
     <h1>카테고리 관리</h1>
-    <h1>mine-it-record</h1>
-    <form action="/manage/category/${boardUri}/add" method="post">
-        <div style="white-space:nowrap; overflow:auto;  width:100%;">
-            <ul style="list-style: none;" id="sortable">
-                <li class="ui-state-default">
-                    <input type="hidden" name='categoryOrder' value="">
-                    <div>
-                        <input type="text" name='categoryName' value="mine1">
-                    </div>
-                </li>
-                <li class="ui-state-default">
-                    <input type="hidden" name='categoryOrder' value="">
-                    <div>
-                        <input type="text" name='categoryName' value="mine2">
-                    </div>
-                </li>
-                <li class="ui-state-default">
-                    <input type="hidden" name='categoryOrder' value="">
-                    <div>
-                        <input type="text" name='categoryName' value="mine3">
-                    </div>
-                </li>
-                <li class="ui-state-default">
-                    <input type="hidden" name='categoryOrder' value="">
-                    <div>
-                        <input type="text" name='categoryName' value="mine4">
-                    </div>
-                </li>
-                <li class="ui-state-default">
-                    <input type="hidden" name='categoryOrder' value="">
-                    <div>
-                        <input type="text" name='categoryName' value="mine5">
-                    </div>
-                </li>
 
-            </ul>
-        </div>
+    <form action="/manage/category/${boardUri}/add" method="post">
+    <table class="table">
+        <tr>
+            <td>카테고리 이름</td>
+        </tr>
+            <tr>
+                <td>
+                    <div style="white-space:nowrap; overflow:auto;  width:100%;">
+                        <ul style="list-style: none;" id="sortable">
+                            <c:forEach var="list" items="${list}">
+                            <li class="ui-state-default" id="cate-${list.id}">
+                                <input type="hidden" name='categoryOrder' value="">
+                                <div>
+                                    <input style="margin-left: 50px;" type="text" name='categoryName' value="${list.categoryMenu}">
+                                    <input type="button" value="삭제" onclick="deleteBtn('${list.id}')" />
+                                </div>
+                            </li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+    </table>
+
         <button >저장</button>
     </form>
 
-    <input type="text" id="inputCategoryData" value="">
+    카테고리 추가: <input type="text" id="inputCategoryData" value="">
     <input type="button" onclick="cateAdd()" value="추가">
+
+
 <script>
     //$("#sortable").sortable();
     //$("#sortable").disableSelection(); // 아이템 내부의 글자를 드래그 해서 선택하지 못하도록 하는 기능
+
+    function deleteBtn(id){
+        $("#cate-"+id).css('display','none');
+    }
 
     function cateAdd(){
         var ulNode = document.getElementById("sortable");
@@ -93,7 +88,8 @@
         jsHtml += "<li class='ui-state-default'>";
         jsHtml +=   "<input type='hidden' name='categoryOrder' value=''>";
         jsHtml +=   "<div>";
-        jsHtml +=       "<input type='text' name='categoryName' value="+data+">";
+        jsHtml +=       "<input style='margin-left:50px'; type='text' name='categoryName' value="+data+">";
+        jsHtml +=       "<input type='button' value='삭제' onclick='deleteBtn()' >";
         jsHtml +=   "</div>";
         jsHtml += "</li>";
 
@@ -102,6 +98,7 @@
         ulNode.append(temp);
 
         $("#inputCategoryData").val("");
+        reorder();
     }
 
     $("#sortable").sortable({

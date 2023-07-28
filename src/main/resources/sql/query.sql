@@ -93,11 +93,16 @@ create table post_notice(
 create table post_category(
     id int auto_increment primary key,
     board_uri varchar(50) not null,
-    category_menu varchar(50),
+    category_menu varchar(50) not null unique,
     category_order int default 1,
     category_regiDate datetime
 );
+select * from post_category;
 
+alter table post_category add unique key(board_uri,category_order);
+desc post_category;
+# drop index `category_order` on post_category;
+select * from post_category;
 
 #댓글
 create table comment(

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import project.forums.domain.board.BoardRole;
 import project.forums.domain.board.BoardRoleMapper;
+import project.forums.domain.category.PostCategory;
+import project.forums.domain.category.PostCategoryMapper;
 import project.forums.domain.comment.Comment;
 import project.forums.domain.comment.CommentMapper;
 import project.forums.domain.file.FileStore;
@@ -36,6 +38,7 @@ public class ManageService {
     private final PostMapper postMapper;
     private final CommentMapper commentMapper;
     private final FileStore fileStore;
+    private final PostCategoryMapper categoryMapper;
 
     public List<Member> getMemberList(ManageMemberForm form,Model model){
 
@@ -145,6 +148,34 @@ public class ManageService {
         boardRole.setBoardUri(form.getBoardUri());
 
         boardRoleMapper.setDelete(boardRole);
+    }
+
+    public void categoryAdd(ManageCategorySaveForm form){
+
+        List<PostCategory> newList = new ArrayList<>();
+        //새로운 추가된 카테고리 먼저 db에 추가한다.
+
+        if(form.getCategoryName() == null)
+            return;
+
+        int size = form.getCategoryName().length;
+
+        for(int i = 0; i< size;i++){
+            PostCategory postCategory = new PostCategory();
+            postCategory.setCategoryMenu(form.getCategoryName()[i]);
+            postCategory.setCategoryOrder(Integer.parseInt(form.getCategoryOrder()[i]));
+            postCategory.setBoardUri(form.getBoardUri());
+            newList.add(postCategory);
+        }
+        log.info("기존카테고리 변경 : {}",newList);
+        Map<String,Object> map = new HashMap<>();
+        map.put("newList",newList);
+        categoryMapper.setNewInsert(map);
+    }
+
+    public List<PostCategory> getPostCategoryListAll(String boardUri){
+
+        return categoryMapper.getListAll(boardUri);
     }
 
     /* 서브 매니저 수 */

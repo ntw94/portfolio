@@ -7,18 +7,39 @@
         select *
         from post_category
         where board_uri=#{boardUri}
-        order by id
+        order by category_order
     </select>
 
-    <insert id="setInsert"  parameterType="project.forums.domain.category.PostCategory">
-        insert into post_category (board_uri,category_menu,category_regiDate)
-        values (#{boardUri},#{categoryMenu},now())
+    <insert id="setInsert"  parameterType="Map">
+            insert into post_category (board_uri,category_menu,category_order,category_regiDate)
+            values
+                <foreach collection="list" item="item" separator=",">
+                    (#{item.boardUri},#{item.categoryMenu},#{item.categoryOrder},now())
+                </foreach>
+            on duplicate key update category_order = #{categoryOrder}
     </insert>
+
+    <!-- 추가된 카테고리 처리 -->
+    <insert id="setNewInsert" parameterType="Map">
+        insert into post_category (board_uri,category_menu,category_order,category_regiDate)
+        values
+            <foreach collection="newList" item="newList" separator=",">
+                (#{newList.boardUri},#{newList.categoryMenu},#{newList.categoryOrder},now())
+            </foreach>
+        on duplicate key update category_order = values(category_order)
+    </insert>
+
+    <!-- 초기 카테고리 설정 -->
+    <insert id="createPostCategory" parameterType="String">
+        insert into post_category (board_uri, category_menu,category_order,category_regiDate)
+        values(#{boardUri},'전체',1,now());
+    </insert>
+
 
     <update id="setUpdate" parameterType="project.forums.domain.category.PostCategory">
         update post_category
         set
-            category_menu = #{categoryMenu},
+            category_menu = #{categoryMenu}
         where id = #{id} and board_uri=#{boardUri}
     </update>
 

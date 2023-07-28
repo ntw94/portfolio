@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import project.forums.domain.board.*;
+import project.forums.domain.category.PostCategoryMapper;
 import project.forums.web.board.form.BoardListForm;
 import project.forums.web.board.form.BoardSaveForm;
 
@@ -19,6 +20,7 @@ public class BoardService {
     private final BoardMapper boardMapper;
     private final BoardFavorMapper boardFavorMapper;
     private final BoardRoleMapper boardAuthMapper; // 게시판
+    private final PostCategoryMapper postCategoryMapper;
 
     public List<Board> getBoardList(){
         return boardMapper.getListAll();
@@ -60,6 +62,10 @@ public class BoardService {
         boardAuthMapper.setInsert(boardAuth);
 
         return boardMapper.setInsert(board);
+    }
+
+    public void createPostCategory(String boardUri){
+        postCategoryMapper.createPostCategory(boardUri);
     }
 
 
