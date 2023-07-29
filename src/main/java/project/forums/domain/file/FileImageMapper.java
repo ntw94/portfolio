@@ -14,4 +14,5 @@ public interface FileImageMapper {
     FileBoardImage getBoardImageOne(String boardUri);
     void saveBoardImage(FileBoardImage fileBoardImage);
     void updateBoardImage(FileBoardImage fileBoardImage);
+
 }

@@ -10,6 +10,8 @@ import java.util.List;
 public interface BoardMapper {
     List<Board> getListAll();
     Board getListOne(String boardUri);
+    Board getListUpdateOne(String boardUri);
+
     int setInsert(Board board);
     int setUpdate(Board board);
     int setDelete(Board board);

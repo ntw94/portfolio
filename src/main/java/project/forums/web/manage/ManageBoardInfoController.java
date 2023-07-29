@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import project.forums.domain.board.Board;
+import project.forums.web.manage.form.ManageUpdateBoardInfoForm;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -17,7 +16,7 @@ public class ManageBoardInfoController {
 
     private final ManageService manageService;
 
-    @GetMapping("/board/{boardUri}")
+    @GetMapping("/boards/{boardUri}")
     public String manageCategoryHome(@PathVariable String boardUri, Model model){
 
         Board board = manageService.getBoardInfo(boardUri);
@@ -26,5 +25,14 @@ public class ManageBoardInfoController {
 
 
         return "manage/board";
+    }
+
+    @PostMapping("/boards/{boardUri}/edit")
+    public String manageCategoryEdit(@ModelAttribute ManageUpdateBoardInfoForm form, @PathVariable String boardUri){
+
+        log.info("{}",form);
+        manageService.setUpdateBoardInfo(form);
+
+        return "redirect:/manage/boards/{boardUri}";
     }
 }

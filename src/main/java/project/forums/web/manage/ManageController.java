@@ -25,7 +25,7 @@ public class ManageController {
     private final CommentService commentService;
     private final ManageService manageService;
 
-    @GetMapping("/boards/{boardUri}")
+    @GetMapping("/home/{boardUri}")
     public String boardManageHome(@PathVariable String boardUri, Model model){
 
 

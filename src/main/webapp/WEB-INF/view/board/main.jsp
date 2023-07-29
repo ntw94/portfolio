@@ -25,7 +25,7 @@
         ${member.memberId} : ${board.memberId}
     </h1>
     <c:if test="${member.memberId eq board.memberId}">
-        <a href="/manage/boards/${boardUri}/">게시판 관리 </a>
+        <a href="/manage/home/${boardUri}/">게시판 관리 </a>
     </c:if>
 
     <h1>여기가 ${board.boardTitle} 게시판입니다.</h1>

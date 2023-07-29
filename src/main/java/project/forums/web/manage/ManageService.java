@@ -182,11 +182,25 @@ public class ManageService {
         return categoryMapper.getListAll(boardUri);
     }
 
+    //게시판 수정 데이터 조회
     public Board getBoardInfo(String boardUri){
-
-        return boardMapper.getListOne(boardUri);
+            Board board = boardMapper.getListUpdateOne(boardUri);
+            if(board == null) {
+                board = boardMapper.getListOne(boardUri);
+            }
+        return board;
     }
 
+    public void setUpdateBoardInfo(ManageUpdateBoardInfoForm form){
+        Board board= new Board();
+        board.setBoardUri(form.getBoardUri());
+        board.setBoardDescription(form.getBoardDescription());
+        board.setBoardTitle(form.getBoardTitle());
+        board.setMemberId(form.getMemberId());
+        board.setId(Integer.parseInt(form.getId()));
+
+        boardMapper.setUpdate(board);
+    }
 
     /* 서브 매니저 수 */
     public int getTotalSubManager(String boardUri){

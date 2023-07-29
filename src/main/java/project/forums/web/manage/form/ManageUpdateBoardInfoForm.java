@@ -1,12 +1,13 @@
-package project.forums.web.board.form;
+package project.forums.web.manage.form;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+
 @Data
-public class BoardUpdateForm {
-    private int id;
+public class ManageUpdateBoardInfoForm {
+    private String id;
     private String boardTitle;
     private String boardUri;
     private String boardDescription;

@@ -81,7 +81,6 @@ create table post(
     post_regiDate datetime
 );
 
-
 #공지 게시글
 create table post_notice(
     id int auto_increment primary key,
@@ -97,13 +96,10 @@ create table post_category(
     category_order int default 1,
     category_regiDate datetime
 );
-select * from post_category;
 
 alter table post_category add unique key(board_uri,category_order);
 desc post_category;
 # drop index `category_order` on post_category;
-select * from post_category;
-select * from file_board_image where board_uri = 'test1095828';
 
 #댓글
 create table comment(
@@ -249,4 +245,11 @@ select b.id,b.board_uri,b.board_title,b.board_description,b.member_id,b.board_cr
        f.upload_file_name,f.store_file_name,f.regi_date
 from board b inner join file_board_image f on b.board_uri = f.board_uri
 where b.board_uri = 'test1095828'
-order by id
+order by id;
+
+
+select * from board where id = 17 and board_uri='voidboard';
+update board
+    set board_title = '이름바꿈',
+        board_description ='설명바꾼다'
+where board_uri='voidboard' and id = 17;

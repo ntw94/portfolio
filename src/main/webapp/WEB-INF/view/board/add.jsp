@@ -11,7 +11,7 @@
 <body>
 
 <form action="/boards/add" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="memberId" name= "memberId" value="${member.memberId}" readonly/>
+    <input type="hidden" name="memberId" name="memberId" value="${member.memberId}" readonly/>
     <table>
         <tr>
             <td>
