@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public interface BoardMapper {
     List<Board> getListAll();
-    Board getListOne(String title);
+    Board getListOne(String boardUri);
     int setInsert(Board board);
     int setUpdate(Board board);
     int setDelete(Board board);

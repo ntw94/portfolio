@@ -29,7 +29,6 @@ public class FileService {
         if(uploadFile == null){
             return;
         }
-
         FileBoardImage fileBoardImage = new FileBoardImage();
         fileBoardImage.setBoardUri(boardSaveForm.getBoardUri());
         fileBoardImage.setStoreFileName(uploadFile.getStoreFileName());

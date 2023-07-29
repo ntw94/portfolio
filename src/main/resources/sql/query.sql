@@ -103,6 +103,7 @@ alter table post_category add unique key(board_uri,category_order);
 desc post_category;
 # drop index `category_order` on post_category;
 select * from post_category;
+select * from file_board_image where board_uri = 'test1095828';
 
 #댓글
 create table comment(
@@ -242,3 +243,10 @@ from stop_member;
 
 
 select * from stop_member;
+
+
+select b.id,b.board_uri,b.board_title,b.board_description,b.member_id,b.board_create_date,
+       f.upload_file_name,f.store_file_name,f.regi_date
+from board b inner join file_board_image f on b.board_uri = f.board_uri
+where b.board_uri = 'test1095828'
+order by id

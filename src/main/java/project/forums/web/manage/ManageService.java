@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import project.forums.domain.board.Board;
+import project.forums.domain.board.BoardMapper;
 import project.forums.domain.board.BoardRole;
 import project.forums.domain.board.BoardRoleMapper;
 import project.forums.domain.category.PostCategory;
@@ -34,6 +36,7 @@ import java.util.stream.Stream;
 public class ManageService {
     private final MemberMapper memberMapper;
     private final StopMemberMapper stopMemberMapper;
+    private final BoardMapper boardMapper;
     private final BoardRoleMapper boardRoleMapper;
     private final PostMapper postMapper;
     private final CommentMapper commentMapper;
@@ -173,10 +176,17 @@ public class ManageService {
         categoryMapper.setNewInsert(map);
     }
 
+    //현재 게시판의 글 카테고리 전체 조회
     public List<PostCategory> getPostCategoryListAll(String boardUri){
 
         return categoryMapper.getListAll(boardUri);
     }
+
+    public Board getBoardInfo(String boardUri){
+
+        return boardMapper.getListOne(boardUri);
+    }
+
 
     /* 서브 매니저 수 */
     public int getTotalSubManager(String boardUri){

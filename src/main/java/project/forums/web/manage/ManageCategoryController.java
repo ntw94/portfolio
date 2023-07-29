@@ -34,6 +34,11 @@ public class ManageCategoryController {
 
         log.info("category: {}",form);
 
+        //카테고리 뷰단에서 값을 다르게 받아와서 여기서 처리해주면 될듯
+        //input value값으로 delete인 값은 따로 빼고
+        //update된 값은 따로 또 여기서 수정해줘서 마지막에 add하면 될듯
+        //결국 앞에서 조금 값을 다르게 주면 됨
+
 
         manageService.categoryAdd(form);
 

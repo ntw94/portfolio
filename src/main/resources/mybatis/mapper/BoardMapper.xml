@@ -10,9 +10,10 @@
     </select>
 
     <select id="getListOne" resultType="project.forums.domain.board.Board">
-        select *
-        from board
-        where board_uri = #{board_uri}
+        select b.id,b.board_uri,b.board_title,b.board_description,b.member_id,b.board_create_date,
+               f.upload_file_name,f.store_file_name,f.regi_date
+        from board b inner join file_board_image f on b.board_uri = f.board_uri
+        where b.board_uri = #{board_uri}
     </select>
 
     <insert id="setInsert"  parameterType="project.forums.domain.board.Board">

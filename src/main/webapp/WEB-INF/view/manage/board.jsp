@@ -18,6 +18,35 @@
     <%@include file="../common/manage-top-menu.jsp"%>
 
     <h1>게시판 정보 수정</h1>
+    <form>
+
+    <table class="table mt-3 pt-3">
+        <tr>
+            <td>게시판 주소</td>
+            <td>${board.boardUri}</td>
+        </tr>
+        <tr>
+            <td>게시판 아이콘</td>
+            <td>
+                <img style="width:200px;height:200px" src="/file/boards/${board.boardUri}/image">
+                <input type="file" name="boardFile">
+            </td>
+        </tr>
+        <tr>
+            <td>게시판 이름</td>
+            <td><input type="text" name="boardName" value="${board.boardTitle}"></td>
+        </tr>
+        <tr>
+            <td>게시판 소개</td>
+            <td>
+                <textarea class="form-control" rows="5" id="comment" name="text">
+                    ${board.boardDescription}
+                </textarea>
+            </td>
+        </tr>
+    </table>
+        <button>저장하기</button>
+    </form>
 </div>
 </body>
 </html>
