@@ -18,6 +18,9 @@
 <div class="container">
 <jsp:include page="../common/manage-top-menu.jsp"/>
     <h1>게시글 관리</h1>
+    <h3>아이디 검색 / 글 차단 여부</h3>
+    <h3>삭제한 글보기</h3>
+    <h3>삭제한 댓글</h3>
 </div>
 </body>
 </html>

@@ -52,6 +52,9 @@
                     <div style="white-space:nowrap; overflow:auto;  width:100%;">
                         <ul style="list-style: none;" id="sortable">
                             <c:forEach var="list" items="${list}">
+                            <input type="hidden" name='cateId' id="cate-id-${list.id}" value="${list.id}">
+                            <div id="delete-area-${list.id}"></div>
+
                             <li class="ui-state-default" id="cate-${list.id}">
                                 <input type="hidden" name='categoryOrder' value="">
                                 <div>
@@ -83,9 +86,26 @@
     }
 
     function deleteBtn(id){
-        $("#cate-"+id).css('display','none');
+
+        var jsHtml = "";
+        jsHtml += "<input type='hidden' name='deleteCategoryId' id='delete-cate-'"+id+" value="+id+">"
+
+        const deleteArea = document.getElementById('delete-area-'+id);
+        deleteArea.insertAdjacentHTML("afterbegin", jsHtml);
+
+        <%----%>
+
+        const item = document.getElementById("cate-"+id);
+        item.remove();
+
+        //hidden input Id 삭제
+        const item2 = document.getElementById("cate-id-"+id);
+        item2.remove();
+
+        reorder();
     }
 
+    //새로 deleteAddBtn, updateAddBtn만들어서 관리
     function cateAdd(){
         var ulNode = document.getElementById("sortable");
         var data = $("#inputCategoryData").val();
