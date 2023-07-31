@@ -40,13 +40,10 @@
         values (#{boardUri},#{uploadFileName},#{storeFileName},now())
     </insert>
 
-    <update id="updateBoardImage" parameterType="project.forums.domain.file.FileBoardImage">
-        update file_board_image
-        set
-            upload_file_name=#{uploadFileName},
-            store_file_name=#{storeFileName},
-            regi_date=now()
-        where board_uri = #{boardUri}
-    </update>
+    <insert id="updateBoardImage" parameterType="project.forums.domain.file.FileBoardImage">
+        insert into file_board_image (board_uri, upload_file_name, store_file_name, regi_date)
+        values (#{boardUri},#{uploadFileName},#{storeFileName},now())
+        on duplicate key update upload_file_name=#{uploadFileName},store_file_name=#{storeFileName}
+    </insert>
 
 </mapper>

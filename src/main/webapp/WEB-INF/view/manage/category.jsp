@@ -55,7 +55,8 @@
                             <li class="ui-state-default" id="cate-${list.id}">
                                 <input type="hidden" name='categoryOrder' value="">
                                 <div>
-                                    <input style="margin-left: 50px;" type="text" name='categoryName' value="${list.categoryMenu}">
+                                    <input style="margin-left: 50px;" type="text" name='categoryName' value="${list.categoryMenu}" readonly>
+                                    <input type="button" value="수정" onclick="updateBtn('${list.id}')" />
                                     <input type="button" value="삭제" onclick="deleteBtn('${list.id}')" />
                                 </div>
                             </li>
@@ -77,6 +78,10 @@
     //$("#sortable").sortable();
     //$("#sortable").disableSelection(); // 아이템 내부의 글자를 드래그 해서 선택하지 못하도록 하는 기능
 
+    function updateBtn(id){
+
+    }
+
     function deleteBtn(id){
         $("#cate-"+id).css('display','none');
     }
@@ -88,7 +93,8 @@
         jsHtml += "<li class='ui-state-default'>";
         jsHtml +=   "<input type='hidden' name='categoryOrder' value=''>";
         jsHtml +=   "<div>";
-        jsHtml +=       "<input style='margin-left:50px'; type='text' name='categoryName' value="+data+">";
+        jsHtml +=       "<input style='margin-left:50px'; type='text' name='categoryName' value="+data+" readonly>";
+        jsHtml +=       "<input type='button' value='수정' onclick='updateBtn()' >";
         jsHtml +=       "<input type='button' value='삭제' onclick='deleteBtn()' >";
         jsHtml +=   "</div>";
         jsHtml += "</li>";

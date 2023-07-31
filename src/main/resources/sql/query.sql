@@ -141,6 +141,8 @@ create table file_board_image(
     store_file_name varchar(100),
     regi_date datetime
 );
+alter table file_board_image add unique key(board_uri);
+
 
 #게시글 임시 이미지 테이블
 create table file_post_temp(
@@ -253,3 +255,8 @@ update board
     set board_title = '이름바꿈',
         board_description ='설명바꾼다'
 where board_uri='voidboard' and id = 17;
+
+select * from board;
+select * from file_board_image;
+
+select * from file_board_image;

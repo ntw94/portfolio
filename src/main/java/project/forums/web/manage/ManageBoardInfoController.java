@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import project.forums.domain.board.Board;
 import project.forums.web.manage.form.ManageUpdateBoardInfoForm;
 
+import java.io.IOException;
+
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/manage")
@@ -28,7 +30,7 @@ public class ManageBoardInfoController {
     }
 
     @PostMapping("/boards/{boardUri}/edit")
-    public String manageCategoryEdit(@ModelAttribute ManageUpdateBoardInfoForm form, @PathVariable String boardUri){
+    public String manageCategoryEdit(@ModelAttribute ManageUpdateBoardInfoForm form, @PathVariable String boardUri) throws IOException {
 
         log.info("{}",form);
         manageService.setUpdateBoardInfo(form);

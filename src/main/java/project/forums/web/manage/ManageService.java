@@ -12,7 +12,10 @@ import project.forums.domain.category.PostCategory;
 import project.forums.domain.category.PostCategoryMapper;
 import project.forums.domain.comment.Comment;
 import project.forums.domain.comment.CommentMapper;
+import project.forums.domain.file.FileBoardImage;
+import project.forums.domain.file.FileImageMapper;
 import project.forums.domain.file.FileStore;
+import project.forums.domain.file.UploadFile;
 import project.forums.domain.member.Member;
 import project.forums.domain.member.MemberMapper;
 import project.forums.domain.member.StopMember;
@@ -23,6 +26,7 @@ import project.forums.web.login.LoginService;
 import project.forums.web.manage.form.*;
 import project.forums.web.member.MemberService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +46,7 @@ public class ManageService {
     private final CommentMapper commentMapper;
     private final FileStore fileStore;
     private final PostCategoryMapper categoryMapper;
+    private final FileImageMapper fileImageMapper;
 
     public List<Member> getMemberList(ManageMemberForm form,Model model){
 
@@ -191,7 +196,7 @@ public class ManageService {
         return board;
     }
 
-    public void setUpdateBoardInfo(ManageUpdateBoardInfoForm form){
+    public void setUpdateBoardInfo(ManageUpdateBoardInfoForm form) throws IOException {
         Board board= new Board();
         board.setBoardUri(form.getBoardUri());
         board.setBoardDescription(form.getBoardDescription());
@@ -199,7 +204,19 @@ public class ManageService {
         board.setMemberId(form.getMemberId());
         board.setId(Integer.parseInt(form.getId()));
 
+        //파일 이미지 업데이트 null이라면? 그냥 그대로 지나가면 됨
+        UploadFile file = fileStore.storeFile(form.getBoardImageFile());//
+        if(file != null){
+            FileBoardImage fileBoardImage = new FileBoardImage();
+            fileBoardImage.setUploadFileName(file.getUploadFileName());
+            fileBoardImage.setStoreFileName(file.getStoreFileName());
+            fileBoardImage.setBoardUri(form.getBoardUri());
+
+            fileImageMapper.updateBoardImage(fileBoardImage);
+        }
+
         boardMapper.setUpdate(board);
+
     }
 
     /* 서브 매니저 수 */
