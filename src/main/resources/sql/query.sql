@@ -260,3 +260,13 @@ select * from board;
 select * from file_board_image;
 
 select * from file_board_image;
+
+select * from post_category;
+delete from post_category
+where id=220;
+
+insert into post_category(id,board_uri,category_menu,category_order,category_regiDate)
+values(215,'mymymymyboard','zzzzz321',4,now())
+on duplicate key update category_menu = values(category_menu),category_order = values(category_order);
+
+select * from post_category;

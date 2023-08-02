@@ -10,14 +10,26 @@
         order by category_order
     </select>
 
+
     <insert id="setInsert"  parameterType="Map">
-            insert into post_category (board_uri,category_menu,category_order,category_regiDate)
-            values
-                <foreach collection="list" item="item" separator=",">
-                    (#{item.boardUri},#{item.categoryMenu},#{item.categoryOrder},now())
-                </foreach>
-            on duplicate key update category_order = #{categoryOrder}
+        insert into post_category (board_uri,category_menu,category_order,category_regiDate)
+        values
+            <foreach collection="list" item="item" separator=",">
+                (#{item.boardUri},#{item.categoryMenu},#{item.categoryOrder},now())
+            </foreach>
+        on duplicate key update category_order = #{categoryOrder}
     </insert>
+
+
+    <insert id="setUpdateCategoryList"  parameterType="Map">
+        insert into post_category (id,board_uri,category_menu,category_order,category_regiDate)
+        values
+        <foreach collection="newList" item="item" separator=",">
+            (#{item.id},#{item.boardUri},#{item.categoryMenu},#{item.categoryOrder},now())
+        </foreach>
+         on duplicate key update category_order = values(category_order), category_menu = values(category_menu)
+    </insert>
+
 
     <!-- 추가된 카테고리 처리 -->
     <insert id="setNewInsert" parameterType="Map">
@@ -36,16 +48,17 @@
     </insert>
 
 
-    <update id="setUpdate" parameterType="project.forums.domain.category.PostCategory">
-        update post_category
-        set
-            category_menu = #{categoryMenu}
-        where id = #{id} and board_uri=#{boardUri}
-    </update>
-
-    <delete id="setDelete" parameterType="project.forums.domain.category.PostCategory">
+    <delete id="setDeleteCategoryList" parameterType="Map">
         delete from post_category
-        where board_uri = #{boardUri} and id = #{id} and category_menu=#{categoryMenu}
+        <where>
+            <foreach collection="deleteList" item="item" separator="or">
+                (board_uri = #{boardUri} and id = #{item})
+            </foreach>
+        </where>
+
     </delete>
+
+
+
 
 </mapper>

@@ -52,13 +52,13 @@
                     <div style="white-space:nowrap; overflow:auto;  width:100%;">
                         <ul style="list-style: none;" id="sortable">
                             <c:forEach var="list" items="${list}">
-                            <input type="hidden" name='cateId' id="cate-id-${list.id}" value="${list.id}">
                             <div id="delete-area-${list.id}"></div>
 
                             <li class="ui-state-default" id="cate-${list.id}">
-                                <input type="hidden" name='categoryOrder' value="">
+                                <input type="hidden" name='categoryOrder' value="${list.categoryOrder}">
                                 <div>
-                                    <input style="margin-left: 50px;" type="text" name='categoryName' value="${list.categoryMenu}" readonly>
+                                    <input type="hidden" name='cateId' id="cate-id-${list.id}" value="${list.id}">
+                                    <input style="margin-left: 50px;" type="text" name='categoryName' id="cate-menu-${list.id}"  value="${list.categoryMenu}" >
                                     <input type="button" value="수정" onclick="updateBtn('${list.id}')" />
                                     <input type="button" value="삭제" onclick="deleteBtn('${list.id}')" />
                                 </div>
@@ -80,50 +80,76 @@
 <script>
     //$("#sortable").sortable();
     //$("#sortable").disableSelection(); // 아이템 내부의 글자를 드래그 해서 선택하지 못하도록 하는 기능
+    var newCategoryId = 1;
 
     function updateBtn(id){
+        // const updateInput = document.getElementById('cate-menu-'+id);
+        // updateInput.readOnly = false;
+        //
+        // var jsHtml = "";
+        // jsHtml += "<input type='hidden' name='updateCategoryId' id='update-cate-"+id+"' value=''>"
+        //
+        // const deleteArea = document.getElementById('cate-id-'+id);
+        // deleteArea.insertAdjacentHTML("afterend", jsHtml);
+        //
+        // const updateCheck = document.getElementById('update-cate-'+id).value;
+        // alert(updateCheck);
+        // if(updateCheck !== '') {
+        //     return;
+        // }
+        // updateCheck.value = id;
 
+
+        reorder()
     }
 
     function deleteBtn(id){
 
         var jsHtml = "";
-        jsHtml += "<input type='hidden' name='deleteCategoryId' id='delete-cate-'"+id+" value="+id+">"
+        jsHtml += "<input type='hidden' name='deleteCategoryId' id='delete-cate-"+id+"' value="+id+">"
 
         const deleteArea = document.getElementById('delete-area-'+id);
         deleteArea.insertAdjacentHTML("afterbegin", jsHtml);
 
-        <%----%>
-
+        //li삭제
         const item = document.getElementById("cate-"+id);
         item.remove();
 
-        //hidden input Id 삭제
-        const item2 = document.getElementById("cate-id-"+id);
-        item2.remove();
+        reorder();
+    }
+
+    function newCategoryDelete(id){
+        const item = document.getElementById("new-cate-"+id);
+        item.remove();
 
         reorder();
     }
 
     //새로 deleteAddBtn, updateAddBtn만들어서 관리
     function cateAdd(){
+
         var ulNode = document.getElementById("sortable");
         var data = $("#inputCategoryData").val();
         var jsHtml = "";
-        jsHtml += "<li class='ui-state-default'>";
-        jsHtml +=   "<input type='hidden' name='categoryOrder' value=''>";
+
+        jsHtml +=   "<input type='hidden' name='newCategoryOrder' value=''>";
         jsHtml +=   "<div>";
-        jsHtml +=       "<input style='margin-left:50px'; type='text' name='categoryName' value="+data+" readonly>";
-        jsHtml +=       "<input type='button' value='수정' onclick='updateBtn()' >";
-        jsHtml +=       "<input type='button' value='삭제' onclick='deleteBtn()' >";
+        jsHtml +=       "<input type='hidden' name='newCateId' value='-1' >";
+        jsHtml +=       "<input style='margin-left:50px'; type='text' name='newCategoryName' value="+data+">";
+        jsHtml +=       "<input type='button' value='수정' onclick='' >";
+        jsHtml +=       "<input type='button' value='삭제' onclick='newCategoryDelete("+newCategoryId+")' >";
         jsHtml +=   "</div>";
-        jsHtml += "</li>";
 
         var temp = document.createElement('li');
+        temp.setAttribute('class','ui-state-default');
+        temp.setAttribute('id','new-cate-'+newCategoryId);
         temp.innerHTML = jsHtml;
+
         ulNode.append(temp);
 
         $("#inputCategoryData").val("");
+
+        newCategoryId++;
         reorder();
     }
 

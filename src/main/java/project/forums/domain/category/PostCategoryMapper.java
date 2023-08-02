@@ -14,7 +14,7 @@ public interface PostCategoryMapper {
     void createPostCategory(String boardUri);
     int setInsert(Map<String,Object> map);
     int setNewInsert(Map<String,Object> map);
-    int setUpdate(PostCategory postCategory);
-    int setDelete(PostCategory postCategory);
 
+    void setDeleteCategoryList(Map<String,Object> map);
+    void setUpdateCategoryList(Map<String,Object> map);
 }

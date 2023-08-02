@@ -163,13 +163,18 @@ public class ManageService {
         List<PostCategory> newList = new ArrayList<>();
         //새로운 추가된 카테고리 먼저 db에 추가한다.
 
-        if(form.getCategoryName() == null)
+        if(form.getCateId() == null ||
+                form.getCategoryName() == null ||
+                form.getCategoryName().equals("")) {
+
             return;
+        }
 
         int size = form.getCategoryName().length;
 
         for(int i = 0; i< size;i++){
             PostCategory postCategory = new PostCategory();
+            postCategory.setId(form.getCateId()[i]);
             postCategory.setCategoryMenu(form.getCategoryName()[i]);
             postCategory.setCategoryOrder(Integer.parseInt(form.getCategoryOrder()[i]));
             postCategory.setBoardUri(form.getBoardUri());
@@ -178,8 +183,40 @@ public class ManageService {
         log.info("기존카테고리 변경 : {}",newList);
         Map<String,Object> map = new HashMap<>();
         map.put("newList",newList);
-        categoryMapper.setNewInsert(map);
+
+        categoryMapper.setUpdateCategoryList(map);
     }
+
+
+    public void newCategoryAdd(ManageCategorySaveForm form){
+
+        List<PostCategory> newList = new ArrayList<>();
+        //새로운 추가된 카테고리 먼저 db에 추가한다.
+
+        if(form.getNewCategoryName() == null || form.getNewCategoryName().equals("")) {
+            //에러
+            return;
+        }
+        if(form.getNewCategoryOrder() == null) return ;
+
+        int size = form.getNewCategoryName().length;
+
+        for(int i = 0; i< size;i++){
+            PostCategory postCategory = new PostCategory();
+            postCategory.setCategoryMenu(form.getNewCategoryName()[i]);
+            postCategory.setCategoryOrder(Integer.parseInt(form.getNewCategoryOrder()[i]));
+            postCategory.setBoardUri(form.getBoardUri());
+            newList.add(postCategory);
+        }
+
+        log.info("새로운 카테고리 추가 : {}",newList);
+        Map<String,Object> map = new HashMap<>();
+        map.put("newList",newList);
+
+        categoryMapper.setNewInsert(map);
+
+    }
+
 
     //현재 게시판의 글 카테고리 전체 조회
     public List<PostCategory> getPostCategoryListAll(String boardUri){
@@ -218,6 +255,22 @@ public class ManageService {
         boardMapper.setUpdate(board);
 
     }
+    public void deleteCategoryMenus(ManageCategorySaveForm form){
+
+        List<Integer> deleteList = form.getDeleteCategoryId();
+        String boardUri = form.getBoardUri();
+
+        if(deleteList == null)
+            return;
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("deleteList",deleteList);
+        map.put("boardUri",boardUri);
+
+        categoryMapper.setDeleteCategoryList(map);
+    }
+
+
 
     /* 서브 매니저 수 */
     public int getTotalSubManager(String boardUri){
