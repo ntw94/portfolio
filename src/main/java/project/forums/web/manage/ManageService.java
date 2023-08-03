@@ -20,6 +20,7 @@ import project.forums.domain.member.Member;
 import project.forums.domain.member.MemberMapper;
 import project.forums.domain.member.StopMember;
 import project.forums.domain.member.StopMemberMapper;
+import project.forums.domain.post.Post;
 import project.forums.domain.post.PostMapper;
 import project.forums.web.board.PageHandler;
 import project.forums.web.login.LoginService;
@@ -271,11 +272,23 @@ public class ManageService {
     }
 
     // 게시글 관리 리스트 불러오기 검색 + 페이징
-    public List<ManagePostListForm> getPostListSearchAndPaging(ManagePostForm form){
+    public List<Post> getPostList(ManagePostForm form,Model model){
 
-        //List<ManagePostListForm> list = memberMapper.getListWithPagingSearch()
-        
-        return null;
+        Map<String,Object> map = new HashMap<>();
+        map.put("keyword",form.getKeyword());
+        map.put("boardUri",form.getBoardUri());
+        map.put("perPageSize",form.getPerPageSize());
+        map.put("beginPage",(form.getPage()-1)*form.getPerPageSize());
+        map.put("memberId",form.getKeyword());
+
+        int totalMember = postMapper.getTotalBoardPosts(map);
+        PageHandler pageHandler = new PageHandler(form.getPage(),form.getPerPageSize(),totalMember);
+        model.addAttribute("page",pageHandler);
+        model.addAttribute("keyword",form.getKeyword());
+
+        List<Post> list = postMapper.getListWithSearch(map);
+
+        return list;
     }
 
 

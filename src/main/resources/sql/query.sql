@@ -270,3 +270,11 @@ values(215,'mymymymyboard','zzzzz321',4,now())
 on duplicate key update category_menu = values(category_menu),category_order = values(category_order);
 
 select * from post_category;
+select * from post where board_uri = 'mymymymyboard';
+
+update post
+set
+    post_category = 'asdfdsaf'
+where board_uri = 'mymymymyboard' and post_category = 'zz';
+
+select * from post;

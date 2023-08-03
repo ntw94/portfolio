@@ -11,15 +11,16 @@ import java.util.Map;
 @Component
 public interface PostMapper {
     List<Post> getListAll(Map<String,Object> map);
+    List<Post> getListWithSearch(Map<String,Object> map);
     Post getListOne(Post post);
     int setInsert(Post post);
     int setDelete(Post post);
     int setUpdate(Post post);
 
     //조회수 검색 등등 추가
-    int getTotalPosts(@Param("boardUri") String boardUri,
+    int getTotalCategoryPosts(@Param("boardUri") String boardUri,
                       @Param("category") String category);
-
+    int getTotalBoardPosts(Map<String,Object> map);
     //조회수 올리기
     void viewsUp(Post post);
     //공지글 가져오기

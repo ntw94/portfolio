@@ -35,7 +35,7 @@ public class PostService {
                                        int perPageSize,
                                        Model model){
 
-        int totalPost = postMapper.getTotalPosts(boardUri,category);
+        int totalPost = postMapper.getTotalCategoryPosts(boardUri,category);
         PageHandler pageHandler = new PageHandler(page,perPageSize,totalPost);
 
         model.addAttribute("page",pageHandler);

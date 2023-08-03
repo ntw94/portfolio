@@ -3,6 +3,18 @@
 
 <mapper namespace="project.forums.domain.post.PostMapper">
 
+
+    <sql id="search">
+        <choose>
+            <when test="keyword != null and keyword != ''">
+                and (post_writer like CONCAT('%',#{keyword},'%'))
+            </when>
+            <otherwise>
+                and 1!=1
+            </otherwise>
+        </choose>
+    </sql>
+
 <!--    공지글포함 글 가져오기 -->
     <select id="getNoticePosts" parameterType="String" resultType="project.forums.domain.post.Post">
         select p.id id, p.board_uri board_uri, post_title, post_writer,post_hit, post_content,post_notice,post_category,p.post_regiDate post_regiDate
@@ -36,6 +48,17 @@
             and board_uri=#{boardUri}
         order by id desc
         limit #{beginPage},#{perPageSize}
+    </select>
+
+    <select id="getListWithSearch" parameterType="Map" resultType="project.forums.domain.post.Post">
+        select *
+        from post p
+        where 1 = 1
+        <include refid="search"/>
+        and board_uri=#{boardUri}
+        order by id desc
+        limit #{beginPage},#{perPageSize}
+
     </select>
 
 <!--    공지 사이트에서 5개의 글을 가져온다 운영자가 쓴 글을-->
@@ -73,7 +96,8 @@
         where board_uri = #{boardUri} and id = #{id} and post_writer=#{postWriter}
     </delete>
 
-    <select id="getTotalPosts" parameterType="String">
+    <!-- 게시판 입력한 카테고리 전체 글 수 -->
+    <select id="getTotalCategoryPosts" parameterType="String">
         select count(*)
         from post
         where 1=1
@@ -85,6 +109,21 @@
                             where pc.category_menu = #{category}  and pc.board_uri = board_uri)
         </if>
             and board_uri=#{boardUri}
+    </select>
+
+    <!--게시판 전체 글 수-->
+    <select id="getTotalBoardPosts" parameterType="String">
+        select count(*)
+        from post
+        where board_uri = #{boardUri}
+    </select>
+
+    <!-- 검색한 회원의 게시글 수 출력 -->
+    <select id="getTotalSearchPosts" parameterType="Map">
+        select count(*)
+        from post
+        where board_uri = #{boardUri} and post_writer = #{memberId}
+        order by desc post_regiDate
     </select>
 
     <!-- 게시글 조회수 추가 -->
