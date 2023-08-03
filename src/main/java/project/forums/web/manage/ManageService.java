@@ -270,6 +270,13 @@ public class ManageService {
         categoryMapper.setDeleteCategoryList(map);
     }
 
+    // 게시글 관리 리스트 불러오기 검색 + 페이징
+    public List<ManagePostListForm> getPostListSearchAndPaging(ManagePostForm form){
+
+        //List<ManagePostListForm> list = memberMapper.getListWithPagingSearch()
+        
+        return null;
+    }
 
 
     /* 서브 매니저 수 */

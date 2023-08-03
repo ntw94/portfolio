@@ -2,7 +2,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@include file="../common/_include.jsp" %>
+<%@include file="../../common/_include.jsp" %>
 
 
 <!DOCTYPE html>
@@ -16,11 +16,13 @@
 </head>
 <body>
 <div class="container">
-<jsp:include page="../common/manage-top-menu.jsp"/>
-    <h1>게시글 관리</h1>
-    <h3>아이디 검색 / 글 차단 여부</h3>
-    <h3>삭제한 글보기</h3>
-    <h3>삭제한 댓글</h3>
+<jsp:include page="../../common/manage-top-menu.jsp"/>
+    <h1>삭제한 글 관리!!</h1>
+    <h3><a href="/manage/post/${boardUri}">아이디 검색 / 글 차단 여부</a></h3>
+    <h3><a href="/manage/post/reported/${boardUri}">신고관리</a></h3>
+    <h3><a href="/manage/post/deleted/post/${boardUri}">삭제한 글보기</a></h3>
+    <h3><a href="/manage/post/deleted/comment/${boardUri}">삭제한 댓글</a></h3>
+
 </div>
 </body>
 </html>

@@ -28,7 +28,6 @@ public class ManageController {
     @GetMapping("/home/{boardUri}")
     public String boardManageHome(@PathVariable String boardUri, Model model){
 
-
         int todayPosts = manageService.getTodayBoardPosts(boardUri);
         int todayComments = manageService.getTodayBoardComments(boardUri);
 

@@ -62,7 +62,6 @@ public class ManageMemberController {
         log.info("{}",form);
         manageService.unlockMember(form);
 
-
         return "redirect:/manage/member/stop/{boardUri}";
     }
     //게시판 관리자 팝업창 띄우기
