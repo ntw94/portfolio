@@ -22,6 +22,7 @@
     <h3><a href="/manage/post/deleted/post/${boardUri}">삭제한 글보기</a></h3>
     <h3><a href="/manage/post/deleted/comment/${boardUri}">삭제한 댓글</a></h3>
 
+
 </div>
 </body>
 </html>

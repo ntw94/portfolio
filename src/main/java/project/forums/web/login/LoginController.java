@@ -28,8 +28,13 @@ public class LoginController {
     public String loginForm(@Valid @ModelAttribute LoginForm form,
                             BindingResult bindingResult,
                             @RequestParam(defaultValue = "/") String redirectURL,
+                            HttpServletRequest request,
                             Model model){
+
+        log.info("{}",request.getAttribute("redirectURL"));
+
         model.addAttribute("redirectURL",redirectURL);
+
         return "login/loginForm";
     }
 

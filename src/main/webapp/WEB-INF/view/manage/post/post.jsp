@@ -60,13 +60,13 @@
 
     <ul class="pagination justify-content-center">
         <c:if test="${page.showPrev}">
-            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?p=${page.beginPage-1}&keyword=${keyword}">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?page=${page.beginPage-1}&keyword=${keyword}">Previous</a></li>
         </c:if>
         <c:forEach var="i" begin="${page.beginPage}" end="${page.endPage}">
-            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?p=${i}&keyword=${keyword}">${i}</a></li>
+            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?page=${i}&keyword=${keyword}">${i}</a></li>
         </c:forEach>
         <c:if test="${page.showNext}">
-            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?p=${page.endPage+1}&keyword=${keyword}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?page=${page.endPage+1}&keyword=${keyword}">Next</a></li>
         </c:if>
     </ul>
 

@@ -22,6 +22,106 @@
     <h3><a href="/manage/post/deleted/post/${boardUri}">삭제한 글보기</a></h3>
     <h3><a href="/manage/post/deleted/comment/${boardUri}">삭제한 댓글</a></h3>
 
+    <form name="searchForm">
+        <select name="searchMenu">
+            <option>아이디</option>
+            <option>글제목</option>
+            <option>아이디 + 글 제목</option>
+            <option>아이디 + 글 제목 + 내용</option>
+        </select>
+
+        <input type="text" name="keyword">
+        <button>검색</button>
+    </form>
+
+
+    <form id="postForm">
+        <table>
+            <tr>
+                <td><input type="checkbox" name="selectall" value="selectall" onclick="selectAll(this)">전체선택 </td>
+                <td>번호</td>
+                <td>카테고리</td>
+                <td>글제목</td>
+                <td>글작성시간</td>
+                <td>복구</td>
+            </tr>
+            <c:forEach var="list" items="${list}">
+                <tr>
+                    <td><input type="checkbox" name="chkMember" value="${list.id}" onclick="checkSelectAll()"></td>
+                    <td>${list.id}</td>
+                    <td>${list.postCategory}</td>
+                    <td>${list.postTitle}</td>
+                    <td>${list.postRegiDate}</td>
+                    <td>복구</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </form>
+
+    <ul class="pagination justify-content-center">
+        <c:if test="${page.showPrev}">
+            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?page=${page.beginPage-1}&keyword=${keyword}">Previous</a></li>
+        </c:if>
+        <c:forEach var="i" begin="${page.beginPage}" end="${page.endPage}">
+            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?page=${i}&keyword=${keyword}">${i}</a></li>
+        </c:forEach>
+        <c:if test="${page.showNext}">
+            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?page=${page.endPage+1}&keyword=${keyword}">Next</a></li>
+        </c:if>
+    </ul>
+
+    <form>
+        <select name="searchMenu">
+            <option>아이디</option>
+            <option>글제목</option>
+            <option>아이디 + 글 제목</option>
+            <option>아이디 + 글 제목 + 내용</option>
+        </select>
+
+        <input type="text" name="keyword">
+        <button>검색</button>
+    </form>
+
+
+
 </div>
 </body>
 </html>
+
+
+
+<script>
+    function selectAll(selectAll)  {
+        const checkboxes
+            = document.getElementsByName('chkMember');
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = selectAll.checked;
+        })
+    }
+    function checkSelectAll()  {
+        const checkboxes = document.querySelectorAll('input[name="chkMember"]');
+        const checked = document.querySelectorAll('input[name="chkMember"]:checked');
+        const selectAll = document.querySelector('input[name="selectall"]');
+
+        if(checkboxes.length === checked.length)  {
+            selectAll.checked = true;
+        }else {
+            selectAll.checked = false;
+        }
+    }
+
+    function openModal(){
+        let popOption = "width=650px, height=750px, top=300px, left=300px, scrollbars=yes";
+        let openUrl = "";
+        let windowTarget = 'pop';
+        window.open(openUrl,windowTarget,popOption);
+
+        var form = document.getElementById("memberForm")
+        form.action='/manage/member/stop/popup/${boardUri}'
+        form.method="post";
+        form.target=windowTarget;
+        form.submit();
+    }
+
+</script>

@@ -36,6 +36,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/file/**",
                         "/css/**","/*.ico","/error"
                 );
+
     }
 
 }
