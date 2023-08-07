@@ -36,7 +36,6 @@
                 <textarea style="height: 350px" name="postContent" id="editor">
 
                 </textarea>
-
             </td>
         </tr>
         <tr>
@@ -52,6 +51,7 @@
 
 </div>
 
+<%-- ckeditor 설정--%>
 <script>
     class MyUploadAdapter {
         constructor( loader ) {
@@ -150,15 +150,24 @@
                     'resizeImage'
                 ]
             },
-
-
         })
         .then( editor => {
             window.editor = editor;
         }).catch( error => {
             console.log( error );
         } );
+
 </script>
+
+<%-- ckeditor 정규식--%>
+<script>
+    function tagCut() {
+        var extractTxt = window.editor.getData().replace(/(<([^>]+)>)/gi, '');
+        alert(extractTxt); // editor 값 가져오기
+    }
+</script>
+
+<input type="button" value="html 제거된지 확인하기" onclick="tagCut()">
 
 </body>
 </html>

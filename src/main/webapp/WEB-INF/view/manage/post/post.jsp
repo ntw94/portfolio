@@ -24,13 +24,13 @@
 
     <form name="searchForm">
         <select name="searchMenu">
-            <option>아이디</option>
-            <option>글제목</option>
-            <option>아이디 + 글 제목</option>
-            <option>아이디 + 글 제목 + 내용</option>
+            <option value="id">아이디</option>
+            <option value="title">글제목</option>
+            <option value="id_title">아이디 + 글 제목</option>
+            <option value="id+title_content">아이디 + 글 제목 + 내용</option>
         </select>
 
-        <input type="text" name="keyword">
+        <input type="text" name="keyword" value="${keyword}">
         <button>검색</button>
     </form>
 
@@ -52,11 +52,14 @@
                     <td>${list.postCategory}</td>
                     <td>${list.postTitle}</td>
                     <td>${list.postRegiDate}</td>
-                    <td>삭제</td>
+                    <td><input type="button" onclick="deleteBtn('${list.id}')" value='삭제'></td>
                 </tr>
             </c:forEach>
         </table>
+
+        <input type="button" onclick="deleteAllBtn()" value="삭제"/>
     </form>
+
 
     <ul class="pagination justify-content-center">
         <c:if test="${page.showPrev}">
@@ -72,13 +75,13 @@
 
     <form>
         <select name="searchMenu">
-            <option>아이디</option>
-            <option>글제목</option>
-            <option>아이디 + 글 제목</option>
-            <option>아이디 + 글 제목 + 내용</option>
+            <option value="id">아이디</option>
+            <option value="title">글제목</option>
+            <option value="id_title">아이디 + 글 제목</option>
+            <option value="id+title_content">아이디 + 글 제목 + 내용</option>
         </select>
 
-        <input type="text" name="keyword">
+        <input type="text" name="keyword" value="${keyword}">
         <button>검색</button>
     </form>
 
@@ -115,10 +118,11 @@
         window.open(openUrl,windowTarget,popOption);
 
         var form = document.getElementById("memberForm")
-        form.action='/manage/member/stop/popup/${boardUri}'
+        form.action='/manage/post/popup/${boardUri}/delete'
         form.method="post";
         form.target=windowTarget;
         form.submit();
     }
+
 
 </script>
