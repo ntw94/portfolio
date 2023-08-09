@@ -1,14 +1,7 @@
-ALTER TABLE portfolio.post ADD available boolean default true;
-
-select * from portfolio.post where available = 1 and board_uri = 'test';
-
-update portfolio.post
-set
-    post.available = false
-where board_uri = 'test' and post_writer = 'asdf';
-
-select * from portfolio.post where board_uri = 'test' and available = false;
+ALTER TABLE portfolio.post ADD available boolean default true; # available 컬럼 추가
+ALTER TABLE portfolio.post ADD no_tag_content text; #태그 제거한 순수 내용
 
 
-select * from portfolio.post
-where post_content like '%p%';
+select * from portfolio.post;
+select * from portfolio.file_board_image;
+

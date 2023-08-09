@@ -75,7 +75,7 @@
 
         _initRequest() {
             const xhr = this.xhr = new XMLHttpRequest();
-            xhr.open( 'POST', 'http://localhost:8080/api/image/upload?uuid=${uuid}', true );
+            xhr.open( 'POST', 'http://localhost:8081/api/image/upload?uuid=${uuid}', true );
             xhr.responseType = 'json';
         }
 
@@ -156,13 +156,13 @@
         }).catch( error => {
             console.log( error );
         } );
-
 </script>
 
 <%-- ckeditor 정규식--%>
 <script>
     function tagCut() {
-        var extractTxt = window.editor.getData().replace(/(<([^>]+)>)/gi, '');
+        // var extractTxt = window.editor.getData().replace(/(<([^>]+)>)/gi, '');
+        var extractTxt = window.editor.getData().replace(/<[^>]*>?/gi, '');
         alert(extractTxt); // editor 값 가져오기
     }
 </script>
