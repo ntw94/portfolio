@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import project.forums.domain.post.Post;
+import project.forums.web.manage.form.ManageDeletePostForm;
 import project.forums.web.manage.form.ManagePostForm;
 import project.forums.web.manage.form.ManagePostListForm;
 import project.forums.web.post.PostService;
@@ -36,13 +37,16 @@ public class ManagePostController {
 
         return "manage/post/post";
     }
+    //선택된 글 삭제하기
     @PostMapping("/post/{boardUri}/delete")
-    public String managePostDelete(@ModelAttribute ManagePostForm form,@PathVariable String boardUri){
-
+    public String managePostDelete(@ModelAttribute ManageDeletePostForm form, @PathVariable String boardUri){
+        log.info("{}",form);
+        manageService.setDeletePosts(form);
 
         return "redirect:/manage/post/{boardUri}";
     }
 
+    //삭제한 글 보기
     @GetMapping("/post/deleted/post/{boardUri}")
     public String managePostDeletedPost(@ModelAttribute ManagePostForm form, @PathVariable String boardUri,Model model){
 
@@ -52,6 +56,7 @@ public class ManagePostController {
         return "manage/post/post-deleted-post";
     }
 
+    //삭제한 댓글 보기
     @GetMapping("/post/deleted/comment/{boardUri}")
     public String managePostDeletedComment(@PathVariable String boardUri){
 

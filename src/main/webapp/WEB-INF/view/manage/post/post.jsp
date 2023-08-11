@@ -35,7 +35,7 @@
     </form>
 
 
-    <form id="postForm">
+    <form id="postForm" action="/manage/post/${boardUri}/delete" method="post">
         <table>
             <tr>
                 <td><input type="checkbox" name="selectall" value="selectall" onclick="selectAll(this)">전체선택 </td>
@@ -47,7 +47,7 @@
             </tr>
             <c:forEach var="list" items="${list}">
                 <tr>
-                    <td><input type="checkbox" name="chkMember" value="${list.id}" onclick="checkSelectAll()"></td>
+                    <td><input type="checkbox" name="chkPostId" value="${list.id}" onclick="checkSelectAll()"></td>
                     <td>${list.id}</td>
                     <td>${list.postCategory}</td>
                     <td>${list.postTitle}</td>
@@ -58,6 +58,7 @@
         </table>
 
         <input type="button" onclick="deleteAllBtn()" value="삭제"/>
+        <input type="submit"  value="테스트"/>
     </form>
 
 
@@ -93,15 +94,15 @@
 <script>
     function selectAll(selectAll)  {
         const checkboxes
-            = document.getElementsByName('chkMember');
+            = document.getElementsByName('chkPost');
 
         checkboxes.forEach((checkbox) => {
             checkbox.checked = selectAll.checked;
         })
     }
     function checkSelectAll()  {
-        const checkboxes = document.querySelectorAll('input[name="chkMember"]');
-        const checked = document.querySelectorAll('input[name="chkMember"]:checked');
+        const checkboxes = document.querySelectorAll('input[name="chkPost"]');
+        const checked = document.querySelectorAll('input[name="chkPost"]:checked');
         const selectAll = document.querySelector('input[name="selectall"]');
 
         if(checkboxes.length === checked.length)  {

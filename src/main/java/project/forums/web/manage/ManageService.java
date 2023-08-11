@@ -16,6 +16,7 @@ import project.forums.domain.file.FileBoardImage;
 import project.forums.domain.file.FileImageMapper;
 import project.forums.domain.file.FileStore;
 import project.forums.domain.file.UploadFile;
+import project.forums.domain.manage.ManageMapper;
 import project.forums.domain.member.Member;
 import project.forums.domain.member.MemberMapper;
 import project.forums.domain.member.StopMember;
@@ -28,10 +29,7 @@ import project.forums.web.manage.form.*;
 import project.forums.web.member.MemberService;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -48,6 +46,7 @@ public class ManageService {
     private final FileStore fileStore;
     private final PostCategoryMapper categoryMapper;
     private final FileImageMapper fileImageMapper;
+    private final ManageMapper manageMapper;
 
     public List<Member> getMemberList(ManageMemberForm form,Model model){
 
@@ -291,8 +290,27 @@ public class ManageService {
         return list;
     }
 
+    //글관리 글 삭제
+    public void setDeletePosts(ManageDeletePostForm form) {
 
-    /* 서브 매니저 수 */
+        if(form.getBoardUri() == null){
+
+            return;
+        }
+        Map<String,Object> map = new HashMap<>();
+
+        ArrayList<ManageDeletePost> deleteList = new ArrayList<>();
+        for(int i= 0; i < form.getChkPostId().length;i++){
+            deleteList.add(new ManageDeletePost(form.getChkPostId()[i],form.getBoardUri()[0]));
+        }
+
+        map.put("deleteList",deleteList);
+
+        manageMapper.manageDeleteListPost(map);
+    }
+
+
+        /* 서브 매니저 수 */
     public int getTotalSubManager(String boardUri){
 
        return boardRoleMapper.getSubManagerCount(boardUri);

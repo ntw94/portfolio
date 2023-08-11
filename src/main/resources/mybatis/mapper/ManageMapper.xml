@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.forums.domain.manage.ManageMapper">
+    <!-- 하나 일때-->
+    <update id="manageDeletePost" parameterType="Map">
+        update post
+        set
+            available = false
+        where
+            id=#{id} and board_uri = #{boardUri}
+    </update>
+
+    <update id="manageDeleteListPost" parameterType="Map">
+        update post
+        set
+            available = false
+        <where>
+            <foreach collection="deleteList" item="item" separator="or">
+                id = #{item.id} and board_uri = #{item.boardUri}
+            </foreach>
+        </where>
+    </update>
+
+</mapper>
