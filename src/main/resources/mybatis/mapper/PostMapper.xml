@@ -32,7 +32,7 @@
     </select>
 
 
-<!-- 전체 글 가져오기 -->
+    <!-- 전체 글 가져오기 -->
     <select id="getListAll" parameterType="Map" resultType="project.forums.domain.post.Post">
         select *
         from post p
@@ -45,7 +45,8 @@
                              where pc.category_menu = #{category} and p.board_uri = pc.board_uri
                              )
         </if>
-            and board_uri=#{boardUri}
+        and board_uri=#{boardUri}
+        and available= true
         order by id desc
         limit #{beginPage},#{perPageSize}
     </select>
@@ -56,6 +57,7 @@
         where 1 = 1
         <include refid="search"/>
         and board_uri=#{boardUri}
+        and available= true
         order by id desc
         limit #{beginPage},#{perPageSize}
 

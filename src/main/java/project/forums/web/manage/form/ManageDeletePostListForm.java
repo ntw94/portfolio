@@ -1,14 +1,9 @@
 package project.forums.web.manage.form;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class ManageDeletePostForm {
-
+public class ManageDeletePostListForm {
     private String keyword;
     private String searchMenu;
 
@@ -16,7 +11,6 @@ public class ManageDeletePostForm {
     private int perPageSize = 10;
 
     private int[] chkPostId;
-    private String[] boardUri;
-
+    private String boardUri;
 
 }

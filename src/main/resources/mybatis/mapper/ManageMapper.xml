@@ -11,6 +11,7 @@
             id=#{id} and board_uri = #{boardUri}
     </update>
 
+    <!-- 아이디 삭제 -->
     <update id="manageDeleteListPost" parameterType="Map">
         update post
         set
@@ -21,5 +22,40 @@
             </foreach>
         </where>
     </update>
+
+    <sql id="manageSQLSearchPostList">
+        <choose>
+            <when test="keyword != null and keyword != ''">
+                and (post_writer = #{keyword})
+            </when>
+        </choose>
+    </sql>
+
+    <!--삭제한 댓글 리스트 가져오기 -->
+    <select id="manageGetDeletedPostListWithSearch" parameterType="Map" resultType="project.forums.domain.post.Post">
+        select *
+        from post
+        <where>
+            <include refid="manageSQLSearchPostList"/>
+            and board_uri = #{boardUri}
+            and available= false
+        </where>
+
+        order by id desc
+        limit #{beginPage},#{perPageSize}
+    </select>
+
+    <!-- 검색으로 삭제된 아이디의 글 수 조회-->
+    <select id="getDeletedPostCount" parameterType="Map">
+        select count(*)
+        from post
+        where 1 = 1
+<!--            <include refid="manageSQLSearchCount"/>-->
+            and board_uri = #{boardUri}
+          <if test="keyword != null and keyword != ''">
+              and post_writer = #{keyword}
+          </if>
+            and available = false
+    </select>
 
 </mapper>

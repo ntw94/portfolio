@@ -36,6 +36,8 @@
 
 
     <form id="postForm" action="/manage/post/${boardUri}/delete" method="post">
+        <input type="hidden" name="keyword" value="${keyword}">
+
         <table>
             <tr>
                 <td><input type="checkbox" name="selectall" value="selectall" onclick="selectAll(this)">전체선택 </td>

@@ -293,10 +293,10 @@ public class ManageService {
     //글관리 글 삭제
     public void setDeletePosts(ManageDeletePostForm form) {
 
-        if(form.getBoardUri() == null){
-
+        if(form.getChkPostId() == null){
             return;
         }
+
         Map<String,Object> map = new HashMap<>();
 
         ArrayList<ManageDeletePost> deleteList = new ArrayList<>();
@@ -309,6 +309,33 @@ public class ManageService {
         manageMapper.manageDeleteListPost(map);
     }
 
+    /* 삭제된 글 리스트 불러오기 */
+
+
+    public List<Post> getDeletedPostList(ManageDeletePostListForm form,Model model){
+
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("boardUri",form.getBoardUri());
+        map.put("perPageSize",form.getPerPageSize());
+        map.put("beginPage",(form.getPage()-1)*form.getPerPageSize());
+        map.put("keyword", form.getKeyword());
+
+        int totalMember = manageMapper.getDeletedPostCount(map);
+        PageHandler pageHandler = new PageHandler(form.getPage(),form.getPerPageSize(),totalMember);
+        model.addAttribute("page",pageHandler);
+        model.addAttribute("keyword",form.getKeyword());
+
+        log.info("deletedList: {}",form);
+        log.info("totalMember: {}",totalMember);
+
+        List<Post> list = manageMapper.manageGetDeletedPostListWithSearch(map);
+
+
+
+
+        return list;
+    }
 
         /* 서브 매니저 수 */
     public int getTotalSubManager(String boardUri){

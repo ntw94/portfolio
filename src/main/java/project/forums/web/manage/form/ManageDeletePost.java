@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ManageDeletePost {
+
     private int id;
     private String boardUri;
+
+
 }

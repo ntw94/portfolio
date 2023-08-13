@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import project.forums.domain.post.Post;
 import project.forums.web.manage.form.ManageDeletePostForm;
+import project.forums.web.manage.form.ManageDeletePostListForm;
 import project.forums.web.manage.form.ManagePostForm;
 import project.forums.web.manage.form.ManagePostListForm;
 import project.forums.web.post.PostService;
@@ -32,25 +33,23 @@ public class ManagePostController {
         List<Post> list = manageService.getPostList(form,model);
         model.addAttribute("list",list);
 
-        //팝업 방식으로 지울것
-        log.info("글 : {} "  ,list);
-
         return "manage/post/post";
     }
     //선택된 글 삭제하기
     @PostMapping("/post/{boardUri}/delete")
-    public String managePostDelete(@ModelAttribute ManageDeletePostForm form, @PathVariable String boardUri){
+    public String managePostDelete(@ModelAttribute ManageDeletePostForm form,
+                                   @PathVariable String boardUri){
         log.info("{}",form);
         manageService.setDeletePosts(form);
 
-        return "redirect:/manage/post/{boardUri}";
+        return "redirect:/manage/post/{boardUri}?searchMenu="+form.getSearchMenu()+"&keyword="+form.getKeyword();
     }
 
-    //삭제한 글 보기
+    //삭제한 글 리스트 보기
     @GetMapping("/post/deleted/post/{boardUri}")
-    public String managePostDeletedPost(@ModelAttribute ManagePostForm form, @PathVariable String boardUri,Model model){
+    public String managePostDeletedPost(@ModelAttribute ManageDeletePostListForm form, @PathVariable String boardUri, Model model){
 
-        List<Post> list = manageService.getPostList(form,model);
+        List<Post> list = manageService.getDeletedPostList(form,model);
         model.addAttribute("list",list);
 
         return "manage/post/post-deleted-post";

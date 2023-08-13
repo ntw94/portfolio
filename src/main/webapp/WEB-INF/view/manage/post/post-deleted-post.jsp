@@ -30,7 +30,7 @@
             <option>아이디 + 글 제목 + 내용</option>
         </select>
 
-        <input type="text" name="keyword">
+        <input type="text" name="keyword" value="${keyword}">
         <button>검색</button>
     </form>
 
