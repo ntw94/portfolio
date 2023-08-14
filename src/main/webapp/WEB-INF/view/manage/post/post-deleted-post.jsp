@@ -36,6 +36,9 @@
 
 
     <form id="postForm" action="/manage/post/deleted/post/${boardUri}/restore" method="post">
+
+        <input type="hidden" name="keyword" value="${keyword}"/>
+
         <table>
             <tr>
                 <td><input type="checkbox" name="selectall" value="selectall" onclick="selectAll(this)">전체선택 </td>
@@ -52,7 +55,7 @@
                     <td>${list.postCategory}</td>
                     <td>${list.postTitle}</td>
                     <td>${list.postRegiDate}</td>
-                    <td><input type="button" onclick="restore()" value="복구"></td>
+                    <td><input id="restore-${list.id}" type="button" onclick="restore(${list.id})" value="복구"></td>
                 </tr>
             </c:forEach>
         </table>
@@ -94,18 +97,25 @@
 
 <script>
 
+    function restore(id){
+        var form = document.getElementById('postForm');
+        form.action="/manage/post/deleted/post/${boardUri}/restore/"+id;
+        form.method = "post";
+        form.submit();
+    }
 
     function selectAll(selectAll)  {
         const checkboxes
-            = document.getElementsByName('chkMember');
+            = document.getElementsByName('chkPostId');
 
         checkboxes.forEach((checkbox) => {
             checkbox.checked = selectAll.checked;
         })
     }
+
     function checkSelectAll()  {
-        const checkboxes = document.querySelectorAll('input[name="chkMember"]');
-        const checked = document.querySelectorAll('input[name="chkMember"]:checked');
+        const checkboxes = document.querySelectorAll('input[name="chkPostId"]');
+        const checked = document.querySelectorAll('input[name="chkPostId"]:checked');
         const selectAll = document.querySelector('input[name="selectall"]');
 
         if(checkboxes.length === checked.length)  {
@@ -115,17 +125,17 @@
         }
     }
 
-    function openModal(){
-        let popOption = "width=650px, height=750px, top=300px, left=300px, scrollbars=yes";
-        let openUrl = "";
-        let windowTarget = 'pop';
-        window.open(openUrl,windowTarget,popOption);
+    <%--function openModal(){--%>
+    <%--    let popOption = "width=650px, height=750px, top=300px, left=300px, scrollbars=yes";--%>
+    <%--    let openUrl = "";--%>
+    <%--    let windowTarget = 'pop';--%>
+    <%--    window.open(openUrl,windowTarget,popOption);--%>
 
-        var form = document.getElementById("memberForm")
-        form.action='/manage/member/stop/popup/${boardUri}'
-        form.method="post";
-        form.target=windowTarget;
-        form.submit();
-    }
+    <%--    var form = document.getElementById("memberForm")--%>
+    <%--    form.action='/manage/member/stop/popup/${boardUri}'--%>
+    <%--    form.method="post";--%>
+    <%--    form.target=windowTarget;--%>
+    <%--    form.submit();--%>
+    <%--}--%>
 
 </script>

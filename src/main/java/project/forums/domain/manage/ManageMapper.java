@@ -18,5 +18,6 @@ public interface ManageMapper {
     int getDeletedPostCount(Map<String,Object> map);
     int getSearchPostCount(Map<String,Object> map);
     void setRestorePosts(Map<String,Object> map);
-
+    void setRestorePostOne(Map<String,Object> map);
+    
 }

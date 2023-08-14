@@ -64,6 +64,19 @@ public class ManagePostController {
         return "redirect:/manage/post/deleted/post/{boardUri}?searchMenu="+form.getSearchMenu()+"&keyword="+form.getKeyword();
     }
 
+    /* 낱개로 게시글 복구 */
+    @PostMapping("/post/deleted/post/{boardUri}/restore/{id}")
+    public String managePostRestorePostOne(@ModelAttribute ManageRestorePostListForm form,
+                                           @PathVariable String boardUri,
+                                           @PathVariable Integer id){
+
+        log.info("{}",form);
+        log.info("{}",boardUri);
+        manageService.setRestorePostOne(boardUri,id);
+
+        return "redirect:/manage/post/deleted/post/{boardUri}?searchMenu="+form.getSearchMenu()+"&keyword="+form.getKeyword();
+    }
+
     //삭제한 댓글 보기
     @GetMapping("/post/deleted/comment/{boardUri}")
     public String managePostDeletedComment(@PathVariable String boardUri){

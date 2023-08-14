@@ -79,4 +79,11 @@
         </where>
     </update>
 
+    <update id="setRestorePostOne" parameterType="Map">
+        update post
+        set available = true
+        where
+            id = #{postId} and board_uri = #{boardUri}
+    </update>
+
 </mapper>

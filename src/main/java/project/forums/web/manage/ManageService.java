@@ -351,6 +351,14 @@ public class ManageService {
 
     }
 
+    /* 1개 게시글 복구 */
+    public void setRestorePostOne(String boardUri, Integer postId){
+        Map<String,Object> map = new HashMap<>();
+        map.put("boardUri",boardUri);
+        map.put("postId",postId);
+
+        manageMapper.setRestorePostOne(map);
+    }
 
         /* 서브 매니저 수 */
     public int getTotalSubManager(String boardUri){
