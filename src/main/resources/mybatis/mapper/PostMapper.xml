@@ -114,7 +114,7 @@
     </select>
 
     <!--게시판 전체 글 수-->
-    <select id="getTotalBoardPosts" parameterType="String">
+    <select id="getTotalBoardPosts" parameterType="Map">
         select count(*)
         from post
         where board_uri = #{boardUri}

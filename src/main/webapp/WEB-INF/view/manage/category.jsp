@@ -135,7 +135,7 @@
         jsHtml +=   "<input type='hidden' name='newCategoryOrder' value=''>";
         jsHtml +=   "<div>";
         jsHtml +=       "<input type='hidden' name='newCateId' value='-1' >";
-        jsHtml +=       "<input style='margin-left:50px'; type='text' name='newCategoryName' value="+data+">";
+        jsHtml +=       "<input style='margin-left:50px'; type='text' name='newCategoryName' value='"+data+"'>";
         jsHtml +=       "<input type='button' value='수정' onclick='' >";
         jsHtml +=       "<input type='button' value='삭제' onclick='newCategoryDelete("+newCategoryId+")' >";
         jsHtml +=   "</div>";

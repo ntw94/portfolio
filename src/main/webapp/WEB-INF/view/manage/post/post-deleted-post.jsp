@@ -35,7 +35,7 @@
     </form>
 
 
-    <form id="postForm">
+    <form id="postForm" action="/manage/post/deleted/post/${boardUri}/restore" method="post">
         <table>
             <tr>
                 <td><input type="checkbox" name="selectall" value="selectall" onclick="selectAll(this)">전체선택 </td>
@@ -47,15 +47,17 @@
             </tr>
             <c:forEach var="list" items="${list}">
                 <tr>
-                    <td><input type="checkbox" name="chkMember" value="${list.id}" onclick="checkSelectAll()"></td>
+                    <td><input type="checkbox" name="chkPostId" value="${list.id}" onclick="checkSelectAll()"></td>
                     <td>${list.id}</td>
                     <td>${list.postCategory}</td>
                     <td>${list.postTitle}</td>
                     <td>${list.postRegiDate}</td>
-                    <td>복구</td>
+                    <td><input type="button" onclick="restore()" value="복구"></td>
                 </tr>
             </c:forEach>
         </table>
+
+        <input type="submit"  value="복구 테스트"/>
     </form>
 
     <ul class="pagination justify-content-center">
@@ -91,6 +93,8 @@
 
 
 <script>
+
+
     function selectAll(selectAll)  {
         const checkboxes
             = document.getElementsByName('chkMember');

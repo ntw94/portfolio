@@ -50,12 +50,33 @@
         select count(*)
         from post
         where 1 = 1
-<!--            <include refid="manageSQLSearchCount"/>-->
-            and board_uri = #{boardUri}
           <if test="keyword != null and keyword != ''">
               and post_writer = #{keyword}
           </if>
+            and board_uri = #{boardUri}
             and available = false
     </select>
+
+    <!-- 검색한 아이디의 글 수 조회-->
+    <select id="getSearchPostCount" parameterType="Map">
+        select count(*)
+        from post
+        where 1 = 1
+        <if test="keyword != null and keyword != ''">
+            and post_writer = #{keyword}
+        </if>
+        and board_uri = #{boardUri}
+    </select>
+
+    <update id="setRestorePosts" parameterType="Map">
+        update post
+        set
+        available = true
+        <where>
+            <foreach collection="restoreList" item="item" separator="or">
+                id = #{item.id} and board_uri = #{item.boardUri}
+            </foreach>
+        </where>
+    </update>
 
 </mapper>

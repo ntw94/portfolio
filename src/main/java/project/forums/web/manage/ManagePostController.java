@@ -6,10 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import project.forums.domain.post.Post;
-import project.forums.web.manage.form.ManageDeletePostForm;
-import project.forums.web.manage.form.ManageDeletePostListForm;
-import project.forums.web.manage.form.ManagePostForm;
-import project.forums.web.manage.form.ManagePostListForm;
+import project.forums.web.manage.form.*;
 import project.forums.web.post.PostService;
 
 import java.util.List;
@@ -53,6 +50,18 @@ public class ManagePostController {
         model.addAttribute("list",list);
 
         return "manage/post/post-deleted-post";
+    }
+
+    /* 삭제한 게시글 복구처리 */
+    @PostMapping("/post/deleted/post/{boardUri}/restore")
+    public String managePostRestorePost(@ModelAttribute ManageRestorePostListForm form,
+                                        @PathVariable String boardUri,
+                                        Model model){
+
+        log.info("restore: {} ", form);
+        manageService.setRestorePosts(form);
+
+        return "redirect:/manage/post/deleted/post/{boardUri}?searchMenu="+form.getSearchMenu()+"&keyword="+form.getKeyword();
     }
 
     //삭제한 댓글 보기

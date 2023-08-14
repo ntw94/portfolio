@@ -30,6 +30,7 @@ import project.forums.web.member.MemberService;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -280,7 +281,7 @@ public class ManageService {
         map.put("beginPage",(form.getPage()-1)*form.getPerPageSize());
         map.put("memberId",form.getKeyword());
 
-        int totalMember = postMapper.getTotalBoardPosts(map);
+        int totalMember = manageMapper.getSearchPostCount(map);
         PageHandler pageHandler = new PageHandler(form.getPage(),form.getPerPageSize(),totalMember);
         model.addAttribute("page",pageHandler);
         model.addAttribute("keyword",form.getKeyword());
@@ -310,11 +311,7 @@ public class ManageService {
     }
 
     /* 삭제된 글 리스트 불러오기 */
-
-
     public List<Post> getDeletedPostList(ManageDeletePostListForm form,Model model){
-
-
         Map<String,Object> map = new HashMap<>();
         map.put("boardUri",form.getBoardUri());
         map.put("perPageSize",form.getPerPageSize());
@@ -331,11 +328,29 @@ public class ManageService {
 
         List<Post> list = manageMapper.manageGetDeletedPostListWithSearch(map);
 
-
-
-
         return list;
     }
+
+    /* 삭제한 글 복구 시키기 */
+    public void setRestorePosts(ManageRestorePostListForm form){
+
+        if(form.getChkPostId() == null){
+            return;
+        }
+
+        Map<String,Object> map = new HashMap<>();
+
+        ArrayList<ManageRestorePost> restoreList = new ArrayList<>();
+        for(int i= 0; i < form.getChkPostId().length;i++){
+            restoreList.add(new ManageRestorePost(form.getChkPostId()[i],form.getBoardUri()));
+        }
+
+        map.put("restoreList",restoreList);
+
+        manageMapper.setRestorePosts(map);
+
+    }
+
 
         /* 서브 매니저 수 */
     public int getTotalSubManager(String boardUri){
