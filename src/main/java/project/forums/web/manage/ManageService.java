@@ -360,6 +360,18 @@ public class ManageService {
         manageMapper.setRestorePostOne(map);
     }
 
+    public List<Comment> getDeletedCommentList(String boardUri, String keyword){
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("boardUri",boardUri);
+        map.put("keyword",keyword);
+
+
+        List<Comment> deletedCommentList = manageMapper.getDeletedCommentList(map);
+
+        return deletedCommentList;
+    }
+
         /* 서브 매니저 수 */
     public int getTotalSubManager(String boardUri){
 

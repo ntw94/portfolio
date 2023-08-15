@@ -86,9 +86,6 @@
         <input type="text" name="keyword">
         <button>검색</button>
     </form>
-
-
-
 </div>
 </body>
 </html>

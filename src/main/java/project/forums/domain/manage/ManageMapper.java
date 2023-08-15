@@ -2,6 +2,7 @@ package project.forums.domain.manage;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
+import project.forums.domain.comment.Comment;
 import project.forums.domain.post.Post;
 
 import java.util.List;
@@ -19,5 +20,6 @@ public interface ManageMapper {
     int getSearchPostCount(Map<String,Object> map);
     void setRestorePosts(Map<String,Object> map);
     void setRestorePostOne(Map<String,Object> map);
-    
+    List<Comment> getDeletedCommentList(Map<String,Object> map);
+
 }

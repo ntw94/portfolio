@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import project.forums.domain.comment.Comment;
 import project.forums.domain.post.Post;
 import project.forums.web.manage.form.*;
 import project.forums.web.post.PostService;
@@ -79,7 +80,14 @@ public class ManagePostController {
 
     //삭제한 댓글 보기
     @GetMapping("/post/deleted/comment/{boardUri}")
-    public String managePostDeletedComment(@PathVariable String boardUri){
+    public String managePostDeletedComment(
+            @ModelAttribute ManageDeletedCommentListForm form,
+            @PathVariable String boardUri,
+            Model model){
+
+        log.info("{}",form);
+        List<Comment> list =  manageService.getDeletedCommentList(boardUri,form.getKeyword());
+        model.addAttribute("list",list);
 
         return "manage/post/post-deleted-comment";
     }

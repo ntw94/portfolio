@@ -86,4 +86,14 @@
             id = #{postId} and board_uri = #{boardUri}
     </update>
 
+    <select id="getDeletedCommentList" parameterType="Map" resultType="project.forums.domain.comment.Comment">
+        select *
+        from comment
+        where board_uri = #{boardUri} and
+              comment_available = false
+        <if test="keyword != null and keyword != '' ">
+            and comment_writer = #{keyword}
+        </if>
+    </select>
+
 </mapper>
