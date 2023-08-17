@@ -35,7 +35,7 @@
     </form>
 
 
-    <form id="postForm" action="/manage/post/deleted/post/${boardUri}/restore" method="post">
+    <form id="postForm" action="/manage/post/deleted/comment/${boardUri}/restore" method="post">
 
         <input type="hidden" name="keyword" value="${keyword}"/>
 
@@ -50,7 +50,7 @@
             </tr>
             <c:forEach var="list" items="${list}">
                 <tr>
-                    <td><input type="checkbox" name="chkPostId" value="${list.id}" onclick="checkSelectAll()"></td>
+                    <td><input type="checkbox" name="chkCommentId" value="${list.id}" onclick="checkSelectAll()"></td>
                     <td>${list.id}</td>
                     <td>${list.postId}</td>
                     <td>${list.commentContent}</td>
@@ -65,13 +65,13 @@
 
     <ul class="pagination justify-content-center">
         <c:if test="${page.showPrev}">
-            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?page=${page.beginPage-1}&keyword=${keyword}">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="/manage/post/deleted/comment/${boardUri}?page=${page.beginPage-1}&keyword=${keyword}">Previous</a></li>
         </c:if>
         <c:forEach var="i" begin="${page.beginPage}" end="${page.endPage}">
-            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?page=${i}&keyword=${keyword}">${i}</a></li>
+            <li class="page-item"><a class="page-link" href="/manage/post/deleted/comment/${boardUri}?page=${i}&keyword=${keyword}">${i}</a></li>
         </c:forEach>
         <c:if test="${page.showNext}">
-            <li class="page-item"><a class="page-link" href="/manage/post/${boardUri}?page=${page.endPage+1}&keyword=${keyword}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="/manage/post/deleted/comment/${boardUri}?page=${page.endPage+1}&keyword=${keyword}">Next</a></li>
         </c:if>
     </ul>
 
@@ -98,14 +98,14 @@
 
     function restore(id){
         var form = document.getElementById('postForm');
-        form.action="/manage/post/deleted/post/${boardUri}/restore/"+id;
+        form.action="/manage/post/deleted/comment/${boardUri}/restore/"+id;
         form.method = "post";
         form.submit();
     }
 
     function selectAll(selectAll)  {
         const checkboxes
-            = document.getElementsByName('chkPostId');
+            = document.getElementsByName('chkCommentId');
 
         checkboxes.forEach((checkbox) => {
             checkbox.checked = selectAll.checked;
@@ -113,8 +113,8 @@
     }
 
     function checkSelectAll()  {
-        const checkboxes = document.querySelectorAll('input[name="chkPostId"]');
-        const checked = document.querySelectorAll('input[name="chkPostId"]:checked');
+        const checkboxes = document.querySelectorAll('input[name="chkCommentId"]');
+        const checked = document.querySelectorAll('input[name="chkCommentId"]:checked');
         const selectAll = document.querySelector('input[name="selectall"]');
 
         if(checkboxes.length === checked.length)  {

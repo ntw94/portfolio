@@ -96,4 +96,35 @@
         </if>
     </select>
 
+    <select id="getDeletedCommentCount" parameterType="Map">
+        select count(*)
+        from comment
+        where board_uri = #{boardUri} and
+              comment_available = false
+        <if test="keyword != null and keyword != ''">
+            and comment_writer = #{keyword}
+        </if>
+    </select>
+
+
+    <!-- 댓글 하나 복구 -->
+    <update id="setRestoreCommentOne" parameterType="Map">
+        update comment
+        set comment_available = true
+        where
+            id = #{commentId} and board_uri = #{boardUri}
+    </update>
+
+    <!-- 댓글 여러개 복구 -->
+    <update id="setRestoreComments" parameterType="Map">
+        update comment
+        set comment_available = true
+        <where>
+            (id,board_uri) in
+            <foreach collection="restoreList" item="item" open="(" close=")" separator=",">
+                (#{item.id},#{item.boardUri})
+            </foreach>
+        </where>
+    </update>
+
 </mapper>

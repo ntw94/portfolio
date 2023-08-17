@@ -360,17 +360,57 @@ public class ManageService {
         manageMapper.setRestorePostOne(map);
     }
 
-    public List<Comment> getDeletedCommentList(String boardUri, String keyword){
+    /* 삭제된 댓글 불러오기 */
+    public List<Comment> getDeletedCommentList(ManageDeletedCommentListForm form,Model model){
 
         Map<String,Object> map = new HashMap<>();
-        map.put("boardUri",boardUri);
-        map.put("keyword",keyword);
+        map.put("boardUri",form.getBoardUri());
+        map.put("perPageSize",form.getPerPageSize());
+        map.put("beginPage",(form.getPage()-1)*form.getPerPageSize());
+        map.put("keyword", form.getKeyword());
+
+        int totalComments = manageMapper.getDeletedCommentCount(map);
+        PageHandler pageHandler = new PageHandler(form.getPage(),form.getPerPageSize(),totalComments);
+        model.addAttribute("page",pageHandler);
+        model.addAttribute("keyword",form.getKeyword());
+
+        log.info("deletedList: {}",form);
+        log.info("totalMember: {}",totalComments);
+
+        List<Post> list = manageMapper.manageGetDeletedPostListWithSearch(map);
 
 
         List<Comment> deletedCommentList = manageMapper.getDeletedCommentList(map);
 
         return deletedCommentList;
     }
+
+    /* 댓글 하나 복구 */
+    public void setRestoreCommentOne(ManageRestoreCommentForm form){
+        Map<String,Object> map = new HashMap<>();
+        map.put("boardUri",form.getBoardUri());
+        map.put("commentId",form.getId());
+
+        manageMapper.setRestoreCommentOne(map);
+    }
+
+
+    /* 댓글 여러개 복구 */
+    public void setRestoreComments(ManageRestoreCommentListForm form){
+        Map<String,Object> map = new HashMap<>();
+
+        ArrayList<ManageRestoreCommentForm> restoreList = new ArrayList<>();
+        for(int i= 0; i < form.getChkCommentId().length;i++){
+            restoreList.add(new ManageRestoreCommentForm(form.getChkCommentId()[i],form.getBoardUri()));
+        }
+
+        map.put("boardUri",form.getBoardUri());
+        map.put("restoreList",restoreList);
+
+
+        manageMapper.setRestoreComments(map);
+    }
+
 
         /* 서브 매니저 수 */
     public int getTotalSubManager(String boardUri){

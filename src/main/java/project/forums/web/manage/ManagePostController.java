@@ -70,7 +70,6 @@ public class ManagePostController {
     public String managePostRestorePostOne(@ModelAttribute ManageRestorePostListForm form,
                                            @PathVariable String boardUri,
                                            @PathVariable Integer id){
-
         log.info("{}",form);
         log.info("{}",boardUri);
         manageService.setRestorePostOne(boardUri,id);
@@ -86,9 +85,36 @@ public class ManagePostController {
             Model model){
 
         log.info("{}",form);
-        List<Comment> list =  manageService.getDeletedCommentList(boardUri,form.getKeyword());
+        List<Comment> list =  manageService.getDeletedCommentList(form,model);
         model.addAttribute("list",list);
 
         return "manage/post/post-deleted-comment";
+    }
+
+    /* 댓글 하나 복구 */
+    @PostMapping("/post/deleted/comment/{boardUri}/restore/{id}")
+    public String manageCommentRestoreOne(
+            @ModelAttribute ManageRestoreCommentForm form,
+            @PathVariable String boardUri,
+            @PathVariable Integer id,
+            Model model){
+
+        log.info("{}",form);
+        manageService.setRestoreCommentOne(form);
+
+        return "redirect:/manage/post/deleted/comment/{boardUri}";
+    }
+
+    /* 선택된 댓글 복구 */
+    @PostMapping("/post/deleted/comment/{boardUri}/restore")
+    public String manageCommentRestores(
+            @ModelAttribute ManageRestoreCommentListForm form,
+            @PathVariable String boardUri,
+            Model model){
+
+        log.info("{}",form);
+        manageService.setRestoreComments(form);
+
+        return "redirect:/manage/post/deleted/comment/{boardUri}";
     }
 }
