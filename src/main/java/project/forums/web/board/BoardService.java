@@ -91,4 +91,12 @@ public class BoardService {
         map.put("boardId",boardId);
         boardFavorMapper.setDelete(map);
     }
+
+    public List<Board> getBoardRankList(){
+
+        List<Board> list = boardMapper.getBoardRankList();
+        log.info("{}",list);
+        return list;
+    }
+
 }

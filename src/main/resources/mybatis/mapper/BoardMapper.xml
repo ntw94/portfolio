@@ -42,5 +42,27 @@
         where board_title = #{boardTitle} and id = #{id} and member_id=#{member_id}
     </delete>
 
+    <!-- 게시판 순위 리스트 출력 -->
+
+    <select id="getBoardRankList" resultType="project.forums.domain.board.Board">
+        <![CDATA[
+            select b.board_uri, id, board_title,
+                   board_description, upload_file_name,
+                   store_file_name, member_id, board_create_date,
+                   board_update_date, ifnull(sum(`게시글`) + sum(`댓글 수`) + sum(`조회수`),0) score
+            from (select p.board_uri,count(*) `게시글`,
+                         (select count(id)
+                          from comment c
+                          where available = true
+                            and c.board_uri = p.board_uri) `댓글 수`,sum(post_hit) `조회수`
+                  from board b right outer join post p on (b.board_uri = p.board_uri )
+                  where available = true
+                  group by p.board_uri) result right join board b on (result.board_uri = b.board_uri)
+            group by b.board_uri
+            order by score desc
+            limit 4
+        ]]>
+    </select>
+
 
 </mapper>

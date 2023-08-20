@@ -15,7 +15,19 @@
 <body>
 <div class="container">
     <jsp:include page="common/top-menu.jsp"/>
-
+    <h1> 활동이 많은 게시판들 </h1>
+    =========================================
+    <c:forEach var="list" items="${rankList}">
+        <div>
+            <h3>${status.count}</h3>
+            <p>${list.boardTitle}</p>
+            <p>${list.boardUri}</p>
+<%--            <img src="/file/boards/${list.boardUri}/image" />--%>
+        </div>
+    =========================================
+    </c:forEach>
+    <br>
+    =========================================
     <table class="table table-bordered">
         <c:forEach var="list" items="${board}">
             <tr>

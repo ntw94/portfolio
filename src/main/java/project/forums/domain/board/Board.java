@@ -14,4 +14,5 @@ public class Board {
     private String storeFileName;
     private String memberId;
     private LocalDateTime boardCreateDate;
+    private int score;
 }

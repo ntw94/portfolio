@@ -30,6 +30,7 @@ public class HomeController {
 
         sessionCheck(request, model);
         model.addAttribute("board",boardService.getBoardListForm());
+        model.addAttribute("rankList",boardService.getBoardRankList());
 
         return "home";
     }

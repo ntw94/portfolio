@@ -20,4 +20,6 @@ public interface BoardMapper {
     void saveBoardIconImage(Board board);
     Board loadBoardIconImage(Board board);
     void updateProfileImage(Board board);
+
+    List<Board> getBoardRankList();
 }
