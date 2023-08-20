@@ -22,4 +22,8 @@ public interface BoardMapper {
     void updateProfileImage(Board board);
 
     List<Board> getBoardRankList();
+
+    List<BoardMainCategory> getBoardMainCategory();
+    List<BoardSubCategory> getBoardSubCategory();
+
 }

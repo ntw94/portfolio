@@ -24,7 +24,7 @@
 
     <insert id="setInsert"  parameterType="project.forums.domain.board.Board">
         insert into board (board_title,board_uri,board_description,
-                            upload_file_name,store_file_name,member_id,board_create_date,board_update_date)
+                            upload_file_name,store_file_name,member_id,,board_create_date,board_update_date)
         values(#{boardTitle},#{boardUri},#{boardDescription},
                #{uploadFileName},#{storeFileName},
                #{memberId},now(),now());
@@ -62,6 +62,16 @@
             order by score desc
             limit 4
         ]]>
+    </select>
+
+    <select id="getBoardMainCategory" resultType="project.forums.domain.board.BoardMainCategory">
+        select *
+        from board_main_category
+    </select>
+
+    <select id="getBoardSubCategory" resultType="project.forums.domain.board.BoardSubCategory">
+        select *
+        from board_sub_category
     </select>
 
 

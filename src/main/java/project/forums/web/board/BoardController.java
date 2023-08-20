@@ -7,9 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import project.forums.domain.board.Board;
+import project.forums.domain.board.BoardMainCategory;
+import project.forums.domain.board.BoardSubCategory;
 import project.forums.domain.category.PostCategory;
 import project.forums.domain.member.Member;
-import project.forums.domain.post.Post;
 import project.forums.web.board.form.BoardSaveForm;
 import project.forums.web.file.FileService;
 import project.forums.web.login.LoginService;
@@ -35,6 +36,12 @@ public class BoardController {
     @GetMapping("/add")
     public String boardCreateForm(HttpServletRequest request,Model model){
         sessionCheck(request,model);
+
+        List<BoardMainCategory> mainList = boardService.getBoardMainCategoryList();
+        List<BoardSubCategory> subList = boardService.getBoardSubCategoryList();
+
+        model.addAttribute("mainCategoryList",mainList);
+        model.addAttribute("subCategoryList",subList);
 
         return "board/add";
     }

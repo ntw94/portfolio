@@ -99,4 +99,11 @@ public class BoardService {
         return list;
     }
 
+    public List<BoardMainCategory> getBoardMainCategoryList(){
+        return boardMapper.getBoardMainCategory();
+    }
+
+    public List<BoardSubCategory> getBoardSubCategoryList(){
+        return boardMapper.getBoardSubCategory();
+    }
 }
