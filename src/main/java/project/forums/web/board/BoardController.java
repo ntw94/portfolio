@@ -100,6 +100,20 @@ public class BoardController {
         boardService.deleteFavor(memberId,boardId);
     }
 
+    @ResponseBody
+    @GetMapping("/uri/check")
+    private String checkBoardUri(String boardUri){
+        String message = "";
+
+        if(boardService.checkBoardUri(boardUri) == 1){
+            message = "이미 존재하는 uri입니다. 다시 입력해주세요!";
+        }else{
+            message = "사용 가능한 uri입니다.";
+        }
+
+        return message;
+    }
+
 
     //세션체크
     private void sessionCheck(HttpServletRequest request, Model model) {

@@ -25,5 +25,6 @@ public interface BoardMapper {
 
     List<BoardMainCategory> getBoardMainCategory();
     List<BoardSubCategory> getBoardSubCategory();
+    Integer checkBoardUri(String boardUri);
 
 }

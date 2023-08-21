@@ -23,11 +23,16 @@
             <td>게시판 이름:<input type="text" name="boardTitle" ></td>
         </tr>
         <tr>
-            <td>게시판 uri: <input type="text" name="boardUri" ></td>
+            <td>게시판 uri: <input type="text" id="boardUri" name="boardUri" >
+                <span>
+                    <input type="button" onclick="checkUri()" value="중복확인"/><br>
+                    <span id="uriCheckResult"></span>
+                </span>
+            </td>
         </tr>
         <tr>
             <td>게시판 카테고리 선택 :
-                <select name="" id="mainCategoryBox" onchange="categoryChange()">
+                <select name="boardMainCategoryId" id="mainCategoryBox" onchange="categoryChange()">
                     <option value="">대분류 선택</option>
                     <c:forEach var="list" items="${mainCategoryList}" >
                         <option value="${list.id}">
@@ -35,7 +40,7 @@
                         </option>
                     </c:forEach>
                 </select>
-                <select name="" id="subCategoryBox">
+                <select name="boardSubCategoryId" id="subCategoryBox">
                     <option value="">소분류 선택</option>
                 </select>
             </td>
@@ -58,7 +63,6 @@
 </html>
 
 <script>
-
     var subCateList = new Array();
     <c:forEach items="${subCategoryList}" var="item">
     subCateList.push({
@@ -82,24 +86,23 @@
         for (let i = 0; i < subCateList.length ; i++) {
             if(mainSelectBox.value === subCateList[i].boardMainCategoryId){
                 var option = document.createElement('option');
-                option.value=mainSelectBox.value;
+                option.value=subCateList[i].id;
                 option.text=subCateList[i].categoryName;
                 subSelectBox.append(option);
             }
         }
+    }
 
-        // for (let i = 0; i < subCategoryList.length; i++) {
-        //     if(mainCategoryBox.value === subCategoryList)
-        // }
-        // alert(subCategoryList);
-        // console.log(subCategoryList);
-        <%--for(var count = 0; count < changeItem.size(); count++){--%>
-        <%--    var categoryMainId = ${subCategoryList.categoryMainId};--%>
-        <%--    if(categoryMainId === selectItem.value){--%>
-        <%--        var option = $("<option value="+select.value+">"++"</option>");--%>
-        <%--        $('#subCategoryBox').append(option);--%>
-        <%--    }--%>
-        <%--}--%>
+    function checkUri(){
+        const boardUriInput = document.getElementById('boardUri');
+        let message = '';
+        const result = document.getElementById('uriCheckResult');
+
+        fetch('/boards/uri/check?boardUri='+boardUriInput.value)
+            .then(response => response.text())
+            .then(data => {result.innerText = data})
+            .catch(reason => alert(reason))
+
 
     }
 

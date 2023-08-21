@@ -22,11 +22,19 @@
             <h3>${status.count}</h3>
             <p>${list.boardTitle}</p>
             <p>${list.boardUri}</p>
+            <p>점수: ${list.score}</p>
+            <p>카테고리: ${list.mainCategoryId}</p>
+            <p>서브: ${list.subCategoryId}</p>
 <%--            <img src="/file/boards/${list.boardUri}/image" />--%>
         </div>
     =========================================
     </c:forEach>
     <br>
+    =========================================
+    게시판 추천
+    <div>
+        <%-- ajax를 이용해서 여기서 리스트형 구현해야함 --%>
+    </div>
     =========================================
     <table class="table table-bordered">
         <c:forEach var="list" items="${board}">
@@ -50,3 +58,12 @@
 
 </body>
 </html>
+
+<script>
+    // 왼쪽으로 스크롤하는 함수
+    // $(document).ready(function(){
+    //     $("button").click(function(){
+    //         alert($("div").scrollLeft() + " px");
+    //     });
+    // });
+</script>

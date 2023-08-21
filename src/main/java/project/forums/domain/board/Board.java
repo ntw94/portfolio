@@ -13,8 +13,9 @@ public class Board {
     private String uploadFileName;
     private String storeFileName;
     private String memberId;
-    private int boardCategoryMainId;
-    private int boardCategorySubId;
+
+    private int mainCategoryId;
+    private int subCategoryId;
     private LocalDateTime boardCreateDate;
     private int score;
 }

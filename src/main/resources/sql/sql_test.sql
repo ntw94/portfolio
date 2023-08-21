@@ -46,21 +46,33 @@ from comment
 ;
 select count(*)
 from comment c
-where c.comment_available = true;
+where c.comment_available = true; #에기 맞는 구문일까?
 
-select b.*,ifnull(sum(`게시글`) + sum(`댓글 수`) + sum(`조회수`),0) score
-from (select p.board_uri,count(*) `게시글`,
-                             (select count(id)
-                               from comment c
-                               where available = true
-                                 and c.board_uri = p.board_uri) `댓글 수`,sum(post_hit) `조회수`
-      from board b right outer join post p on (b.board_uri = p.board_uri )
-      where available = true
-      group by p.board_uri) result right join board b on (result.board_uri = b.board_uri)
+select b.board_uri,IFNULL(sum(post_hit),0) `조회수`
+from post p right join board b on p.board_uri = b.board_uri
 group by b.board_uri
-limit 10
-;
+order by `조회수` desc;
 
+/* */
+update board b, (
+    select b.board_uri,
+           ifnull(sum(`게시글`) + sum(`댓글 수`) + sum(`조회수`),0) score
+    from (
+             select p.board_uri,ifnull(count(*),0) `게시글`,
+                    ifnull( (select count(c.id)
+                             from comment c
+                             where c.comment_available = true
+                               and c.board_uri = p.board_uri),0) `댓글 수`,ifnull(sum(p.post_hit),0) `조회수`
+             from board b left join post p on (b.board_uri = p.board_uri )
+             where p.available = true
+             group by p.board_uri) result right join board b on (result.board_uri = b.board_uri)
+    group by b.board_uri
+) a1
+set b.score = a1.score
+where b.board_uri = a1.board_uri;
+
+
+select * from board;
 
 
 select board_uri, count(id)
@@ -81,6 +93,8 @@ group by board_uri;
 
 
 
-select board_uri
-from board;
+select count(*)
+from board
+where board_uri = 'test';
 
+select * from board;

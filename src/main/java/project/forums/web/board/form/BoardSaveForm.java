@@ -14,4 +14,7 @@ public class BoardSaveForm {
 
     private String memberId;
     private LocalDateTime boardCreateDate;
+
+    private int boardMainCategoryId;
+    private int boardSubCategoryId;
 }

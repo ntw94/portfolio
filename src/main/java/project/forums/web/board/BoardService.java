@@ -49,11 +49,15 @@ public class BoardService {
     }
     public Integer boardCreate(BoardSaveForm boardSaveForm){
 
+        log.info("board:{}",boardSaveForm);
+
         Board board = new Board();
         board.setBoardTitle(boardSaveForm.getBoardTitle());
         board.setBoardUri(boardSaveForm.getBoardUri());
         board.setBoardDescription(boardSaveForm.getBoardDescription());
         board.setMemberId(boardSaveForm.getMemberId());
+        board.setMainCategoryId(boardSaveForm.getBoardMainCategoryId());
+        board.setSubCategoryId(boardSaveForm.getBoardSubCategoryId());
 
         BoardRole boardAuth = new BoardRole();
         boardAuth.setBoardUri(boardSaveForm.getBoardUri());
@@ -106,4 +110,11 @@ public class BoardService {
     public List<BoardSubCategory> getBoardSubCategoryList(){
         return boardMapper.getBoardSubCategory();
     }
+
+    public Integer checkBoardUri(String boardUri){
+        int isDupli = boardMapper.checkBoardUri(boardUri);
+        log.info("Dup: {}",isDupli);
+        return isDupli;
+    }
+
 }
