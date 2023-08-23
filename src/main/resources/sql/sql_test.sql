@@ -98,3 +98,27 @@ from board
 where board_uri = 'test';
 
 select * from board;
+
+
+/* 메인카테고리 서브카테고리 전체 리스트 동시에 가져오기 */
+select *
+from board_main_category inner join board_sub_category bsc on board_main_category.id = bsc.board_main_category_id
+
+/* board 가져올때 카테고리랑 같이 가져오기 */
+select b.id, b.board_title, b.board_uri, b.board_description,
+       b.upload_file_name, b.store_file_name, b.member_id, b.board_create_date,
+       b.board_update_date, b.main_category_id, b.sub_category_id,
+       b.score,
+       bmc.id, bmc.category_name,
+       bsc.id, bsc.board_main_category_id, bsc.category_name
+from board b left join board_main_category bmc on b.main_category_id = bmc.id
+    left join board_sub_category bsc on b.sub_category_id = bsc.id
+where main_category_id = 1
+order by score desc
+limit #{startIdx},#{perPageSize}
+
+
+
+
+
+select * from board;

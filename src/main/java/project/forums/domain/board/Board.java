@@ -17,5 +17,9 @@ public class Board {
     private int mainCategoryId;
     private int subCategoryId;
     private LocalDateTime boardCreateDate;
+    private LocalDateTime boardUpdateDate;
     private int score;
+
+    private BoardMainCategory boardMainCategory;
+    private BoardSubCategory boardSubCategory;
 }

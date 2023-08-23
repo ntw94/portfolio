@@ -5,8 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import project.forums.domain.board.Board;
 import project.forums.domain.board.BoardFavor;
+import project.forums.domain.board.BoardMainCategory;
 import project.forums.domain.member.Member;
 import project.forums.web.board.BoardService;
 import project.forums.web.board.form.BoardListForm;
@@ -29,8 +32,15 @@ public class HomeController {
     public String home(HttpServletRequest request,Model model){
 
         sessionCheck(request, model);
+
+        List<Board> boardListWithCategory = boardService.findByBoardMainCategoryList(1,1,model);
+
+        model.addAttribute("boardCategoryList",boardListWithCategory);
         model.addAttribute("board",boardService.getBoardListForm());
         model.addAttribute("rankList",boardService.getBoardRankList());
+        model.addAttribute("boardMainCategoryList",boardService.getBoardMainCategoryList());
+
+        log.info("{}",boardListWithCategory);
 
         return "home";
     }
@@ -71,4 +81,19 @@ public class HomeController {
             model.addAttribute("member",loginMember);
         }
     }
+
+
+    @ResponseBody
+    @RequestMapping("/board/mainCategories")
+    public List<BoardMainCategory> getBoardMainCategories(){
+        return boardService.getBoardMainCategoryList();
+    }
+
+    @ResponseBody
+    @RequestMapping("/board/mainCategories/child")
+    public void getChildBoardMainCategories(int page,int mainCategoryId,Model model){
+        System.out.println();
+        log.info("{}",boardService.findByBoardMainCategoryList(page,mainCategoryId,model));
+    }
+
 }

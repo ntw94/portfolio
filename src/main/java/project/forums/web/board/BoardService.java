@@ -3,6 +3,7 @@ package project.forums.web.board;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import project.forums.domain.board.*;
 import project.forums.domain.category.PostCategoryMapper;
 import project.forums.web.board.form.BoardListForm;
@@ -117,4 +118,19 @@ public class BoardService {
         return isDupli;
     }
 
+    /* 이거 ajax로 받아야하네 */
+    /* 게시판 메인카테고리에 해당하는 게시판들 모두 가져오기 */
+    public List<Board> findByBoardMainCategoryList(int page, int mainCategoryId, Model model){
+        Map<String,Object> map = new HashMap<>();
+        map.put("perPageSize",10);
+        map.put("beginPage",(page-1)*10);
+        map.put("mainCategoryId",mainCategoryId);
+
+        int totalMember = boardMapper.getCountBoardMainCategoryChild(mainCategoryId);
+        PageHandler pageHandler = new PageHandler(page,10,totalMember);
+        model.addAttribute("page",pageHandler);
+
+        List<Board> list =  boardMapper.findByBoardMainCategoryList(map);
+        return list;
+    }
 }

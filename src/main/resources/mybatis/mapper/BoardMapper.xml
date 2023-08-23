@@ -66,10 +66,54 @@
         select * from board order by score desc limit 4;
     </select>
 
+    <!-- 게시판 메인 카테고리 전체 가져오기 -->
     <select id="getBoardMainCategory" resultType="project.forums.domain.board.BoardMainCategory">
         select *
         from board_main_category
     </select>
+
+    <!-- 게시판 메인 카테고리에 해당하는 게시판 전체 가져오기 -->
+    <!-- resultMap -->
+    <resultMap id="findByBoardMainCategoryMap" type="project.forums.domain.board.Board">
+        <id property="id" column="b.id" />
+        <result property="boardTitle" column="board_title"/>
+        <result property="boardUri" column="board_uri"/>
+        <result property="boardDescription" column="board_description"/>
+        <result property="uploadFileName" column="upload_file_name"/>
+        <result property="storeFileName" column="store_file_name"/>
+        <result property="memberId" column="member_id"/>
+        <result property="boardCreateDate" column="board_create_date"/>
+        <result property="boardUpdateDate" column="board_update_date"/>
+        <result property="mainCategoryId" column="main_category_id"/>
+        <result property="subCategoryId" column="sub_category_id"/>
+        <result property="score" column="score"/>
+
+        <association property="boardMainCategory" javaType="project.forums.domain.board.BoardMainCategory">
+            <id property="id" column="bmc_board_main_category_id" />
+            <result property="categoryName" column="bmc_category_name"/>
+        </association>
+
+        <association property="boardSubCategory" javaType="project.forums.domain.board.BoardSubCategory">
+            <id property="id" column="bsc_board_sub_category_id" />
+            <result property="boardMainCategoryId" column="bsc_main_category_id"/>
+            <result property="categoryName" column="bsc_category_name"/>
+        </association>
+    </resultMap>
+
+    <select id="findByBoardMainCategoryList" parameterType="Map" resultMap="findByBoardMainCategoryMap">
+        select b.id, b.board_title, b.board_uri, b.board_description,
+               b.upload_file_name, b.store_file_name, b.member_id, b.board_create_date,
+               b.board_update_date, b.main_category_id, b.sub_category_id,
+               b.score,
+               bmc.id bmc_board_main_category_id, bmc.category_name bmc_category_name,
+               bsc.id bsc_board_sub_category_id, bsc.board_main_category_id bsc_main_category_id, bsc.category_name bsc_category_name
+        from board b left join board_main_category bmc on b.main_category_id = bmc.id
+                     left join board_sub_category bsc on b.sub_category_id = bsc.id
+        where main_category_id = #{mainCategoryId}
+        order by score desc
+        limit #{beginPage},#{perPageSize}
+    </select>
+
 
     <select id="getBoardSubCategory" resultType="project.forums.domain.board.BoardSubCategory">
         select *
@@ -81,5 +125,14 @@
         from board
         where board_uri = #{boardUri}
     </select>
+
+    <!-- 메인카테고리별 수를 구한다. -->
+    <select id="getCountBoardMainCategoryChild" resultType="int">
+        select count(*)
+        from board
+        where main_category_id = #{mainCategoryId}
+    </select>
+
+
 
 </mapper>

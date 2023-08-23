@@ -31,8 +31,18 @@
     </c:forEach>
     <br>
     =========================================
-    게시판 추천
+    게시판 둘러보기<br>
+    <%-- 여기가 그거요 그거 --%>
+    <c:forEach var="list" items="${boardMainCategoryList}">
+        <span>${list.categoryName}&nbsp;&nbsp;</span>
+    </c:forEach>
     <div>
+        <c:forEach var="list" items="${boardCategoryList}">
+            <div>아이디: ${list.id}</div>
+            <div>게시판 이름:  ${list.boardTitle}</div>
+            <div>게시판 메인 카테고리:  ${list.boardMainCategory.categoryName}</div>
+            <div>게시판 서브 카테고리: ${list.boardSubCategory.categoryName}</div>
+        </c:forEach>
         <%-- ajax를 이용해서 여기서 리스트형 구현해야함 --%>
     </div>
     =========================================
@@ -66,4 +76,17 @@
     //         alert($("div").scrollLeft() + " px");
     //     });
     // });
+
+    /* ajax 적용해야함 */
+    getBoardMainCategories();
+
+    function getBoardMainCategories(){
+
+        fetch('/board/mainCategories')
+            .then(response=> response.text())
+            .then(result =>console.log(result))
+            .catch(reason => console.log(reason + "불러오지 못했습니다." ));
+
+
+    }
 </script>

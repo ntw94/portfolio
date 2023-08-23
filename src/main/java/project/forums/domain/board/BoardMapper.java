@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Component
@@ -26,5 +27,9 @@ public interface BoardMapper {
     List<BoardMainCategory> getBoardMainCategory();
     List<BoardSubCategory> getBoardSubCategory();
     Integer checkBoardUri(String boardUri);
+
+    List<Board> findByBoardMainCategoryList(Map<String,Object> map);
+    int getCountBoardMainCategoryChild(int mainCategoryId);
+
 
 }
