@@ -75,7 +75,7 @@
     <!-- 게시판 메인 카테고리에 해당하는 게시판 전체 가져오기 -->
     <!-- resultMap -->
     <resultMap id="findByBoardMainCategoryMap" type="project.forums.domain.board.Board">
-        <id property="id" column="b.id" />
+        <id property="id" column="b_id" />
         <result property="boardTitle" column="board_title"/>
         <result property="boardUri" column="board_uri"/>
         <result property="boardDescription" column="board_description"/>
@@ -101,7 +101,7 @@
     </resultMap>
 
     <select id="findByBoardMainCategoryList" parameterType="Map" resultMap="findByBoardMainCategoryMap">
-        select b.id, b.board_title, b.board_uri, b.board_description,
+        select b.id b_id, b.board_title, b.board_uri, b.board_description,
                b.upload_file_name, b.store_file_name, b.member_id, b.board_create_date,
                b.board_update_date, b.main_category_id, b.sub_category_id,
                b.score,

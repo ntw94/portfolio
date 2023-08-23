@@ -83,17 +83,4 @@ public class HomeController {
     }
 
 
-    @ResponseBody
-    @RequestMapping("/board/mainCategories")
-    public List<BoardMainCategory> getBoardMainCategories(){
-        return boardService.getBoardMainCategoryList();
-    }
-
-    @ResponseBody
-    @RequestMapping("/board/mainCategories/child")
-    public void getChildBoardMainCategories(int page,int mainCategoryId,Model model){
-        System.out.println();
-        log.info("{}",boardService.findByBoardMainCategoryList(page,mainCategoryId,model));
-    }
-
 }

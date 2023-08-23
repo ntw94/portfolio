@@ -115,10 +115,11 @@ from board b left join board_main_category bmc on b.main_category_id = bmc.id
     left join board_sub_category bsc on b.sub_category_id = bsc.id
 where main_category_id = 1
 order by score desc
-limit #{startIdx},#{perPageSize}
+# limit #{startIdx},#{perPageSize}
 
 
 
 
 
+select * from board;
 select * from board;

@@ -16,6 +16,7 @@ import project.forums.web.file.FileService;
 import project.forums.web.login.LoginService;
 import project.forums.web.post.PostService;
 import project.forums.web.post.form.PostListForm;
+import retrofit2.http.Path;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -112,6 +113,25 @@ public class BoardController {
         }
 
         return message;
+    }
+
+
+    //게시판 메인 카테고리 아이디별로 게시판 정보 가져오기
+    @ResponseBody
+    @GetMapping("/category/{mainCategoryId}")
+    public List<Board> getBoardMainCategoryChildList(
+            @PathVariable int mainCategoryId,
+            Model model
+    ){
+        log.info("{}",mainCategoryId);
+        return boardService.findByBoardMainCategoryList(1,mainCategoryId,model);
+    }
+
+    /* 게시판 메인 카테고리 이름 가져오기 */
+    @ResponseBody
+    @RequestMapping("/category/mainCategories")
+    public List<BoardMainCategory> getBoardMainCategories(){
+        return boardService.getBoardMainCategoryList();
     }
 
 

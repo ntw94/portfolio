@@ -9,13 +9,13 @@ create table board_main_category(
     category_name varchar(50) not null unique
 );
 
-select * from board;
 
 create table board_sub_category(
     id int auto_increment primary key,
     board_main_category_id int not null,
     category_name varchar(50) not null unique
 );
+
 
 
 insert into board_main_category values
