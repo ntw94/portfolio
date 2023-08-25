@@ -8,6 +8,8 @@
     .ck-content { font-size: 13px; }
 </style>
 
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -16,21 +18,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <style>
+        *{
+            list-style: none;
+
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+
+        .btn{
+            display: block;
+            min-width: 74px;
+            height: 40px;
+            padding: 0 14px 0;
+            border-radius: 4px;
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            box-sizing: border-box;
+            border: 1px solid #e5e5e5;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
     <jsp:include page="../common/top-menu.jsp"/>
+    <div class="container">
+<%--    <h1>--%>
+<%--        ${member.memberId} : ${board.memberId}--%>
+<%--    </h1>--%>
+<%--    <c:if test="${member.memberId eq board.memberId}">--%>
+<%--        <a href="/manage/home/${boardUri}/">게시판 관리 </a>--%>
+<%--    </c:if>--%>
 
-    <h1>
-        ${member.memberId} : ${board.memberId}
-    </h1>
-    <c:if test="${member.memberId eq board.memberId}">
-        <a href="/manage/home/${boardUri}/">게시판 관리 </a>
-    </c:if>
-
-    <h1>여기가 ${board.boardTitle} 게시판입니다.</h1>
-    <h2>${board.boardDescription}</h2>
-    <h3>만든이: ${board.memberId}</h3>
+    <h2>${board.boardTitle}</h2>
+    <h3>${board.boardDescription}</h3>
 
     <a href="/boards/${boardUri}">전체</a> &nbsp;&nbsp;
     <c:forEach var="cList" items="${cateList}">
@@ -40,7 +63,7 @@
 
     <table class="table table-bordered">
         <tr>
-            <td>글 번호</td>
+            <td width="80px">글 번호</td>
             <td>글 제목</td>
             <td>작성자</td>
             <td>조회수</td>
@@ -69,12 +92,11 @@
             <td>${list.postRegiDate}</td>
         </tr>
         </c:forEach>
-        <tr>
-            <td>
-                <input type="button" onclick="location.href='/boards/${boardUri}/write';" value="글 추가">
-            </td>
-        </tr>
+
     </table>
+        <div>
+            <input type="button" class="btn float-right" onclick="location.href='/boards/${boardUri}/write';" value="글 쓰기">
+        </div>
 
     <ul class="pagination justify-content-center">
         <c:if test="${page.showPrev}">
@@ -88,12 +110,12 @@
         </c:if>
     </ul>
 
-    <div>
-        <form action="/boards/${boardUri}/search">
-            검색:<input type="text" name="keyWord" id="keyWord"> &nbsp;
-            <input type="submit" value="검색">
-        </form>
-    </div>
+<%--    <div>--%>
+<%--        <form action="/boards/${boardUri}/search">--%>
+<%--            검색:<input type="text" name="keyWord" id="keyWord"> &nbsp;--%>
+<%--            <input type="submit" value="검색" >--%>
+<%--        </form>--%>
+<%--    </div>--%>
 
 
 </div>

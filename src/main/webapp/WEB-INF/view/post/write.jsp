@@ -8,10 +8,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="../../../resources/ckeditor5/build/ckeditor.js"></script>
 </head>
 <body>
 
+<jsp:include page="../common/top-menu.jsp"/>
+<div class="container">
 <form action="/boards/${boardUri}/write" method="post">
     <table>
         <tr>
@@ -40,7 +43,7 @@
         </tr>
         <tr>
             <td>
-                <input type="submit" value ="만들기">
+                <input type="submit" value ="글쓰기">
                 <input type="button" onclick="location.href='/';" value ="취소">
             </td>
         </tr>
@@ -50,6 +53,14 @@
 <div name="postContent" id="postContent">
 
 </div>
+
+
+<%--<input type="button" value="html 제거된지 확인하기" onclick="tagCut()">--%>
+
+</div>
+</body>
+</html>
+
 
 <%-- ckeditor 설정--%>
 <script>
@@ -154,8 +165,8 @@
         .then( editor => {
             window.editor = editor;
         }).catch( error => {
-            console.log( error );
-        } );
+        console.log( error );
+    } );
 </script>
 
 <%-- ckeditor 정규식--%>
@@ -166,8 +177,3 @@
         alert(extractTxt); // editor 값 가져오기
     }
 </script>
-
-<input type="button" value="html 제거된지 확인하기" onclick="tagCut()">
-
-</body>
-</html>

@@ -1,27 +1,4 @@
 
-select * from post;
-
-
-select *
-from post
-where 1 = 1
-and board_uri='mymymymyboard'
-and available = false
-and post_writer='asdf';
-
-select * from post;
-
-select * from comment;
-
-update comment
-set
-    comment_available = false
-where id = 4;
-
-select * from comment;
-
-
-
 /* 글 찾기 sql union을 활용해서 서로 다른 테이블에서 필요한 데이터를 가져온다. */
 select a.mode,a.writer,a.content,a.regiDate , a.id
 from (select 1 as mode,id as id ,comment_writer writer, comment_content content, comment_regiDate regiDate
@@ -35,15 +12,6 @@ from (select 1 as mode,id as id ,comment_writer writer, comment_content content,
         and post_writer = 'asdf') a
 order by a.regiDate desc;
 
-select *
-from comment
-where (id,post_id) in ((1,37),(2,37));
-
-select *
-from comment
-
-
-;
 select count(*)
 from comment c
 where c.comment_available = true; #에기 맞는 구문일까?
@@ -70,20 +38,6 @@ update board b, (
 ) a1
 set b.score = a1.score
 where b.board_uri = a1.board_uri;
-
-
-select * from board;
-
-
-select board_uri, count(id)
-from board
-group by board_uri
-;
-
-
-select board_uri ,post_hit from post;
-
-select * from board;
 
 
 select board_uri,count(id) "댓글 수"
@@ -116,10 +70,4 @@ from board b left join board_main_category bmc on b.main_category_id = bmc.id
 where main_category_id = 1
 order by score desc
 # limit #{startIdx},#{perPageSize}
-
-
-
-
-
-select * from board;
-select * from board;
+;

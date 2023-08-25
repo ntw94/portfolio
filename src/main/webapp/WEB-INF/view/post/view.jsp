@@ -25,79 +25,52 @@
 <body>
 
 <jsp:include page="../common/top-menu.jsp"/>
-
-
-<table border="1" width="100%">
-    <tr>
-        <td>회원번호</td>
-        <td>${post.id}</td>
-    </tr>
-    <tr>
-        <td>작성자</td>
-        <td>
-            ${post.postWriter}
-        </td>
-    </tr>
-    <tr>
-        <td>내용</td>
-        <td>${post.postContent}</td>
-    </tr>
-    <tr>
-        <td>등록일</td>
-        <td>
-            <fmt:parseDate value="${post.postRegiDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
-            <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${parsedDateTime}" />
+<div class="container">
+    <table border="1" width="100%">
+        <tr>
+            <td>회원번호</td>
+            <td>${post.id}</td>
+        </tr>
+        <tr>
+            <td>작성자</td>
+            <td>
+                ${post.postWriter}
             </td>
-    </tr>
-    <tr>
-        <td>조회수</td>
-        <td>${post.postHit}</td>
-    </tr>
-    <tr>
-        <td>추천수</td>
-    </tr>
-
-    <tr>
-        <td colspan="2">
-            <input type="button" onclick="location.href='/boards/${boardUri}/${post.id}/edit';" value="수정">
-            <form action="/boards/${boardUri}/${post.id}/delete" method="post">
-                <input type="submit" value="삭제">
-            </form>
-            <input type="button" onclick="location.href='/boards/${boardUri}';" value="목록">
-        </td>
-    </tr>
-</table>
-
-    <form id="commentForm">
-        <input type="hidden" name="memberId" value="${member.memberId}"/>
-        <input type="hidden" name="postId" value="${post.id }"/>
-        <input type="hidden" name="boardUri" value="${boardUri}" />
-        <div class="panel-body" >
-            <table class="table" >
-                <tr>
-                    <td >댓글작성&nbsp;&nbsp;${member.memberId }</td>
-                </tr>
-                <tr>
-                    <td width="100%" style="border-top:none;">
-                                            <textarea style=" resize:none;"rows="4"
-                                                      id="commentContent"
-                                                      name="commentContent" class="form-control"
-                                                      placeholder="내용을 입력해 주세요"></textarea>
-                    </td>
-                </tr>
-                <td>
-                    <button type="button" class="btn-default btn-sm pull-right" onclick="commentWrite();">댓글 작성</button>
+        </tr>
+        <tr>
+            <td>내용</td>
+            <td>${post.postContent}</td>
+        </tr>
+        <tr>
+            <td>등록일</td>
+            <td>
+                <fmt:parseDate value="${post.postRegiDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
+                <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${parsedDateTime}" />
                 </td>
-            </table>
-        </div>
-    </form>
+        </tr>
+        <tr>
+            <td>조회수</td>
+            <td>${post.postHit}</td>
+        </tr>
+        <tr>
+            <td>추천수</td>
+        </tr>
 
-    <div id="commentReplyContainer">
-        <div id="commentReplyForm" style="display:none;">
-            <input type="hidden" id="commentReplyBoardUri" name="boardUri" value="${boardUri}"/>
-            <input type="hidden" id="commentReplyWriter" name="memberId" value="${member.memberId}"/>
-            <input type="hidden" id="commentReplyPostId" name="postId" value="${post.id }"/>
-            <input type="hidden" id="commentReplyParentId" value=""/>
+        <tr>
+            <td colspan="2">
+                <input type="button" onclick="location.href='/boards/${boardUri}/${post.id}/edit';" value="수정">
+                <form action="/boards/${boardUri}/${post.id}/delete" method="post">
+                    <input type="submit" value="삭제">
+                </form>
+                <input type="button" onclick="location.href='/boards/${boardUri}';" value="목록">
+            </td>
+        </tr>
+    </table>
+
+        <form id="commentForm">
+            <input type="hidden" name="memberId" value="${member.memberId}"/>
+            <input type="hidden" name="postId" value="${post.id }"/>
+            <input type="hidden" name="boardUri" value="${boardUri}" />
             <div class="panel-body" >
                 <table class="table" >
                     <tr>
@@ -105,23 +78,54 @@
                     </tr>
                     <tr>
                         <td width="100%" style="border-top:none;">
-                                                    <textarea style=" resize:none;"rows="4"
-                                                              id="commentReplyContent"
-                                                              name="commentReplyContent" class="form-control"
-                                                              placeholder="댓글을 입력해 주세요"></textarea>
+                                                <textarea style=" resize:none;"rows="4"
+                                                          id="commentContent"
+                                                          name="commentContent" class="form-control"
+                                                          placeholder="내용을 입력해 주세요"></textarea>
                         </td>
                     </tr>
                     <td>
-                        <button type="button" class="btn-default btn-sm pull-right" onclick="commentReplyWrite();">댓글 작성</button>
+                        <button type="button" class="btn-default btn-sm pull-right" onclick="commentWrite();">댓글 작성</button>
                     </td>
                 </table>
             </div>
+        </form>
+
+        <div id="commentReplyContainer">
+            <div id="commentReplyForm" style="display:none;">
+                <input type="hidden" id="commentReplyBoardUri" name="boardUri" value="${boardUri}"/>
+                <input type="hidden" id="commentReplyWriter" name="memberId" value="${member.memberId}"/>
+                <input type="hidden" id="commentReplyPostId" name="postId" value="${post.id }"/>
+                <input type="hidden" id="commentReplyParentId" value=""/>
+                <div class="panel-body" >
+                    <table class="table" >
+                        <tr>
+                            <td >댓글작성&nbsp;&nbsp;${member.memberId }</td>
+                        </tr>
+                        <tr>
+                            <td width="100%" style="border-top:none;">
+                                                        <textarea style=" resize:none;"rows="4"
+                                                                  id="commentReplyContent"
+                                                                  name="commentReplyContent" class="form-control"
+                                                                  placeholder="댓글을 입력해 주세요"></textarea>
+                            </td>
+                        </tr>
+                        <td>
+                            <button type="button" class="btn-default btn-sm pull-right" onclick="commentReplyWrite();">댓글 작성</button>
+                        </td>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
 
-<hr>
+    <hr>
 
-<div id="commentView"></div>
+    <div id="commentView"></div>
+
+</div>
+</body>
+</html>
+
 
 <script type="text/javascript">
     var pText;
@@ -292,6 +296,3 @@
         });
     }
 </script>
-
-</body>
-</html>

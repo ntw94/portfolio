@@ -13,32 +13,30 @@
 
 </head>
 <body>
-
 <jsp:include page="../common/top-menu.jsp"/>
+<div class="container">
+    <h1>즐겨찾기한 게시판 목록</h1>
+    <table class="table table-bordered" style="margin-right:10px;margin-left: 10px">
+        <c:forEach var="list" items="${list}">
+            <tr>
+                <td width="20%">
+                    <img style="width:200px;height:200px" src="/boards/images/${list.boardTitle}">
+                </td>
+                <td>
+                    <h2>${list.boardTitle}</h2> <br>
+                    <a href="/boards/${list.boardUri}">${list.boardUri}</a><br>
+                        ${list.boardDescription}<br>
+                    게시글<br>
+                    게시글<br>
 
-<h1>즐겨찾기한 게시판 목록</h1>
-
-<table class="table table-bordered" style="margin-right:10px;margin-left: 10px">
-    <c:forEach var="list" items="${list}">
-        <tr>
-            <td width="20%">
-                <img style="width:200px;height:200px" src="/boards/images/${list.boardTitle}">
-            </td>
-            <td>
-                <h2>${list.boardTitle}</h2> <br>
-                <a href="/boards/${list.boardUri}">${list.boardUri}</a><br>
-                    ${list.boardDescription}<br>
-                게시글<br>
-                게시글<br>
-
-            </td>
-            <td>
-                    <button id="btn-favor-${list.id}" type='button' class='btn btn-sm pull-right' value="${list.favor} "onclick="favor('${member.memberId}',${list.id})">★</button>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
-
+                </td>
+                <td>
+                        <button id="btn-favor-${list.id}" type='button' class='btn btn-sm pull-right' value="${list.favor} "onclick="favor('${member.memberId}',${list.id})">★</button>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</div>
 <script>
 
     function favor(memId,boardId){
